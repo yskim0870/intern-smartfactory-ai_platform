@@ -1,0 +1,19 @@
+# Service Unit of '${service.title}' Servcie
+# ${service.filepath}
+
+[Unit]
+Description=${service.file.description}
+After=${service.file.after}
+
+[Service]
+Type=${service.file.type}
+User=${service.file.user}
+Group=${service.file.group}
+
+ExecStart=${service.file.exec_start}
+ExecStop=${service.file.exec_stop}
+
+
+[Install]
+WantedBy=${service.file.wantedby}
+

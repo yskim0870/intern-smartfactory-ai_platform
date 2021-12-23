@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.5.6</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>kr.smartfactory</groupId>
+	<artifactId>platform.web</artifactId>
+	<version>1.0.0</version>
+	<!-- <packaging>war</packaging> -->
+	<name>kr.smartfactory.platform.web</name>
+	<description>SMTECH Smart Factory AI Platform Web Service</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+
+		<open-commons-core.version>1.8.0-SNAPSHOT</open-commons-core.version>
+		<open-commons-spring-jdbc.version>0.3.0-SNAPSHOT</open-commons-spring-jdbc.version>
+		<open-commons-spring-web.version>0.4.0-SNAPSHOT</open-commons-spring-web.version>
+
+		<!-- BEGIN: log4j2 보안 취약점 이슈로 2.15.0 버전으로 변경 -->
+		<log4j2.version>2.15.0</log4j2.version>
+		<!-- <log4j.version>2.14.1</log4j.version> -->
+		<!-- <log4j-slf4j.version>2.14.1</log4j-slf4j.version> -->
+		<!-- END : log4j2 보안 취약점 이슈로 2.15.0 버전으로 변경 -->
+
+		<!-- build.profile 은 mvn cli parameter로 전달받는다. -->
+		<!-- mvn clean package -Dbuild.profile={value} -->
+		<build.profile></build.profile>
+
+		<!-- begin: build -->
+		<build.finalName>sf-tsp-web</build.finalName>
+		<manifest.mainClass>kr.smartfactory.platform.web.Application</manifest.mainClass>
+		<deploy.directory>deploy</deploy.directory>
+		<!-- end: build -->
+
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>YMTECH Maven Repository</id>
+			<name>ymtech-maven-repo</name>
+			<url>http://nexus3.ymtech.co.kr/repository/maven-public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+
+			</exclusions>
+		</dependency>
+
+		<!-- BEGIN: undertow 추가 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
+		</dependency>
+		<!-- END: undertow 추가 -->
+
+		<!-- BEGIN: thymeleaf 추가 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<!-- END: thymeleaf 추가 -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- ************** -->
+		<!-- begin: JDBC -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+		</dependency>
+		<!-- end: JDBC -->
+		<!-- ************** -->
+
+		<!-- ************** -->
+		<!-- begin: logging / log4j2 -->
+		<!-- BEGIN: log4j2 보안 취약점 이슈로 2.15.0 버전으로 변경 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.apache.logging.log4j</groupId> -->
+		<!-- <artifactId>log4j-api</artifactId> -->
+		<!-- <version>${log4j.version}</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.apache.logging.log4j</groupId> -->
+		<!-- <artifactId>log4j-core</artifactId> -->
+		<!-- <version>${log4j.version}</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.apache.logging.log4j</groupId> -->
+		<!-- <artifactId>log4j-slf4j-impl</artifactId> -->
+		<!-- <version>${log4j-slf4j.version}</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.slf4j</groupId> -->
+		<!-- <artifactId>jcl-over-slf4j</artifactId> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.slf4j</groupId> -->
+		<!-- <artifactId>jul-to-slf4j</artifactId> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.lmax</groupId> -->
+		<!-- <artifactId>disruptor</artifactId> -->
+		<!-- <version>3.3.6</version> -->
+		<!-- </dependency> -->
+		<!-- END : log4j2 보안 취약점 이슈로 2.15.0 버전으로 변경 -->
+		<!-- end: logging -->
+		<!-- ************** -->
+
+		<!-- ************** -->
+		<!-- begin: jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+		</dependency>
+		<!-- end: jackson -->
+		<!-- ************** -->
+
+		<!-- ************** -->
+		<!-- begin: open.commons -->
+		<dependency>
+			<groupId>open.commons</groupId>
+			<artifactId>open-commons-core</artifactId>
+			<version>${open-commons-core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>open.commons</groupId>
+			<artifactId>open-commons-spring-jdbc</artifactId>
+			<version>${open-commons-spring-jdbc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>open.commons</groupId>
+			<artifactId>open-commons-spring-web</artifactId>
+			<version>${open-commons-spring-web.version}</version>
+		</dependency>
+		<!-- end: open.commons -->
+		<!-- ************** -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20200518</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>${build.finalName}</finalName>
+		<defaultGoal>install</defaultGoal>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<plugins>
+
+			<!-- begin: make 'clean external directories' -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>deploy/${build.profile}</directory>
+							<includes>
+								<include>**/*</include>
+							</includes>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<!-- end: make 'clean external directories' -->
+
+			<!-- begin: compile & attach sources -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<compilerArgs>
+						<arg>-parameters</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- end: compile & attach sources -->
+
+			<!-- begin: make executable war -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>${manifest.mainClass}</mainClass>
+					<outputDirectory>${project.build.directory}/${build.finalName}</outputDirectory>
+				</configuration>
+			</plugin>
+			<!-- end: make executable war -->
+
+			<!-- begin: make 'profile signature' -->
+			<plugin>
+				<groupId>com.alexecollins.maven.plugin</groupId>
+				<artifactId>script-maven-plugin</artifactId>
+				<version>1.0.0</version>
+
+				<executions>
+					<execution>
+						<id>Signature '${build.profile}'</id>
+						<phase>package</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<language>javascript</language>
+							<script>
+								importPackage(java.lang);
+								importPackage(org.apache.commons.io);
+								importPackage(java.io);
+
+								var
+								dir = new File(project.getBuild().getDirectory(),
+								"${build.finalName}");
+								var profile = new
+								File(dir, ".profile");
+								FileUtils.write(profile, "${build.profile}", "UTF-8");
+							</script>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.mozilla</groupId>
+						<artifactId>rhino</artifactId>
+						<version>1.7R5</version>
+					</dependency>
+					<!-- additional import for doing file I/O -->
+					<dependency>
+						<groupId>commons-io</groupId>
+						<artifactId>commons-io</artifactId>
+						<version>2.4</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<!-- end: make 'profile signature' -->
+
+			<!-- begin: make 'deploy' -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>assembly/assembly-copy-workdir.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<!-- begin: ${build.profile} -->
+					<execution>
+						<id>Package '${build.profile}'</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>${build.finalName}</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>assembly/assembly-package-all.xml</descriptor>
+							</descriptors>
+							<outputDirectory>${project.basedir}/${deploy.directory}/${build.profile}</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>Install '${build.profile}'</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<formats>
+								<format>dir</format>
+							</formats>
+							<finalName>${build.profile}</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>assembly/assembly-copy-workdir.xml</descriptor>
+							</descriptors>
+							<outputDirectory>${project.basedir}/${deploy.directory}</outputDirectory>
+						</configuration>
+					</execution>
+					<!-- end: ${build.profile} -->
+				</executions>
+			</plugin>
+			<!-- end: make 'deploy' -->
+
+			<!-- begin: javadoc -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<show>private</show>
+					<nohelp>true</nohelp>
+					<additionalOptions>
+						<additionalOption>-Xdoclint:none</additionalOption>
+					</additionalOptions>
+					<charset>${encoding}</charset>
+					<docencoding>${encoding}</docencoding>
+					<encoding>${encoding}</encoding>
+				</configuration>
+			</plugin>
+			<!-- end: javadoc -->
+		</plugins>
+
+	</build>
+
+</project>

@@ -1,0 +1,73 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+
+	<id>package-${build.profile}</id>
+	<formats>
+		<format>tar.gz</format>
+	</formats>
+	<!-- ================================================= -->
+	<!-- begin: configuration for a specific spring prfile -->
+	<files>
+		<file>
+			<source>${project.basedir}/config/${build.profile}/application-${build.profile}.yml</source>
+			<outputDirectory>/config</outputDirectory>
+			<destName>application.yml</destName>
+		</file>
+		<!-- <file>
+			<source>${project.basedir}/config/${build.profile}/log4j2-${build.profile}.yml</source>
+			<outputDirectory>/config</outputDirectory>
+			<destName>log4j2.yml</destName>
+		</file> -->
+	</files>
+	<!-- end: configuration for a specific spring prfile -->
+	<!-- =============================================== -->
+	<!-- ======================================== -->
+	<!-- begin: common configurations -->
+	<fileSets>
+		<fileSet>
+			<directory>${project.build.directory}</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>${build.finalName}.war</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/shell</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>*.sh</include>
+			</includes>
+			<fileMode>0755</fileMode>
+		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}/${build.finalName}</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>**</include>
+			</includes>
+		</fileSet>
+		<!-- +++++++++++++++++++++++++++++++ -->
+		<!-- begin: COPY INSTALL SHELL FILES -->
+		<fileSet>
+			<directory>${project.basedir}/workdir/install/</directory>
+			<outputDirectory>/install</outputDirectory>
+			<includes>
+				<include>**</include>
+			</includes>
+			<excludes>
+				<exclude>**/*.sh</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/workdir/install/</directory>
+			<outputDirectory>/install</outputDirectory>
+			<includes>
+				<include>**/*.sh</include>
+			</includes>
+			<fileMode>755</fileMode>
+		</fileSet>
+		<!-- end: COPY INSTALL SHELL FILES -->
+		<!-- +++++++++++++++++++++++++++++ -->
+	</fileSets>
+	<!-- ======================================== -->
+</assembly>

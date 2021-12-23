@@ -1,0 +1,103 @@
+Configuration:
+  monitorInterval: 10
+
+  Properties:
+    Property:
+      - name: logpath
+        value: ${sys:user.home}/smartfactory/logs/platform-web
+      - name: logfile
+        value: platform-web.log
+
+  Appenders:
+    Console:
+      - 
+        name: ConsoleAppender
+        target: SYSTEM_OUT
+        PatternLayout:
+          pattern: "%highlight{%d{yyyy/MM/dd HH:mm:ss} | %10t | %5p | %m (%F:%L)%n}{WARN=Bright magenta, DEBUG=white, TRACE=Bright black}"
+
+    RollingFile:
+      name: LogToRollingFile
+      fileName: ${logpath}/${logfile}
+      filePattern: ${logpath}/${logfile}-%d{yyyy-MM-dd}-%i.gz
+      append: true
+      PatternLayout:
+        pattern: "%highlight{%d{yyyy-MM-dd HH:mm:ss} | %10t | %5p | | %10M | %m (%F:%L)%n}{WARN=Bright magenta, DEBUG=white, TRACE=Bright black}"
+      Policies:
+        TimeBasedTriggeringPolicy:
+          interval: 6
+          modulate: true
+        SizeBasedTriggeringPolicy:
+          size: 10MB
+
+  Loggers:
+    Root:
+      level: DEBUG
+      includeLocation: true
+      AppenderRef:
+        - ref: ConsoleAppender
+        - ref: LogToRollingFile
+    Logger:
+      - name: kr.smartfactory.platform.web
+        level: DEBUG
+        additivity: false
+        includeLocation: true
+        AppenderRef:
+          - ref: ConsoleAppender
+          - ref: LogToRollingFile
+      - name: com.zaxxer.hikari
+        level: INFO
+        includeLocation: true
+        additivity: false
+        AppenderRef:
+          - ref: ConsoleAppender
+          - ref: LogToRollingFile
+      - name: org.springframework
+        level: INFO
+        includeLocation: true
+        additivity: false
+        AppenderRef:
+          - ref: ConsoleAppender
+          - ref: LogToRollingFile  
+      - name: io.undertow
+        level: INFO
+        includeLocation: true
+        additivity: false
+        AppenderRef:
+          - ref: ConsoleAppender
+          - ref: LogToRollingFile  
+      - name: springfox.documentation
+        level: INFO
+        includeLocation: true
+        additivity: false
+        AppenderRef:
+          - ref: ConsoleAppender
+          - ref: LogToRollingFile  
+      - name: org.hibernate
+        level: INFO
+        includeLocation: true
+        additivity: false
+        AppenderRef:
+          - ref: ConsoleAppender
+          - ref: LogToRollingFile  
+      - name: org.reflections
+        level: INFO
+        includeLocation: true
+        additivity: false
+        AppenderRef:
+          - ref: ConsoleAppender
+          - ref: LogToRollingFile  
+      - name: org.thymeleaf
+        level: INFO
+        includeLocation: true
+        additivity: false
+        AppenderRef:
+          - ref: ConsoleAppender
+          - ref: LogToRollingFile  
+      - name: org.apache.http
+        level: INFO
+        includeLocation: true
+        additivity: false
+        AppenderRef:
+          - ref: ConsoleAppender
+          - ref: LogToRollingFile          

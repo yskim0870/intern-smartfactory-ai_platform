@@ -1,0 +1,29 @@
+server:
+  port: 8080
+#  servlet:
+#    context-path: / # context-path는 '/'로 시작하고 '/'로 끝나면 안된다.  
+  
+#logging:
+#  config: ./config/log4j2.yml
+    
+spring:
+#  datasource:
+#    driver-class-name: org.mariadb.jdbc.Driver
+#    jdbc-url: jdbc:mysql://mariadb:3306/pimsdb?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf8
+#    username: pimsuser
+#    password: pimspassword
+#  messagesource:
+#    basename: classpath:querySource
+#    defaultEncording: UTF-8  
+  mvc:
+    view:
+      prefix: /static/html/
+      suffix: .html
+#      prefix: /WEB-INF/views/
+#      suffix: .jsp
+    static-path-pattern: /static/**
+  servlet:
+    multipart:
+      max-file-size: 21474836480 # 2GB
+      max-request-size: 1099511627776 # 1TB
+  

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>제조 SCM 문제해결 AI 플랫폼</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="title" content="제조 SCM 문제해결 AI 플랫폼" />
+<meta name="keywords" content="제조 SCM 문제해결 AI 플랫폼" />
+<meta name="description" content="API - Management" />
+<meta name="copyright" content="Copyright@2021 제조 SCM 문제해결 AI 플랫폼. All Rights Reserved." />
+<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" />
+<link rel="apple-touch-icon" href="/static/images/favicon.png" />
+<link rel="stylesheet" href="/static/css/common.css" media="all" />
+<link rel="stylesheet" href="/static/css/layout.css" media="all" />
+</head>
+<body>
+<!-- scm-header :S -->
+  <div id="scm-header">
+     <div class="scm-header-logo">
+        <a href="#"><img src="/static/images/logo_leftmenu.png" alt="제조 SCM 문제해결 AI 플랫폼">제조 <span>SCM</span> 문제해결 <span>AI</span> 플랫폼</a>
+     </div>
+     <div class="scm-header-right">
+        <ul>
+					<li><a href="mypage" title="마이페이지"><img src="/static/images/icon_set.png" alt="마이페이지"> <span>Mypage</span></a></li>
+					<li><a href="#" title="알람" class="alarm"><img src="/static/images/icon_alarm.png" alt="알람"></a></li>
+					<li><a href="/login" title="로그아웃"><img src="/static/images/icon_logout.png" alt="logout"></a></li>
+				</ul>
+     </div>
+  </div>    
+  <!-- end scm-header -->
+  
+  <!-- scm-container : s -->
+  <div id="scm-container"> 
+  
+    <!-- scm-leftMen : s -->
+<div id="scm-leftMenu">
+         <ul>
+      	    <li><a href="/manu/dashboard" class="ico_board">대시보드</a></li>
+            <li><a href="/manu/bidView" class="ico_bid">입찰공고</a>
+              <ul>
+        				<li><a href="/manu/bidView">입찰조회</a></li>
+        				<li><a href="/manu/bidMana">입찰관리</a></li>
+      			  </ul>            
+            </li>
+            <li class="on"><a href="/manu/dataMana" class="ico_data">데이터관리</a></li>
+            <li><a href="/manu/billingMana" class="ico_pay">과금관리</a></li>
+            <li><a href="/manu/alarmMana" class="ico_set">알람메시지관리</a></li>
+      	</ul> 
+    </div>
+   <!-- scm-leftMen : e --> 
+   
+   <!-- scm-section : s -->
+   <div id="scm-section">
+      <!-- scm-main : s -->
+      <div class="scm-main">
+      
+        <div class="main-header">
+          <div class="title">데이터 등록</div>
+        </div>           
+          
+        <!-- 데이터정보 : s -->
+        <div class="scm-card">
+           <div class="table-header read">
+              <span class="table-title">데이터 등록</span>
+           </div>
+           <table  class="table-read">
+              <caption>데이터 등록</caption>
+              <tr>
+                <th>데이터 설명</th>
+                <td colspan="3"><textarea name="textfield" style="width: 650px;margin-bottom:15px;"></textarea></td>
+              </tr>  
+              <tr>
+                <th style="width:110px">레벨</th>               
+                <td style="width:110px">
+                  <select name="select">
+                    <option selected="">전체</option>
+                    <option>레벨1</option>
+                    <option>레벨2</option>
+                  </select>
+                </td>
+                <th style="width:100px;height:55px">공개여부</th>
+                <td>
+                  <select name="select">
+                    <option selected="">전체</option>
+                    <option>공개</option>
+                    <option>비공개</option>
+                  </select>
+                </td>
+              </tr> 
+              <tr>
+                <th style="height:55px">파일 등록 여부</th>
+                <td colspan="3">
+                  <input type="radio" name="file-add" id="file-add" class="dsi" checked=""><label for="file-add" style="margin-right:50px;">파일업로드</label>  
+                  <input type="radio" name="file-add" id="file-not" class="dsi"><label for="file-not">파일 없슴</label>               
+                 </td>
+              </tr>  
+              <tr>
+                <th>파일 등록</th>
+                <td colspan="3">
+                   <input type="file" name="file02"> <br>
+                   (※ binary 데이터는 10M 이상 업로드 할 수 없습니다.)
+                 </td>
+              </tr>           
+           </table>                      
+        </div>
+        <!-- 데이터정보: e -->                      
+         
+        <p class="btn-box">
+           <a href="dataMana"><button class="btn whiteblue mr_5"><img src="/static/images/icon_confirm.png" alt="데이터 등록"><span>데이터 등록</span></button></a>
+           <a href="dataMana"><button class="btn gray"><img src="/static/images/icon_cancel.png" alt="취소하기"><span>취소하기</span></button></a>
+        </p> 
+             
+      </div>
+      <!-- scm-main : e -->
+    </div>
+   <!-- scm-section : e -->
+  </div>
+  <!-- scm-container : e -->
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>제조 SCM 문제해결 AI 플랫폼</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="title" content="제조 SCM 문제해결 AI 플랫폼" />
+<meta name="keywords" content="제조 SCM 문제해결 AI 플랫폼" />
+<meta name="description" content="API - Management" />
+<meta name="copyright" content="Copyright@2021 제조 SCM 문제해결 AI 플랫폼. All Rights Reserved." />
+<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" />
+<link rel="apple-touch-icon" href="/static/images/favicon.png" />
+<link rel="stylesheet" href="/static/css/common.css" media="all" />
+<link rel="stylesheet" href="/static/css/layout.css" media="all" />
+</head>
+<body>
+<!-- scm-header :S -->
+  <div id="scm-header">
+     <div class="scm-header-logo">
+        <a href="#"><img src="/static/images/logo_leftmenu.png" alt="제조 SCM 문제해결 AI 플랫폼">제조 <span>SCM</span> 문제해결 <span>AI</span> 플랫폼</a>
+     </div>
+     <div class="scm-header-right">
+        <ul>
+					<li><a href="mypage" title="마이페이지"><img src="/static/images/icon_set.png" alt="마이페이지"> <span>Mypage</span></a></li>
+					<li><a href="#" title="알람" class="alarm"><img src="/static/images/icon_alarm.png" alt="알람"></a></li>
+					<li><a href="login" title="로그아웃"><img src="/static/images/icon_logout.png" alt="logout"></a></li>
+				</ul>
+     </div>
+  </div>    
+  <!-- end scm-header -->
+  
+  <!-- scm-container : s -->
+  <div id="scm-container"> 
+  
+    <!-- scm-leftMen : s -->
+      <div id="scm-leftMenu">
+         <ul>
+      	    <li><a href="dashboard" class="ico_board">대시보드</a></li>
+            <li class="on"><a href="bidView" class="ico_bid">입찰공고</a>
+              <ul>
+        				<li><a href="bidView">입찰조회</a></li>
+        				<li class="on"><a href="bidMana">입찰관리</a></li>
+      			  </ul>            
+            </li>
+            <li><a href="manuMana" class="ico_fac">제조사관리</a></li>
+            <li><a href="itMana" class="ico_it">도메인IT 전문가관리</a></li>
+            <li><a href="dataMana" class="ico_data">데이터관리</a></li>
+            <li><a href="edgeGW" class="ico_gw">EdgeGW관리</a></li>
+            <li><a href="billingMana" class="ico_pay">과금관리</a></li>
+            <li><a href="alarmMana" class="ico_set">알람메시지관리</a></li>
+      	</ul> 
+    </div>
+   <!-- scm-leftMen : e --> 
+   
+   <!-- scm-section : s -->
+   <div id="scm-section">
+      <!-- scm-main : s -->
+      <div class="scm-main">
+      
+        <div class="main-header">
+          <div class="title">입찰공고 등록하기</div>
+        </div>       
+          
+        <!-- 입찰정보: s -->
+        <div class="scm-card">
+           <div class="table-header read">
+              <span class="table-title">입찰정보</span>
+           </div>
+           <table  class="table-read">
+            <caption>입찰정보</caption>
+            <tr>
+              <th style="width:150px">제조사</th>
+              <td class="td-bold">(주)아이리녹스</td>
+            </tr>
+            <tr>
+              <th>공고일자</th>
+              <td>
+                <input name="date01" type="text" title="날짜선택" style="width: 90px;"> ~ <input name="date02" type="text" title="날짜선택" style="width: 90px;">
+                <button class="btn white"><img src="/static/images/icon_calendar.png" alt="달력"></button>
+              </td>
+            </tr>
+            <tr>
+              <th>공고명</th>
+              <td><input name="name" type="text" title="공고명" style="width: 650px;"></td>
+            </tr>
+            <tr>
+              <th>예비가격</th>
+              <td><input name="price" type="text" title="예비가격명" style="width: 150px;"> 원</td>
+            </tr>
+            <tr>
+              <th>입찰공고문1</th>
+              <td>
+                 <input type="file" name="file01">
+              </td>
+            </tr>
+            <tr>
+              <th>입찰공고문2</th>
+              <td>
+                 <input type="file" name="file02">
+                 <button class="btn white"><img src="/static/images/icon_plus.png" alt="추가"></button>
+              </td>
+            </tr>
+            <tr>
+              <th>샘플데이터1</th>
+              <td>
+                 <input type="file" name="data01">
+              </td>
+            </tr>
+            <tr>
+              <th>샘플데이터2</th>
+              <td>
+                 <input type="file" name="data02">
+                 <button class="btn white"><img src="/static/images/icon_plus.png" alt="추가"></button>
+              </td>
+            </tr>
+           </table>  
+           
+           <div class="table-header read mt_30">
+              <span class="table-title">담당자정보</span>
+           </div>
+           <table  class="table-read">
+              <caption>담당자정보</caption>
+              <tr>
+                <th style="width:150px">담당자</th>
+                <td><input name="person" type="text" title="담당자" style="width: 250px;"></td>
+              </tr> 
+              <tr>
+                <th>직책</th>
+                <td><input name="official" type="text" title="직책" style="width: 250px;"></td>
+              </tr>  
+              <tr>
+                <th>연락처</th>
+                <td><input name="tel" type="text" title="연락처" style="width: 250px;"></td>
+              </tr>  
+              <tr>
+                <th>이메일</th>
+                <td><input name="email" type="text" title="이메일" style="width: 250px;"></td>
+              </tr> 
+           </table> 
+           <div class="table-text ">
+             ※ 계약방법은 협상에 의한 계약체결 방식입니다. 본 플랫폼에서는 <span class="f-red">계약체결을 진행하지 않습니다.</span><br>
+             <span class="pl_15 ">내용을 확인하셨으면, 플랫폼에 <span class="f-red">입찰공고</span>를 진행하시기 바랍니다.</span>
+           </div>  
+        </div>
+        <!-- 입찰정보: e -->                      
+         
+        <p class="btn-box">
+           <a href="bidManaAddStep02"><button class="btn whiteblue mr_5"><img src="/static/images/icon_confirm.png" alt="입찰공고"><span>입찰공고</span></button></a>
+           <a href="bidMana"><button class="btn gray"><img src="/static/images/icon_cancel.png" alt="취소하기"><span>취소하기</span></button></a>
+        </p> 
+             
+      </div>
+      <!-- scm-main : e -->
+    </div>
+   <!-- scm-section : e -->
+  </div>
+  <!-- scm-container : e -->
+</body>
+</html>

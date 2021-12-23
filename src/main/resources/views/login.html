@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko" ng-app="platform">
+<head th:include="taglibs.html :: taglibs" />
+<head>
+<title>제조 SCM 문제해결 AI 플랫폼</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="title" content="제조 SCM 문제해결 AI 플랫폼" />
+<meta name="keywords" content="제조 SCM 문제해결 AI 플랫폼" />
+<meta name="description" content="API - Management" />
+<meta name="copyright" content="Copyright@2021 제조 SCM 문제해결 AI 플랫폼. All Rights Reserved." />
+
+<script type="text/javascript">
+	var APP_NAME = "platform";
+	var platform = angular.module(APP_NAME, [ "ui.bootstrap", "ngRoute", "ngResource", "ngAnimate", "ngSanitize", "chieffancypants.loadingBar" ]);
+</script>
+
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/ctrl_platform.js}"></script>
+
+</head>
+
+<body ng-controller="PlatformCtrl">
+  <div id="scm-login">
+    <form th:action="@{/j_security_check}" method="POST">
+      <!-- contents_login -->
+      <div id="scm-login-box">
+        <div class="login-area">
+          <div class="logoin-title">
+            <h1>
+              <img th:src="@{/static/images/logo.png}" alt="제조 SCM 문제해결 AI 플랫폼">
+              <span>
+                제조
+                <b>SCM</b>
+                문제해결
+                <b>AI</b>
+                플랫폼
+              </span>
+            </h1>
+          </div>
+          <!--           <div class="logoin-cont">  -->
+          <!--             <p> -->
+          <!--                <input type="radio" name="ck_month" id="member-1" class="dsi" checked=""><label for="member-1">제조사관리자</label>   -->
+          <!--                <input type="radio" name="ck_month" id="member-2" class="dsi"><label for="member-2">도메인 IT 전문가</label>  -->
+          <!--                <input type="radio" name="ck_month" id="member-3" class="dsi"><label for="member-3">시스템운영자</label>  -->
+          <!--             </p> -->
+          <!--       			<p class="sns-login-title">※ 사용자의 <span>SNS 계정</span>으로 손쉽게 로그인 가능합니다.<br> 아래에 해당하는 <span>SNS 계정</span>을 선택해 주세요.</p> -->
+          <!--       			<div class="sns-login"> -->
+          <!--       			   <a href="dashboard"><span><img src="/static/images/icon_google.png" alt="구글"></span></a> -->
+          <!--       			   <a href="dashboard"><span><img src="/static/images/icon_naver.png" alt="네이버"></span></a> -->
+          <!--       			   <a href="dashboard"><span><img src="/static/images/icon-facebook.png" alt="페이스북"></span></a> -->
+          <!--       			   <a href="dashboard"><span><img src="/static/images/icon-kakao.png" alt="카카오"></span></a> -->
+          <!--       			</div> -->
+          <!--     			</div> -->
+          <!-- 시스템 운영자 선택시 로그인 -->
+          <div class="logoin-cont">
+            <p>
+              <label>
+                <input type="radio" ng-model="memberType" value="member-1">
+                제조사관리자
+              </label>
+              <label>
+                <input type="radio" ng-model="memberType" value="member-2">
+                도메인 IT 전문가
+              </label>
+              <label>
+                <input type="radio" ng-model="memberType" value="member-3">
+                시스템운영자
+              </label>
+            </p>
+            <ul>
+              <li>
+                <input name="username" class="id" type="text" placeholder="아이디를 입력하세요.">
+              </li>
+              <li>
+                <input name="password" class="pw" type="password" placeholder="패스워드를 입력하세요.">
+              </li>
+              <li>
+                <button type="submit" class="btn-login">로그인</button>
+              </li>
+              <li class="login_check">
+                <span>
+                  <input type="checkbox" name="group01_son" id="group01_s01" class="dsi">
+                  <label for="group01_s01"> 아이디 저장</label>
+                </span>
+                <div style="display: inline-block; color: #CCC; margin-right: 4px;">|</div>
+                <a href="registerUser">
+                  <span>회원가입</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="login-copy">Copyright ⓒ 2021. 제조 SCM 문제해결 AI 플랫폼. All Rights Reserved.</div>
+      </div>
+      <!--end contents Area -->
+    </form>
+    <!--end contents_login -->
+  </div>
+</body>
+</html>

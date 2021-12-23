@@ -1,0 +1,44 @@
+#!/bin/sh
+# for CentOS 6
+#
+# Service Unit of '${service.title}' Servcie
+#
+# chkconfig: 2345 90 90
+# description: Start up the '${service.title}'
+#
+# processname: ${service.title} SERVICE
+# pidfile: /var/run/${service.title}.pid
+#
+### BEGIN INIT INFO
+# Provides: tomcat
+# Required-Start: $network $syslog
+# Required-Stop: $network $syslog
+# Short-Description: handle '${service.title} Service'
+# Description: Start up the '${service.title} Service'
+### END INIT INFO
+
+RETVAL=0
+case $1 in
+	start)
+		${service.file.exec_start}
+		;;
+	stop)
+		${service.file.exec_stop}
+		;;
+	restart)
+		${service.file.exec_stop}
+		
+		sleep 1
+		
+		${service.file.exec_start}
+		;;
+	status)
+		${service.file.exec_status}
+		;;
+	*)
+		echo "Usage: $0 {star|stop|restart|status}"
+		RETVAL=2
+		;;
+esac
+
+exit $RETVAL

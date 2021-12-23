@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>제조 SCM 문제해결 AI 플랫폼</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="title" content="제조 SCM 문제해결 AI 플랫폼" />
+<meta name="keywords" content="제조 SCM 문제해결 AI 플랫폼" />
+<meta name="description" content="API - Management" />
+<meta name="copyright" content="Copyright@2021 제조 SCM 문제해결 AI 플랫폼. All Rights Reserved." />
+<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" />
+<link rel="apple-touch-icon" href="/static/images/favicon.png" />
+<link rel="stylesheet" href="/static/css/common.css" media="all" />
+<link rel="stylesheet" href="/static/css/layout.css" media="all" />
+</head>
+<body>
+<!-- scm-header :S -->
+  <div id="scm-header">
+     <div class="scm-header-logo">
+        <a href="#"><img src="/static/images/logo_leftmenu.png" alt="제조 SCM 문제해결 AI 플랫폼">제조 <span>SCM</span> 문제해결 <span>AI</span> 플랫폼</a>
+     </div>
+     <div class="scm-header-right">
+        <ul>
+					<li><a href="mypage" title="마이페이지"><img src="/static/images/icon_set.png" alt="마이페이지"> <span>Mypage</span></a></li>
+					<li><a href="#" title="알람" class="alarm"><img src="/static/images/icon_alarm.png" alt="알람"></a></li>
+					<li><a href="/login" title="로그아웃"><img src="/static/images/icon_logout.png" alt="logout"></a></li>
+				</ul>
+     </div>
+  </div>    
+  <!-- end scm-header -->
+  
+  <!-- scm-container : s -->
+  <div id="scm-container"> 
+  
+    <!-- scm-leftMen : s -->
+<div id="scm-leftMenu">
+         <ul>
+      	    <li><a href="/manu/dashboard" class="ico_board">대시보드</a></li>
+            <li><a href="/manu/bidView" class="ico_bid">입찰공고</a>
+              <ul>
+        				<li><a href="/manu/bidView">입찰조회</a></li>
+        				<li><a href="/manu/bidMana">입찰관리</a></li>
+      			  </ul>            
+            </li>
+            <li><a href="/manu/dataMana" class="ico_data">데이터관리</a></li>
+            <li class="on"><a href="/manu/billingMana" class="ico_pay">과금관리</a></li>
+            <li><a href="/manu/alarmMana" class="ico_set">알람메시지관리</a></li>
+      	</ul> 
+    </div>
+   <!-- scm-leftMen : e --> 
+   
+   <!-- scm-section : s -->
+   <div id="scm-section">
+      <!-- scm-main : s -->
+      <div class="scm-main">
+      
+        <div class="main-header">
+          <div class="title">과금관리</div>
+          <div class="right">
+               <a href="billingManaAnalysisAdd"><button class="btn black big"><img src="/static/images/icon_confirm_white.png" alt="분석환경 신청"><span>분석환경 신청</span></button></a>
+          </div>
+        </div>       
+          
+        <!-- Search : s -->
+        <div class="scm-card">
+          <table  class="table-search" >
+            <caption>과금관리 조회</caption>
+            <tr>
+              <th>과금기간</th>
+              <td style="width:280px">            
+                  <input name="date01" type="text" title="날짜선택" style="width: 90px;"> ~ <input name="date02" type="text" title="날짜선택" style="width: 90px;">
+                  <button class="btn white"><img src="/static/images/icon_calendar.png" alt="달력"></button>
+              </td>
+              <td colspan="3"> 
+                  <input type="radio" name="ck_month" id="month-1" class="dsi" checked=""><label for="month-1">최근 1개월</label>  
+                  <input type="radio" name="ck_month" id="month-3" class="dsi"><label for="month-3">최근3개월</label> 
+                  <input type="radio" name="ck_month" id="month-6" class="dsi"><label for="month-6">최근6개월</label> 
+              </td>
+            </tr>
+            <tr>
+              <th style="width:100px">사용자 분류</th>
+              <td>
+                <select name="select">
+                  <option selected="">전체</option>
+                  <option>제조사</option>
+                  <option>도메인 IT 제조사</option>
+                </select>
+              </td>
+              <th style="width:100px">분석환경등급</th>
+              <td colspan="2">
+                <select name="select">
+                  <option selected="">Standard</option>
+                  <option>Premium</option>
+                  <option>Basic</option>
+                </select>
+              </td>
+            </tr>
+           <tr>
+              <th style="width:100px">납부상태</th>
+              <td>
+                <select name="select">
+                  <option selected="">전체</option>
+                  <option>납부</option>
+                  <option>미납</option>
+                </select>
+              </td>
+              <th style="width:100px">승인여부</th>
+              <td>
+                <select name="select">
+                  <option selected="">전체</option>
+                  <option>승인완료</option>
+                  <option>승인대기</option>
+                </select>
+              </td>
+              <td>   
+                  <button class="btn blue"><img src="/static/images/icon_search.png" alt="검색"><span>검색</span></button>               
+              </td>
+            </tr>    
+           </table> 
+        </div>
+        <!-- Search : e -->
+        
+        <!-- Table-list : s -->
+        <div class="scm-card">
+           <div class="table-header">
+              <span class="table-title">과금 목록</span>
+              <div class="table-header-right">
+                <span>전체 2건</span>
+                  <select name="select" class="small">
+                    <option selected>15개씩 보기</option>
+                    <option>30개씩 보기 </option>
+                  </select>
+               </div>
+           </div>
+           
+           <table  class="table-list">
+            <caption>과금 목록</caption>
+            <thead>
+              <tr>
+                <th>과금일자</th>
+                <th>사용자 분류</th>  
+                <th>담당자</th>
+                <th>과금</th>  
+                <th>분석환경 등급</th>  
+                <th>상태</th>  
+                <th>승인여부</th> 
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                 <td>2021-06-30 15:42:03</td>
+                 <td><a href="billingManaDetail">제조사</a></td>
+                 <td>(주)아이리녹스</td>
+                 <td>월 200,000</td>
+                 <td>Standard</td>
+                 <td>사용중</td>
+                 <td><span class="span-none-text"><img src="/static/images/icon_ok.png" alt="승인완료"><span>승인완료</span></span></td>
+              </tr>  
+              <tr>
+                 <td>2021-03-31 14:00:03</td>
+                 <td><a href="billingManaDetail">제조사</a></td>
+                 <td>제조테크</td>
+                 <td>월 200,000</td>
+                 <td>Standard</td>
+                 <td>사용중</td>
+                 <td><span class="span-none-text"><img src="/static/images/icon_ok.png" alt="승인완료"><span>승인완료</span></span></td>
+              </tr>  
+              <tr>
+                 <td>2021-03-31 14:00:03</td>
+                 <td><a href="billingManaDetail">도메인 IT 전문가</a></td>
+                 <td>(주)사랑공정테크</td>
+                 <td>월 200,000</td>
+                 <td>Standard</td>
+                 <td>대기중</td>
+                 <td><button class="btn whiteblue small"><img src="/static/images/icon_wait.png" alt="승인대기"><span>승인대기</span></button></td>
+              </tr>               
+            </tbody>
+           </table>             
+        </div>
+        
+        <div class="paginate">
+    				<a class="dir" href="#link"><img src="/static/images/paginate_first.gif" alt="처음 페이지으로"></a>
+    				<a class="dir first" href="#link"><img src="/static/images/paginate_prev.gif" alt="이전 페이지로"></a>
+    				<strong>1</strong>
+    				<!-- <a href="#link">2</a>
+    				<a href="#link">3</a>
+    				<a href="#link">4</a>
+    				<a href="#">5</a> -->
+    				<a class="dir last" href="#link"><img src="/static/images/paginate_next.gif" alt="다음 페이지로"></a>
+    				<a class="dir" href="#link"><img src="/static/images/paginate_last.gif" alt="끝 페이지로"></a> 
+    		</div>
+        <!-- Table-list : e -->   
+             
+      </div>
+      <!-- scm-main : e -->
+    </div>
+   <!-- scm-section : e -->
+  </div>
+  <!-- scm-container : e -->
+</body>
+</html>
