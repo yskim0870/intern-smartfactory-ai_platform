@@ -37,7 +37,7 @@ import kr.smartfactory.platform.web.dao.IUserDao;
  *
  */
 @Repository(UserDao.BEAN_QUALIFIER)
-public class UserDao extends DBGenericDaoImpl implements IUserDao {
+public class UserDao extends DBGenericDao implements IUserDao {
 
 	public static final String BEAN_QUALIFIER = "kr.smartfactory.platform.web.dao.impl.UserDao";
 	
