@@ -9,13 +9,10 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-
-import open.commons.Result;
-
 import kr.smartfactory.platform.web.dao.model.User;
 import kr.smartfactory.platform.web.dao.model.UserGrade;
 import kr.smartfactory.platform.web.service.IUserService;
-import kr.smartfactory.platform.web.service.impl.UserService;
+import kr.smartfactory.platform.web.service.impl.UserServiceImpl;
 
 @Configuration
 public class UserLoginAuthenticationProvider implements AuthenticationProvider {
@@ -25,7 +22,7 @@ public class UserLoginAuthenticationProvider implements AuthenticationProvider {
 	/**
 	 * Desc : Constructor of UserLoginAuthenticationProvider.java class
 	 */
-	public UserLoginAuthenticationProvider(@Qualifier(UserService.BEAN_QUALIFIER) IUserService userService) {
+	public UserLoginAuthenticationProvider(@Qualifier(UserServiceImpl.BEAN_QUALIFIER) IUserService userService) {
 		this.userService = userService;
 	}
 
