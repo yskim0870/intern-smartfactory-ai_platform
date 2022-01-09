@@ -1,19 +1,16 @@
 <!-- 	ng-contoller 최상위에 있도록 제작 -->
 <div class="scm-main" ng-controller="EdgeController">
 	<div class="main-header">
-		<div class="title">EdgeGW 관리</div>
 		<div class="right">
-			<a href="/static/html/edgeGWManaAdd">
-				<button class="btn black big">
-					<img src="/static/images/icon_confirm_white.png" alt="신규 데이터 등록"><span>Edge 신규 등록</span>
-				</button>
-			</a>
+			<button class="btn black big" ng-click="createModal()">
+				<img src="/static/images/icon_confirm_white.png" alt="신규 데이터 등록"><span>Edge 신규 등록</span>
+			</button>
 		</div>
 	</div>
 
 	<!-- Search : s -->
 	<div class="scm-card">
-		<table class="table-search" ng-model="selectOption">
+		<table class="table-search">
 			<caption>EdgeGW 관리 조회</caption>
 			<tr>
 				<th style="width: 100px">업체명</th>
@@ -23,24 +20,24 @@
 			</tr>
 			<tr>
 				<th>연동기간</th>
-				<td style="width: 280px">
-					<input name="date01" type="text" title="날짜선택" ng-model="option.startDate" style="width: 90px;">
+				<td style="width: 400px">
+					<input name="date01" type="date" title="날짜선택" ng-model="option.startDate" style="width: 150px;" ng-change="dateChange">
 					~
-					<input name="date02" type="text" title="날짜선택" ng-model="option.endDate" style="width: 90px;">
+					<input name="date02" type="date" title="날짜선택" ng-model="option.endDate" style="width: 150px;" ng-change="dateChange">
 					<button class="btn white">
 						<img src="/static/images/icon_calendar.png" alt="달력" ui-date="">
 					</button>
 				</td>
 				<td>
-					<input type="radio" name="ck_month" id="month-1" class="dsi" checked="">
+					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="isChecked[0]" ng-click="dateRadioClick(1)">
 					<label for="month-1">최근 1개월</label>
-					<input type="radio" name="ck_month" id="month-3" class="dsi">
+					<input type="radio" name="ck_month" id="month-3" class="dsi" ng-checked="isChecked[1]" ng-click="dateRadioClick(3)">
 					<label for="month-3">최근3개월</label>
-					<input type="radio" name="ck_month" id="month-6" class="dsi">
+					<input type="radio" name="ck_month" id="month-6" class="dsi" ng-checked="isChecked[2]" ng-click="dateRadioClick(6)">
 					<label for="month-6">최근6개월</label>
 				</td>
 				<td>
-					<button class="btn blue" ng-click="getEdges(option.name, option.startDate, option.endDate)">
+					<button class="btn blue" ng-click="getEdges(option.name, option.startDate, option.endDate, option.itemCount, pageNum, pageItemPerPage, order)">
 						<img src="/static/images/icon_search.png" alt="검색"><span>검색</span>
 					</button>
 				</td>
@@ -54,9 +51,10 @@
 		<div class="table-header">
 			<span class="table-title">EdgeGateway 목록</span>
 			<div class="table-header-right">
-				<span>전체 {{edgeGWs.totalCount}}건</span> <select name="select" class="small">
-					<option selected>15개씩 보기</option>
-					<option>30개씩 보기</option>
+				<span>전체 {{edgeGWs.data.totalCount}}건</span> <select name="select" class="small" ng-model="option.itemCount"
+					ng-options="item.value as item.display for item in items"
+					ng-change="getEdges(option.name, option.startDate, option.endDate, option.itemCount, pageNum, pageItemPerPage)"
+				>
 				</select>
 			</div>
 		</div>
@@ -65,15 +63,17 @@
 			<caption>EdgeGateway 목록</caption>
 			<thead>
 				<tr>
-					<th>ID</th>
+					<th ng-model="order" ng-click="getEdges(option.name, option.startDate, option.endDate, option.itemCount, pageNum, pageItemPerPage, order)">ID</th>
 					<th>제조사</th>
-					<th>작동여부</th>
+					<th ng-model="order" ng-value="status"
+						ng-click="getEdges(option.name, option.startDate, option.endDate, option.itemCount, pageNum, pageItemPerPage, order)"
+					>작동여부</th>
 					<th>최종 연동 일시</th>
-					<th>비고</th>
+					<th ng-click="orderBy(column)">비고</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="edgeInfo in edgeGWs.items">
+				<tr ng-repeat-start="edgeInfo in edgeGWs.data.items" ng-click="getEdge(edgeInfo)">
 					<td>
 						<span>{{edgeInfo.id}}</span>
 					</td>
@@ -87,40 +87,84 @@
 						<span>{{edgeInfo.updateDate}}</span>
 					</td>
 					<td>
-						<a href="/edgeGWManaModify">
-							<button class="btn white small">
-								<img src="/static/images/icon_modify.png" alt="수정"><span>수정</span>
-							</button>
-						</a>
-						<button class="btn red small">
+						<button class="btn white small" ng-click="updateModal(edgeInfo.id, edgeInfo.managerId, edgeInfo.startDate, edgeInfo.endDate)">
+							<img src="/static/images/icon_modify.png" alt="수정"><span>수정</span>
+						</button>
+						<button class="btn red small" ng-click="deleteEdge(edgeInfo.id)">
 							<img src="/static/images/icon_del.png" alt="삭제"><span>삭제</span>
 						</button>
+					</td>
+				</tr>
+				<tr ng-repeat-end ng-if="edgeInfo.show">
+					<td colspan="5">
+						<div id="demo1">
+							<table class="table-list">
+								<thead>
+									<tr>
+										<td colspan="4">EdgeGateway 정보</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>ID</td>
+										<td>{{edgeInfo.id}}</td>
+									</tr>
+									<tr>
+										<td>연동 기간</td>
+										<!-- LONG TO DATE !!!!!! -->
+										<td>{{edgeInfo.startDate | date: 'yyyy.MM.dd'}} ~ {{edgeInfo.endDate | date: 'yyyy. MM.dd'}}</td>
+
+									</tr>
+									<tr>
+										<td>작동 여부</td>
+										<td></td>
+										<td>최종연동일시</td>
+										<td>{{edgeInfo.updateDate | date: 'yyyy.MM.dd'}}</td>
+									</tr>
+									<tr>
+										<td>IP</td>
+										<td>{{edgeInfo.host}}</td>
+										<td>Port</td>
+										<td>{{edgeInfo.port}}</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="table-list">
+								<thead>
+									<tr>
+										<td colspan="4">제조사 정보</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>제조사명</td>
+										<td>{{edgeGW.name}}</td>
+
+									</tr>
+									<tr>
+										<td>주소</td>
+										<td>{{edgeGW.address}}</td>
+									</tr>
+									<tr>
+										<td>대표번호</td>
+										<td>{{edgeGW.telNumber}}</td>
+										<td>대표자</td>
+										<td>{{edgeGW.ceoName}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-
 	<div class="paginate">
-		<a class="dir" href="#link">
-			<img src="/static/images/paginate_first.gif" alt="처음 페이지로">
-		</a>
-		<a class="dir first" href="#link">
-			<img src="/static/images/paginate_prev.gif" alt="이전 페이지로">
-		</a>
-		<strong>1</strong>
-		<!-- <a href="#link">2</a>
-    				<a href="#link">3</a>
-    				<a href="#link">4</a>
-    				<a href="#">5</a> -->
-		<a class="dir last" href="#link">
-			<img src="/static/images/paginate_next.gif" alt="다음 페이지로">
-		</a>
-		<a class="dir" href="#link">
-			<img src="/static/images/paginate_last.gif" alt="끝 페이지로">
-		</a>
+		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
+			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="option.itemCount"
+			ng-change="getEdges(option.name, option.startDate, option.endDate, option.itemCount, pageNum, pageItemPerPage)"
+		></ul>
+		<!-- Table-list : e -->
 	</div>
-	<!-- Table-list : e -->
-</div>
 </div>
 <!-- scm-main : e -->

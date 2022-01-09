@@ -6,17 +6,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import kr.smartfactory.platform.web.dao.IEdgeGatewayDao;
+import kr.smartfactory.platform.web.dao.model.EdgeGateway;
 import kr.smartfactory.platform.web.dto.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.EdgeGWDTO;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.query.Query;
 
+/**
+ * EdgeGateway DAO
+ *
+ * @since 2021. 12. 27. 오전 9:21:36
+ * @author "KyungHun Park"
+ *
+ * @modified 2021. 12. 27. 오전 9:21:36 || Kyunghun Park || 최초 생성
+ *
+ */
 @Repository(EdgeGatewayDao.BEAN_QUALIFIER)
 public class EdgeGatewayDao implements IEdgeGatewayDao {
 
@@ -24,9 +35,9 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
 
     public static final String BEAN_QUALIFIER = "kr.smartfactory.platform.web.dao.impl.EdgeGatewayDao";
 
+    // JdbcTemplate 생성자 주입
     @Autowired
     public EdgeGatewayDao(JdbcTemplate jdbcTemplate) {
-
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -34,9 +45,14 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
      * @see kr.smartfactory.platform.web.dao.IEdgeGatewayDao#createEdgeGW(kr.smartfactory.platform.web.dto.EdgeGWDTO)
      */
     @Override
-    public int createEdgeGW(EdgeGWDTO edgeGW) {
-
-        return jdbcTemplate.update(Query.EDGE_INSERT, edgeGW.getId(), edgeGW.getManagerId(), edgeGW.getStartDate(), edgeGW.getEndDate());
+    public int createEdgeGW(EdgeGateway edgeGW) {
+        try {
+            // EdgeGateway ID, 기업 ID, 연동 시작 일자, 연동 종료 일자
+            return jdbcTemplate.update(Query.EDGE_INSERT, edgeGW.getId(), edgeGW.getManagerId(), edgeGW.getStartDate(), edgeGW.getEndDate(), edgeGW.getUpdateDate(), edgeGW.getHost(), edgeGW.getPort(), edgeGW.getStatus());
+        } catch (EmptyResultDataAccessException e) {
+            System.out.println("Target is empty");
+            return 0;
+        }
     }
 
     /**
@@ -45,61 +61,82 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
      */
     @Override
     public PaginationDTO<EdgeGWDTO> selectEdgeGW(String managerId, long startDate, long endDate, int itemCount, int pageNum, int pageItemPerPage, String order, boolean desc) {
+
+        // 조회 결과 list와 총 데이터 건수를 담을 객체
+        PaginationDTO<EdgeGWDTO> res = new PaginationDTO<>();
+
+        // wild card에 입력될 값들의 list
         List<Object> params = new ArrayList<>();
 
+        // 추가할 쿼리
         StringBuilder sb = new StringBuilder();
 
+        // default 'SLELECT' Query
         String query = Query.EDGE_SELECT_ALL;
 
+        // 데이터 건수 조회 Query
+        String countQuery = Query.EDGE_COUNT;
+
+        // Parameter의 값이 전달 되면 Query에 추가
+
+        // 기업명
         if (managerId != null) {
             params.add("%" + managerId + "%");
             sb.append("AND manager_id LIKE ?");
         }
-        if (startDate != 0) {
-            params.add("%" + startDate + "%");
-            sb.append("AND start_date LIKE ?");
+
+        // 검색할 연동 시작 일자 및 종료 일자
+        if (startDate != 0 && endDate == 0) {
+            params.add(startDate);
+            sb.append("AND ? <= end_date");
+        } else if (startDate == 0 && endDate != 0) {
+            params.add(endDate);
+            sb.append("AND ? >= start_date");
+        } else if (startDate != 0 && endDate != 0) {
+            params.add(startDate);
+            params.add(endDate);
+            sb.append("AND ? <= end_date AND ? >= start_date ");
         }
-        if (endDate != 0) {
-            params.add("%" + endDate + "%");
-            sb.append("AND end_date LIKE ?");
-        }
-        if (itemCount != 0) {
-            params.add("%" + itemCount + "%");
-            sb.append("AND item_count LIKE ?");
-        }
-        if (pageNum != 0) {
-            params.add("%" + pageNum + "%");
-            sb.append("AND page_num LIKE ?");
-        }
+
+        // 페이지 범위
         if (pageItemPerPage != 0) {
             params.add("%" + pageItemPerPage + "%");
             sb.append("AND page_item_per_page LIKE ?");
         }
 
+        // 정렬 기준
         if (order != null) {
             params.add(order);
-            sb.append("order by ?");
+            sb.append(" order by ?");
         }
 
+        // 내림차순 여부
         if (desc != false) {
             params.add(desc);
-            sb.append(""
-                    + "?");
+            sb.append("" + "?");
         }
 
-        if (itemCount != 0) {
-            params.add(itemCount);
-            sb.append("limit ?");
-        }
+        // 총 데이터 건수를 위한 query
+        countQuery = sb != null ? countQuery.replace("{where_clause}", sb.toString()) : countQuery;
 
+        // 총 데이터 건수
+        int allCount = jdbcTemplate.queryForObject(countQuery, Integer.class, params.toArray());
+
+        // 한 페이지에 보일 데이터 건수
+        params.add(itemCount);
+        params.add((pageNum - 1) * itemCount);
+        sb.append(" limit ? OFFSET ?");
+
+        // parameter가 존재하는 경우 query 변경
         query = sb != null ? query.replace("{where_clause}", sb.toString()) : query;
 
+        // 조회 결과를 list에 저장
         List<EdgeGWDTO> list = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(EdgeGWDTO.class), params.toArray());
-        
-        int allCount = list.size(); // 한 페이지에 개수가 나오는거네
 
-        PaginationDTO<EdgeGWDTO> res = new PaginationDTO<>();
+        // PaginationDTO에 조회 결과 list 입력
         res.setItems(list);
+
+        // PaginationDTO에 총 데이터 건수 입력
         res.setTotalCount(allCount);
 
         return res;
@@ -111,26 +148,39 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
     @Override
     public EdgeGWDTO selectDetailEdgeGW(String id) {
 
-        return this.jdbcTemplate.queryForObject(Query.EDGE_SELECT_DETAIL, new RowMapper<EdgeGWDTO>() {
-            public EdgeGWDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-                EdgeGWDTO edge = new EdgeGWDTO();
-                edge.setHost(rs.getString("host"));
-                edge.setPort(rs.getInt("port"));
-                edge.setUpdateDate(rs.getLong("update_date"));
-                edge.setStatus(rs.getInt("status"));
+        // DTO의 DTO에 조회 결과 값을 입력
+        try {
+            return this.jdbcTemplate.queryForObject(Query.EDGE_SELECT_DETAIL, new RowMapper<EdgeGWDTO>() {
+                public EdgeGWDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-                CompanyInfoDTO company = new CompanyInfoDTO();
+                    EdgeGWDTO edge = new EdgeGWDTO();
 
-                company.setBusinessNumber(rs.getString("business_number"));
-                company.setName(rs.getString("name"));
-                company.setAddress(rs.getString("address"));
-                company.setTelNumber(rs.getString("tel_number"));
-                company.setCeoName(rs.getString("ceo_name"));
+                    edge.setId(rs.getString("id"));
+                    edge.setHost(rs.getString("host"));
+                    edge.setPort(rs.getInt("port"));
+                    edge.setStartDate(rs.getLong("start_date"));
+                    edge.setEndDate(rs.getLong("end_date"));
+                    edge.setUpdateDate(rs.getLong("update_date"));
+                    edge.setStatus(rs.getInt("status"));
 
-                edge.setCompany(company);
-                return edge;
-            }
-        }, id, id);
+                    CompanyInfoDTO company = new CompanyInfoDTO();
+
+                    company.setBusinessNumber(rs.getString("business_number"));
+                    company.setName(rs.getString("name"));
+                    company.setAddress(rs.getString("address"));
+                    company.setTelNumber(rs.getString("tel_number"));
+                    company.setCeoName(rs.getString("ceo_name"));
+
+                    // CompanyDTO에 저장된 값을 edgeGWDTO에 저장
+                    edge.setCompany(company);
+                    return edge;
+                }
+                // query의 wild card에 입력될 값
+            }, id);
+        } catch (EmptyResultDataAccessException empty) {
+            System.out.println("Target is empty");
+            return null;
+        }
     }
 
     /**
@@ -138,9 +188,11 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
      *      kr.smartfactory.platform.web.dto.EdgeGWDTO)
      */
     @Override
-    public int updateEdgeGW(String id, EdgeGWDTO edgeGW) {
+    public int updateEdgeGW(EdgeGateway edgeGW) {
 
-        return jdbcTemplate.update(Query.EDGE_UPDATE, edgeGW.getManagerId(), edgeGW.getStartDate(), edgeGW.getEndDate(), id);
+        // TODO 예외처리 질문
+        // 업데이트할 Edge Gateway ID, 변경할 기업 ID, 연동 시작 일자, 연동 종료 일자
+        return jdbcTemplate.update(Query.EDGE_UPDATE, edgeGW.getManagerId(), edgeGW.getStartDate(), edgeGW.getEndDate(), edgeGW.getId());
     }
 
     /**
@@ -149,6 +201,8 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
     @Override
     public int deleteEdgeGW(String id) {
 
+        // TODO 예외처리 질문
+        // 삭제할 Edge Gateway ID
         return jdbcTemplate.update(Query.EDGE_DELETE, id);
     }
 }

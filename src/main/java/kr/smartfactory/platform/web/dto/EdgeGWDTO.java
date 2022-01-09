@@ -1,23 +1,47 @@
 package kr.smartfactory.platform.web.dto;
 
+/**
+ * EdgwGateway DTO 
+ *
+ * @since 2021. 12. 24. 오전 9:19:55
+ * @author "KyungHun Park"
+ *
+ * @modified 2021. 12. 24. 오전 9:19:55 || Kyunghun Park || 최초 생성
+ *
+ */
 public class EdgeGWDTO {
+    
+    // EdgeGateway 고유 ID
     private String id;
+    
+    // 기업 ID
     private String managerId;
+    
+    // IP
     private String host;
+    
+    // 연동 시작 일자
     private long startDate;
+    
+    // 연동 종료 일자
     private long endDate;
+    
+    // 최종 연동 일자
     private long updateDate;
-    private int port;
+    
+    // 포트 번호
+    private int port = 0;
+    
+    // 작동 여부
     private int status;
 
+    // 기업 정보
     private CompanyInfoDTO company;
 
     // 기본 생성자
     public EdgeGWDTO() {
 
     }
-    
-
     
     /**
      * id을(를) 호출합니다.
