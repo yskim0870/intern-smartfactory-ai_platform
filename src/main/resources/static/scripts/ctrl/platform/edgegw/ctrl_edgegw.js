@@ -28,7 +28,7 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 		}
 	);
 
-	$scope.getEdges = function(managerId, startDate, endDate, itemCount, pageNum, pageItemPerPage, order) {
+	$scope.getEdges = function(managerId, startDate, endDate, itemCount, pageNum, pageItemPerPage, order, desc) {
 		res.getEdges(
 			{
 				managerId: managerId,
@@ -37,7 +37,8 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 				itemCount: itemCount,
 				pageNum: pageNum,
 				pageItemPerPage: pageItemPerPage,
-				order: order
+				order: order,
+				desc: desc
 			}
 			, {}
 			, function(res) {
@@ -48,7 +49,17 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 			}
 		);
 	}
+
+	$scope.reverseSort = false;
+
+	$scope.sortData = function() {
+		$scope.reverseSort = !$scope.reverseSort;
+	}
+
+
 	$scope.getEdges(null, 0, 0, 15, 1, 0);
+	$scope.desc = false;
+
 
 	$scope.getEdge = function(edgeInfo) {
 		res.getEdge(
@@ -136,6 +147,7 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 	};
 
 
+
 	//	pagination
 	$scope.pageNum = 1;
 	$scope.maxSize = 5;
@@ -146,7 +158,7 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 	};
 
 	// Modal 
-	$scope.createModal = function(id, managerId, startDate, endDate, updateDate, port, host, status) {
+	$scope.createModal = function(id, startDate, endDate, updateDate, port, host, status) {
 
 		let addInstance = $uibModal.open({
 			templateUrl: '/static/templates/platform/edgegw/modal_edgegw_add.html',
@@ -155,9 +167,6 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 			resolve: {
 				id: function() {
 					return id;
-				},
-				managerId: function() {
-					return managerId;
 				},
 				startDate: function() {
 					return startDate;
@@ -184,12 +193,11 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 			function() {
 				// 모달창 종료 close
 			}, function() {
-				$log.info('Modal dismissed at: ' + new Date());
 				// 여기가 dismiss
 			});
 	};
 
-	$scope.updateModal = function(id, managerId, startDate, endDate, updateDate, port, host, status) {
+	$scope.updateModal = function(id, startDate, endDate, updateDate, port, host, status) {
 
 		let modifyInstance = $uibModal.open({
 			templateUrl: '/static/templates/platform/edgegw/modal_edgegw_modify.html',
@@ -199,14 +207,11 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 				id: function() {
 					return id;
 				},
-				managerId: function() {
-					return managerId;
-				},
 				startDate: function() {
-					return startDate;
+					return new Date(startDate);
 				},
 				endDate: function() {
-					return endDate;
+					return new Date(endDate);
 				},
 				updateDate: function() {
 					return updateDate;
@@ -218,7 +223,7 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 					return host;
 				},
 				status: function() {
-					return status
+					return status;
 				}
 			}
 		})

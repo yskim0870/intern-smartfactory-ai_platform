@@ -63,17 +63,16 @@
 			<caption>EdgeGateway 목록</caption>
 			<thead>
 				<tr>
-					<th ng-model="order" ng-click="getEdges(option.name, option.startDate, option.endDate, option.itemCount, pageNum, pageItemPerPage, order)">ID</th>
+					<th ng-click="sortData(option.name, option.startDate, option.endDate, option.itemCount, pageNum, pageItemPerPage, 'id', desc)">
+					ID</th>
 					<th>제조사</th>
-					<th ng-model="order" ng-value="status"
-						ng-click="getEdges(option.name, option.startDate, option.endDate, option.itemCount, pageNum, pageItemPerPage, order)"
-					>작동여부</th>
+					<th ng-model="order" ng-value="status">작동여부</th>
 					<th>최종 연동 일시</th>
 					<th ng-click="orderBy(column)">비고</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat-start="edgeInfo in edgeGWs.data.items" ng-click="getEdge(edgeInfo)">
+				<tr ng-repeat-start="edgeInfo in edgeGWs.data.items | orderBy:sortColumn:reverseSort" ng-click="getEdge(edgeInfo)">
 					<td>
 						<span>{{edgeInfo.id}}</span>
 					</td>

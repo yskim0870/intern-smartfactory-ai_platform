@@ -106,15 +106,16 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
 
         // 정렬 기준
         if (order != null) {
-            params.add(order);
+            params.add("id");
             sb.append(" order by ?");
-        }
+        } 
+
 
         // 내림차순 여부
         if (desc != false) {
-            params.add(desc);
+            params.add("desc");
             sb.append("" + "?");
-        }
+        } 
 
         // 총 데이터 건수를 위한 query
         countQuery = sb != null ? countQuery.replace("{where_clause}", sb.toString()) : countQuery;
