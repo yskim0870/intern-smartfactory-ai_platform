@@ -23,16 +23,13 @@ import kr.smartfactory.platform.web.service.IUserService;
  * -----------------------------------------------------------
  * 2021.12.24  Younghun Yu  최초 생성
  */
-@Service(UserServiceImpl.BEAN_QUALIFIER)
-public class UserServiceImpl implements IUserService {
+@Service(UserService.BEAN_QUALIFIER)
+public class UserService implements IUserService {
 	
 	public static final String BEAN_QUALIFIER = "kr.smartfactory.platform.web.service.impl.UserService";
 
 	@Autowired
 	UserDaoImpl userDao;
-	
-	@Autowired
-	PaginationImpl<CompanyInfoDTO> pageService;
 	
 	/**
 	 * @see kr.smartfactory.platform.web.service.IUserService#createUser(kr.smartfactory.platform.web.dto.common.UserDTO)

@@ -5,8 +5,14 @@ package kr.smartfactory.platform.web.dao;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import kr.smartfactory.platform.web.dao.entity.Company;
+import kr.smartfactory.platform.web.dao.entity.User;
+import kr.smartfactory.platform.web.dao.entity.bid.BidInfo;
+import kr.smartfactory.platform.web.dao.entity.bid.BidManagerInfo;
+import kr.smartfactory.platform.web.dao.entity.bid.BidNoticeFile;
 import kr.smartfactory.platform.web.dto.bid.BidDTO;
-import kr.smartfactory.platform.web.dto.bid.BidInfoDTO;
 import kr.smartfactory.platform.web.dto.bid.BidNoticeFileDTO;
 import open.commons.Result;
 
@@ -25,13 +31,57 @@ public interface IBidDao {
 	/**
 	 * @methodName : createBid
 	 * @description : 
-	 * @param bid
+	 * @param bidInfo
+	 * @param managerInfo
 	 * @return
 	 *
 	 * @author : Younghun Yu
-	 * @date : 2022.12.27
+	 * @date : 2022.12.30
 	 */
-	public Result<Integer> createBid(BidDTO bid);
+	public Result<Integer> createBid(BidInfo bidInfo, BidManagerInfo managerInfo);
+	
+	/**
+	 * @methodName : uploadFile
+	 * @description : 
+	 * @param file
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.12.30
+	 */
+	public Integer uploadFile(Integer bidID, BidNoticeFile file);
+	
+	/**
+	 * @methodName : selectCompany
+	 * @description : 
+	 * @param id
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.01.09
+	 */
+	public Result<Company> selectCompany(String id);
+	
+	/**
+	 * @methodName : selectExpertList
+	 * @description : 
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.01.09
+	 */
+	public Result<List<String>> selectExpertList();
+	
+	/**
+	 * @methodName : selectExpertManager
+	 * @description : 
+	 * @param companyName
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.01.09
+	 */
+	public Result<User> selectExpertManager(String companyName);
 	
 	/**
 	 * @methodName : selectBidList
@@ -64,6 +114,16 @@ public interface IBidDao {
 			Boolean desc);
 	
 	/**
+	 * @methodName : selectAllCount
+	 * @description : 
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.01.03
+	 */
+	public Integer selectAllCount();
+	
+	/**
 	 * @methodName : selectDetailBid
 	 * @description : 
 	 * @param id
@@ -83,16 +143,16 @@ public interface IBidDao {
 	 * @author : Younghun Yu
 	 * @date : 2022.12.28
 	 */
-	public Result<List<BidNoticeFileDTO>> selectFileList(Integer id);
+	public List<BidNoticeFile> selectFileList(Integer id);
 	
 	/**
 	 * @methodName : updateBid
 	 * @description : 
-	 * @param bidInfo
+	 * @param bid
 	 * @return
 	 *
 	 * @author : Younghun Yu
-	 * @date : 2022.12.27
+	 * @date : 2022.12.31
 	 */
-	public Result<Integer> updateBid(BidInfoDTO bidInfo);
+	public Result<Integer> updateBid(BidDTO bid);
 }

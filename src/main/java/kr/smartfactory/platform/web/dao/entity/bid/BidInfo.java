@@ -1,7 +1,9 @@
 /**
  * 
  */
-package kr.smartfactory.platform.web.dao.model.bid;
+package kr.smartfactory.platform.web.dao.entity.bid;
+
+import kr.smartfactory.platform.web.dto.bid.BidInfoDTO;
 
 /**
  * @packageName : kr.smartfactory.platform.web.dao.model
@@ -40,7 +42,7 @@ public class BidInfo {
 	private String contractorID;
 	
 	// 계약금액
-	private String contractorPrice;
+	private String contractPrice;
 	
 	// 계약일자
 	private long contractDate;
@@ -50,6 +52,19 @@ public class BidInfo {
 	
 	// 업무 종료 일자
 	private long workEndDate;
+
+	/**
+	 * @param bidInfo
+	 */
+	public BidInfo(BidInfoDTO bidInfo) {
+		this.setId(bidInfo.getId());
+		this.setBidName(bidInfo.getBidName());
+		this.setBidStartDate(bidInfo.getBidStartDate());
+		this.setBidEndDate(bidInfo.getBidEndDate());
+		this.setPrePrice(bidInfo.getPrePrice());
+		this.setVatIncluded(bidInfo.getVatIncluded());
+		this.setStatus(bidInfo.getStatus());
+	}
 
 	/**
 	 * @return the id
@@ -111,7 +126,7 @@ public class BidInfo {
 	 * @return the contractorPrice
 	 */
 	public String getContractorPrice() {
-		return contractorPrice;
+		return contractPrice;
 	}
 
 	/**
@@ -194,8 +209,8 @@ public class BidInfo {
 	/**
 	 * @param contractorPrice the contractorPrice to set
 	 */
-	public void setContractorPrice(String contractorPrice) {
-		this.contractorPrice = contractorPrice;
+	public void setContractorPrice(String contractPrice) {
+		this.contractPrice = contractPrice;
 	}
 
 	/**

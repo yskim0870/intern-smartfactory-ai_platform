@@ -6,6 +6,9 @@ package kr.smartfactory.platform.web.dto.common;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import kr.smartfactory.platform.web.dao.entity.Company;
+import open.commons.Result;
+
 /**
  * @packageName : kr.smartfactory.platform.web.dto
  * @description : 
@@ -68,6 +71,21 @@ public class CompanyInfoDTO {
 		} catch (SQLException e) {
 			System.out.printf("Error : %s", e.getMessage());
 		}
+	}
+
+	/**
+	 * @param company
+	 */
+	public CompanyInfoDTO(Result<Company> company) {
+		this.setBusinessNumber(company.getData().getBusinessNumber());
+		this.setName(company.getData().getName());
+		this.setAddress(company.getData().getAddress());
+		this.setCondition(company.getData().getCondition());
+		this.setIndustryType(company.getData().getIndustryType());
+		this.setTelNumber(company.getData().getTelNumber());
+		this.setFaxNumber(company.getData().getFaxNumber());
+		this.setSiteUrl(company.getData().getSiteUrl());
+		this.setCeoName(company.getData().getCeoName());
 	}
 
 	/**
@@ -195,4 +213,33 @@ public class CompanyInfoDTO {
 	public void setCeoName(String ceoName) {
 		this.ceoName = ceoName;
 	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("CompanyInfoDTO [businessNumber=");
+		builder.append(businessNumber);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", address=");
+		builder.append(address);
+		builder.append(", condition=");
+		builder.append(condition);
+		builder.append(", industryType=");
+		builder.append(industryType);
+		builder.append(", telNumber=");
+		builder.append(telNumber);
+		builder.append(", faxNumber=");
+		builder.append(faxNumber);
+		builder.append(", siteUrl=");
+		builder.append(siteUrl);
+		builder.append(", ceoName=");
+		builder.append(ceoName);
+		builder.append("]");
+		return builder.toString();
+	}
+	
 }

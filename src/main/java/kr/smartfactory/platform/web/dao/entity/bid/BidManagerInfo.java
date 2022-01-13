@@ -1,7 +1,9 @@
 /**
  * 
  */
-package kr.smartfactory.platform.web.dao.model.bid;
+package kr.smartfactory.platform.web.dao.entity.bid;
+
+import kr.smartfactory.platform.web.dto.bid.BidManagerDTO;
 
 /**
  * @packageName : kr.smartfactory.platform.web.dao.model.bid
@@ -35,6 +37,19 @@ public class BidManagerInfo {
 	
 	// 담당자 이메일
 	private String email;
+
+
+	/**
+	 * @param manager
+	 */
+	public BidManagerInfo(BidManagerDTO manager) {
+		this.setManagerID(manager.getManagerID());
+		this.setName(manager.getName());
+		this.setDepartment(manager.getDepartment());
+		this.setRank(manager.getRank());
+		this.setTelNumber(manager.getTelNumber());
+		this.setEmail(manager.getEmail());
+	}
 
 	/**
 	 * @return the bidID

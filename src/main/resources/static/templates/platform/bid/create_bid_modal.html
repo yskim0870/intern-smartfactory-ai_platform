@@ -1,0 +1,83 @@
+<!-- 입찰정보: s -->
+<div class="scm-card">
+  <div class="table-header read">
+    <span class="table-title">입찰정보</span>
+  </div>
+  
+  <table class="table-read">
+    <caption>입찰정보</caption>
+    <tr>
+      <th>제조사</th>
+      <td class="td-bold" ng-model="companyName">{{companyName}}</td>
+    </tr>
+    <tr>
+      <th>공고일자</th>
+      <td>
+        <input name="date01" type="date" ng-model="bid.bidInfo.bidStartDate" title="날짜선택"> ~ 
+        <input name="date02" type="date" ng-model="bid.bidInfo.bidEndDate" title="날짜선택">
+      </td>
+    </tr>
+    <tr>
+      <th>공고명</th>
+      <td><input name="name" type="text" ng-model="bid.bidInfo.bidName" title="공고명"></td>
+    </tr>
+    <tr>
+      <th>예비가격</th>
+      <td><input name="price" type="text" ng-model="bid.bidInfo.prePrice" title="예비가격명"> 원</td>
+    </tr>
+    <tr>
+      <th>부가세 포함여부</th>
+      <td>
+      	포함 <input name="vat" type="radio" ng-model="bid.bidInfo.vatIncluded" value=0 title="부가세포함">
+      	&nbsp;미포함 <input name="vat" type="radio" ng-model="bid.bidInfo.vatIncluded" value=1 title="부가세미포함">
+      </td>
+    </tr>
+    <tr>
+      <th>입찰공고문</th>
+      <td>
+        <input type="file" ng-repeat="file in bidFiles track by $index" ngf-select="uploadBidFile($file)">
+        <button ng-click="addBidFiles()" class="btn white"><img src="/static/images/icon_plus.png" alt="추가"></button>
+      </td>
+    </tr>
+    <tr>
+      <th>샘플데이터</th>
+      <td>
+        <input type="file" ng-repeat="file in sampleFiles track by $index" ngf-select="uploadSampleFile($file)">
+        <button ng-click="addSampleFiles()" class="btn white"><img src="/static/images/icon_plus.png" alt="추가"></button>
+      </td>
+    </tr>
+  </table>
+
+  <div class="table-header read mt_30">
+    <span class="table-title">담당자정보</span>
+  </div>
+  <table class="table-read">
+    <caption>담당자정보</caption>
+    <tr>
+      <th style="width:150px">담당자</th>
+      <td><input name="person" ng-model="bid.manager.name" type="text" title="담당자" style="width: 250px;"></td>
+    </tr>
+    <tr>
+      <th>직책</th>
+      <td><input name="official" type="text" ng-model="bid.manager.rank" title="직책" style="width: 250px;"></td>
+    </tr>
+    <tr>
+      <th>연락처</th>
+      <td><input name="tel" type="tel" ng-model="bid.manager.telNumber" title="연락처" style="width: 250px;"></td>
+    </tr>
+    <tr>
+      <th>이메일</th>
+      <td><input name="email" type="email" ng-model="bid.manager.email" title="이메일" style="width: 250px;"></td>
+    </tr>
+  </table>
+  <div class="table-text ">
+    ※ 계약방법은 협상에 의한 계약체결 방식입니다. 본 플랫폼에서는 <span class="f-red">계약체결을 진행하지 않습니다.</span><br>
+    <span class="pl_15 ">내용을 확인하셨으면, 플랫폼에 <span class="f-red">입찰공고</span>를 진행하시기 바랍니다.</span>
+  </div>
+</div>
+<!-- 입찰정보: e -->
+
+<p class="btn-box">
+  <button class="btn whiteblue mr_5" ng-click="ok(bid)"><img src="/static/images/icon_confirm.png" alt="입찰공고"><span>입찰공고</span></button>
+  <button class="btn gray" ng-click="cancel()"><img src="/static/images/icon_cancel.png" alt="취소하기"><span>취소하기</span></button>
+</p>

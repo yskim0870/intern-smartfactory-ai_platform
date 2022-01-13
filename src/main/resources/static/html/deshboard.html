@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>대시보드: 제조 SCM 문제해결 AI 플랫폼</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="title" content="제조 SCM 문제해결 AI 플랫폼" />
+<meta name="keywords" content="제조 SCM 문제해결 AI 플랫폼" />
+<meta name="description" content="API - Management" />
+<meta name="copyright" content="Copyright@2021 제조 SCM 문제해결 AI 플랫폼. All Rights Reserved." />
+<link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico" />
+<link rel="apple-touch-icon" href="../images/favicon.png" />
+<link rel="stylesheet" href="../css/common.css" media="all" />
+<link rel="stylesheet" href="../css/layout.css" media="all" />
+</head>
+<body>
+<!-- scm-header :S -->
+  <div id="scm-header">
+     <div class="scm-header-logo">
+        <a href="#"><img src="../images/logo_leftmenu.png" alt="제조 SCM 문제해결 AI 플랫폼">제조 <span>SCM</span> 문제해결 <span>AI</span> 플랫폼</a>
+     </div>
+     <div class="scm-header-right">
+        <ul>
+					<li><a href="mypage.html" title="마이페이지"><img src="../images/icon_set.png" alt="마이페이지"> <span>Mypage</span></a></li>
+					<li><a href="#" title="알람" class="alarm"><img src="../images/icon_alarm.png" alt="알람"></a></li>
+					<li><a href="#" title="로그아웃"><img src="../images/icon_logout.png" alt="logout"></a></li>
+				</ul>
+     </div>
+  </div>    
+  <!-- end scm-header -->
+  
+  <!-- scm-container : s -->
+  <div id="scm-container"> 
+  
+    <!-- scm-leftMen : s -->
+      <div id="scm-leftMenu">
+         <ul>
+      	    <li class="on"><a href="deshboard.html" class="ico_board">대시보드</a></li>
+      	    <li><a href="bidView.html" class="ico_bid">입찰공고</a>
+              <ul>
+        				<li><a href="bidView.html">입찰조회</a></li>
+        				<li><a href="bidMana.html">입찰관리</a></li>
+      			  </ul>            
+            </li>
+            <li><a href="manuMana.html" class="ico_fac">제조사관리</a></li>
+            <li><a href="itMana.html" class="ico_it">도메인IT 전문가관리</a></li>
+            <li><a href="dataMana.html" class="ico_data">데이터관리</a></li>
+            <li><a href="edgeGW.html" class="ico_gw">EdgeGW관리</a></li>
+            <li><a href="billingMana.html" class="ico_pay">과금관리</a></li>
+            <li><a href="alarmMana.html" class="ico_set">알람메시지관리</a></li>
+      	</ul> 
+    </div>
+   <!-- scm-leftMen : e --> 
+   
+   <!-- scm-section : s -->
+   <div id="scm-section">
+      <!-- scm-main : s -->
+      <div class="scm-main">
+          <div class="main-header">
+            <div class="title">대시보드</div>
+          </div>       
+          
+          <!-- dash-total : s -->
+          <div class="dash-total">
+             <div class="scm-card ml_0"> 
+                <img src="../images/icon_total_fac.png" alt="제조사">
+                <p>전체제조사</p>
+                <b>216</b>
+             </div>
+             <div class="scm-card"> 
+                <img src="../images/icon_total_bid.png" alt="입찰공고">
+                <p>입찰공고</p>
+                <b>250</b>
+             </div>
+             <div class="scm-card"> 
+                <img src="../images/icon_total_gw.png" alt="게이트웨이">
+                <p>EdgeGW</p>
+                <b>1,234</b>
+             </div>
+             <div class="scm-card mr_0"> 
+                <img src="../images/icon_total_it.png" alt="IT 도메인 전문가">
+                <p>IT 도메인전문가</p>
+                <b>65</b>
+             </div>
+          </div>          
+          <!-- dash-total : e -->
+          
+          <!-- dash-bid : s -->
+          <div class="scm-card"> 
+               <div class="scm-tabs">
+                    <input id="bid-notice" type="radio" name="tab-item" checked>
+                    <label class="tab-item" for="bid-notice">입찰공고</label>                    
+                    <input id="bid-result" type="radio" name="tab-item">
+                    <label class="tab-item" for="bid-result">입찰결과</label>                    
+                    <div class="tab-content" id="notice-content">
+                       <span class="more-box"><button class="btn-more">+ more</button></span>
+                       <table  class="table-list-none">
+                          <caption>입찰목록</caption>
+                          <!--thead>
+                            <tr>
+                              <th width="80">공고일</th>
+                              <th style="width:100px">공고업체</th>
+                              <th>공고명</th> 
+                            </tr>
+                          </thead-->
+                          <tbody>
+                            <tr>
+                              <td>2020.12.20</td>
+                              <td>(주)유미테크</td>
+                              <td class="left">화장지의 생물촉진 재순환 발효소멸 생성 장치의 환경 기준치 미달에 따른 영향에 .....</td>
+                            </tr>  
+                            <tr>
+                              <td>2020.12.20</td>
+                              <td>(주)유미테크</td>
+                              <td class="left">화장지의 생물촉진 재순환 발효소멸 생성 장치의 환경 기준치 미달에 따른 영향에 .....</td>
+                            </tr>
+                            <tr>
+                              <td>2020.12.20</td>
+                              <td>(주)유미테크</td>
+                              <td class="left">화장지의 생물촉진 재순환 발효소멸 생성 장치의 환경 기준치 미달에 따른 영향에 .....</td>
+                            </tr>     
+                            <tr>
+                              <td>2020.12.20</td>
+                              <td>(주)유미테크</td>
+                              <td class="left">화장지의 생물촉진 재순환 발효소멸 생성 장치의 환경 기준치 미달에 따른 영향에 .....</td>
+                            </tr> 
+                            <tr>
+                              <td>2020.12.20</td>
+                              <td>(주)유미테크</td>
+                              <td class="left">화장지의 생물촉진 재순환 발효소멸 생성 장치의 환경 기준치 미달에 따른 영향에 .....</td>
+                            </tr>                 
+                           </tbody>
+                         </table> 
+                      </div>
+                      <div class="tab-content" id="result-content">
+                          <span class="more-box"><button class="btn-more">+ more</button></span>
+                          <table class="table-list-none">
+                              <caption>입찰결과</caption>
+                              <tbody>
+                                <tr>
+                                  <td style="width:80px">2020.12.20</td>
+                                  <td style="width:100px">(주)유미테크</td>
+                                  <td class="left">입찰결과에 대한 공고명을 기입한다.</td>
+                                </tr>  
+                                <tr>
+                                  <td>2020.12.20</td>
+                                  <td>(주)유미테크</td>
+                                  <td class="left">입찰결과에 대한 공고명을 기입한다.</td>
+                                </tr>
+                                <tr>
+                                  <td>2020.12.20</td>
+                                  <td>(주)유미테크</td>
+                                  <td class="left">입찰결과에 대한 공고명을 기입한다.</td>
+                                </tr>     
+                                  <tr>
+                                  <td>2020.12.20</td>
+                                  <td>(주)유미테크</td>
+                                  <td class="left">입찰결과에 대한 공고명을 기입한다.</td>
+                                </tr>                   
+                            </tbody>
+                         </table> 
+                      </div>          
+                  </div>
+                  <!-- dash-bid : s -->             
+       </div>
+       <!-- scm-main : e -->
+       <!-- dash-bottom : s -->
+       <div class="scm-card dash-left">
+          <div class="table-header">
+             <span class="table-title">EdgeGW 상태</span>
+             <div class="table-header-right">
+                <span>2021.06.21 현재</span>
+             </div>
+          </div>
+          <div class="dash-stat">
+             <img src="../images/img-dsahedgegw.png" alt="파이챠트">
+          </div>
+       </div>   
+       <div class="scm-card dash-right">
+           <a href="">
+             <div class="dash-banner">
+                <div class="b-img"><img src="../images/icon-guide.png" alt="입찰가이드"></div>
+                <div class="b-text">
+                    <p>입찰 가이드</p>
+                    입찰, 계약 및 전문가와의<br> 계약에 관한 길라잡이
+                </div>
+                <span class="more-box"><button class="btn-more">+ more</button></span>
+             </div>
+           </a>
+           <a href="">
+             <div class="dash-banner" style="border:0">
+                <div class="b-img"><img src="../images/icon-download.png" alt="프로그램 다운로드"></div>
+                <div class="b-text">
+                    <p>Viewer 프로그램</p>
+                    입찰, 계약에 필요한 관련 <br> 문서 프로그램 다운로드
+                </div>
+                <span class="more-box"><button class="btn-more">+ more</button></span>
+             </div>
+           </a>
+       </div>
+      <!-- dash-bottom : e -->       
+      
+    </div>
+   <!-- scm-section : e -->
+  </div>
+  <!-- scm-container : e -->
+</body>
+</html>

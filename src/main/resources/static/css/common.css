@@ -116,8 +116,7 @@ a.link {color:#3b78ce;}
 .hidden, legend, caption {line-height:1px; font-size:1px; position:absolute; left:-10000px; top:0; overflow:hidden; text-indent:-30000px;}
 
 /* table */
-.table-header {margin-bottom:0px}
-/* .table-header {margin-bottom:15px} */
+.table-header {margin-bottom:15px}
 .table-header.read {padding-bottom: 12px;border-bottom:1px solid #dadce0;margin-bottom:12px;}
 .table-header.member {padding-bottom: 12px;border-bottom:1px solid #dadce0;margin-bottom:12px;}
 .table-header.member .table-title {color: #1976d2 !important;padding-bottom: 12px;border-bottom:1px solid #dadce0;margin-bottom:12px;}
@@ -278,19 +277,3 @@ a.link {color:#3b78ce;}
 .pl_60 {padding-left:60px !important;}
 
 
-.dash-stat .dash-stat-divide{
-	display:inline-block;width:200px;
-	vertical-align: middle;
-}
-
-.dash-stat .dash-stat-span-1{
-	vertical-align: middle;
-	font-size: 15px;
-	margin-right: 5px;
-}
-.dash-stat .dash-stat-span-2{
-	vertical-align: middle;
-	font-size: 25px;
-    font-weight: 600;
-    color: #4283ff;
-}

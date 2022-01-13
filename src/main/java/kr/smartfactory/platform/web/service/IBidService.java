@@ -25,9 +25,14 @@
 */
 package kr.smartfactory.platform.web.service;
 
+import java.util.List;
+
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.bid.BidDTO;
-import kr.smartfactory.platform.web.dto.bid.BidInfoDTO;
+import kr.smartfactory.platform.web.dto.bid.BidNoticeFileDTO;
+import kr.smartfactory.platform.web.dto.bid.SampleFileDTO;
+import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
+import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
 import open.commons.Result;
 
 /**
@@ -48,7 +53,39 @@ public interface IBidService {
 	 * @author : Younghun Yu
 	 * @date : 2021.12.24
 	 */
-	public Boolean createBid(BidDTO bid);
+	public Boolean createBid(SampleFileDTO files, BidDTO bid);
+	
+	/**
+	 * @methodName : selectCompany
+	 * @description : 
+	 * @param id
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.01.09
+	 */
+	public Result<CompanyInfoDTO> selectCompany(String id);
+	
+	/**
+	 * @methodName : selectExpertList
+	 * @description : 
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.01.09
+	 */
+	public Result<List<String>> selectExpertList();
+	
+	/**
+	 * @methodName : selectExpertManager
+	 * @description : 
+	 * @param companyName
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.01.09
+	 */
+	public Result<UserInfoDTO> selectExpertManager(String companyName);
 	
 	/**
 	 * @methodName : selectBidList
@@ -66,12 +103,12 @@ public interface IBidService {
 	 * @return
 	 *
 	 * @author : Younghun Yu
-	 * @date : 2021.12.24
+	 * @date : 2022.01.09
 	 */
 	public Result<PaginationDTO<BidDTO>> selectBidList(
 			Integer id,
-			Integer bidStartDate,
-			Integer bidEndDate, 
+			Long bidStartDate,
+			Long bidEndDate, 
 			String bidName,
 			String manufacturerName, 
 			Integer status,
@@ -98,7 +135,7 @@ public interface IBidService {
 	 * @return
 	 *
 	 * @author : Younghun Yu
-	 * @date : 2021.12.24
+	 * @date : 2022.12.31
 	 */
-	public Boolean updateBid(BidInfoDTO bidInfo);
+	public Boolean updateBid(BidDTO bidInfo);
 }

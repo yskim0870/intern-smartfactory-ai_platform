@@ -1,7 +1,10 @@
 /**
  * 
  */
-package kr.smartfactory.platform.web.dao.model;
+package kr.smartfactory.platform.web.dao.entity;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 
@@ -63,6 +66,17 @@ public class Company {
 	 * 
 	 */
 	public Company() {
+	}
+
+	/**
+	 * @param rs
+	 */
+	public Company(ResultSet rs) {
+		try {
+			this.setName(rs.getString("company_info.name"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

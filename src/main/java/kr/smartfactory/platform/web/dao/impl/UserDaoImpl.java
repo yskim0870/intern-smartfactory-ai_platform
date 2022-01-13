@@ -25,22 +25,13 @@
 */
 package kr.smartfactory.platform.web.dao.impl;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
-
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import kr.smartfactory.platform.web.dao.IUserDao;
-import kr.smartfactory.platform.web.dao.model.Company;
-import kr.smartfactory.platform.web.dao.model.User;
+import kr.smartfactory.platform.web.dao.entity.Company;
+import kr.smartfactory.platform.web.dao.entity.User;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserDTO;
-import kr.smartfactory.platform.web.sql.user.Query;
 
 /**
  * @packageName : kr.smartfactory.platform.web.dao.impl
@@ -53,50 +44,20 @@ import kr.smartfactory.platform.web.sql.user.Query;
  * 2021.12.24  Younghun Yu  최초 생성
  */
 @Repository(UserDaoImpl.BEAN_QUALIFIER)
-public class UserDaoImpl extends DBGenericDaoImpl implements IUserDao {
+public class UserDaoImpl extends DBGenericDao implements IUserDao {
 
 	public static final String BEAN_QUALIFIER = "kr.smartfactory.platform.web.dao.impl.UserDaoImpl";
 
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	
-	@Autowired
-	DataSource dataSource;
-	
 	/**
 	 * @see kr.smartfactory.platform.web.dao.IUserDao#createUser(kr.smartfactory.platform.web.dto.common.UserDTO)
 	 */
 	@Override
 	public Integer createUser(UserDTO user) {
-
-		try {
-			Connection conn = dataSource.getConnection();
-			conn.setAutoCommit(false);
-			
-			try {
-				
-				jdbcTemplate.update(Query.INSERT_COMPANY_INFO_QUERY, user.getCompanyInfo().getBusinessNumber(), user.getCompanyInfo().getName(), user.getCompanyInfo().getAddress(), user.getCompanyInfo().getCondition(), 
-						user.getCompanyInfo().getIndustryType(), user.getCompanyInfo().getTelNumber(), user.getCompanyInfo().getFaxNumber(), user.getCompanyInfo().getSiteUrl(), user.getCompanyInfo().getCeoName());
-				
-				jdbcTemplate.update(Query.INSERT_USER_INFO_QUERY, user.getUserInfo().getId(), user.getUserInfo().getPassword(), user.getUserInfo().getStatus(), user.getCompanyInfo().getBusinessNumber(), 
-						user.getUserInfo().getName(), user.getUserInfo().getTelNumber(), user.getUserInfo().getEmail(), user.getUserInfo().getDepartment(), user.getUserInfo().getRank(), user.getUserInfo().getRegDate());
-			
-				conn.commit();
-				
-				return 1;
-			} catch(SQLException e) {
-				conn.rollback();
-				System.out.println("등록에 실패했습니다.\n" + e.getMessage());
-				return 0;
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return 0;
-		}
+		return null;
 	}	
 	
 	/**
-	 * @see kr.smartfactory.platform.web.dao.IUserDao#selectUser(kr.smartfactory.platform.web.dao.model.Company)
+	 * @see kr.smartfactory.platform.web.dao.IUserDao#selectUser(kr.smartfactory.platform.web.dao.entity.Company)
 	 */
 	@Override
 	public List<Company> selectUser(Company company) {
@@ -105,7 +66,7 @@ public class UserDaoImpl extends DBGenericDaoImpl implements IUserDao {
 	}
 
 	/**
-	 * @see kr.smartfactory.platform.web.dao.IUserDao#selectUserDetail(kr.smartfactory.platform.web.dao.model.User)
+	 * @see kr.smartfactory.platform.web.dao.IUserDao#selectUserDetail(kr.smartfactory.platform.web.dao.entity.User)
 	 */
 	@Override
 	public UserDTO selectUserDetail(String id) {
@@ -119,7 +80,7 @@ public class UserDaoImpl extends DBGenericDaoImpl implements IUserDao {
 	}
 
 	/**
-	 * @see kr.smartfactory.platform.web.dao.IUserDao#updateUser(kr.smartfactory.platform.web.dao.model.User)
+	 * @see kr.smartfactory.platform.web.dao.IUserDao#updateUser(kr.smartfactory.platform.web.dao.entity.User)
 	 */
 	@Override
 	public Integer updateUser(User user) {

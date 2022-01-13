@@ -19,7 +19,7 @@ import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserDTO;
 import kr.smartfactory.platform.web.dto.common.UserGradeDTO;
 import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
-import kr.smartfactory.platform.web.service.impl.UserServiceImpl;
+import kr.smartfactory.platform.web.service.impl.UserService;
 
 /**
  * @packageName : kr.smartfactory.platform.web.controller
@@ -36,7 +36,7 @@ import kr.smartfactory.platform.web.service.impl.UserServiceImpl;
 public class UserController {
 	
 	@Autowired
-	UserServiceImpl userService;
+	UserService userService;
 	
 	/**
 	 * @methodName : createUser

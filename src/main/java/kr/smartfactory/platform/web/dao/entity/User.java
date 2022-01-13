@@ -21,7 +21,7 @@
  * @require: 
  * @since: 2021. 8. 17. 오전 10:32:00
 */
-package kr.smartfactory.platform.web.dao.model;
+package kr.smartfactory.platform.web.dao.entity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,15 +78,9 @@ public class User {
 	 */
 	public User(ResultSet rs) {
 		try {
-			this.setUserID(rs.getString("id"));
-			this.setPassword(rs.getString("password"));
-			this.setGrade(rs.getInt("user_type"));
-			this.setName(rs.getString("name"));
-			this.setTelNumber(rs.getString("tel_number"));
-			this.setEmail(rs.getString("email"));
-			this.setDepartment(rs.getString("department"));
-			this.setRank(rs.getString("rank"));
-			this.setRegDate(rs.getLong("reg_date"));
+			this.setName(rs.getString("user_info.name"));
+			this.setTelNumber(rs.getString("user_info.tel_number"));
+			this.setEmail(rs.getString("user_info.email"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

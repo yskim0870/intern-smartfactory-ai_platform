@@ -27,8 +27,8 @@ package kr.smartfactory.platform.web.dao;
 
 import java.util.List;
 
-import kr.smartfactory.platform.web.dao.model.Company;
-import kr.smartfactory.platform.web.dao.model.User;
+import kr.smartfactory.platform.web.dao.entity.Company;
+import kr.smartfactory.platform.web.dao.entity.User;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserDTO;
 

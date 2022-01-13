@@ -27,3 +27,4 @@ spring:
     check-template-location: true
     mode: HTML
     cache: false
+  

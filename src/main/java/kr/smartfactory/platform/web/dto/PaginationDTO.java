@@ -3,6 +3,8 @@
  */
 package kr.smartfactory.platform.web.dto;
 
+import java.util.List;
+
 /**
  * @packageName : kr.smartfactory.platform.web.dto
  * @description : 
@@ -16,7 +18,7 @@ package kr.smartfactory.platform.web.dto;
 public class PaginationDTO<T> {
 
 	// array of DTO - 목록을 표시할 DTO
-	private T items[];
+	private List<T> items;
 	
 	// 전체 아이템 숫자
 	private int totalCount;
@@ -26,11 +28,22 @@ public class PaginationDTO<T> {
 	 */
 	public PaginationDTO() {
 	}
+	
+
+	/**
+	 * @param items
+	 * @param totalCount
+	 */
+	public PaginationDTO(List<T> items, int totalCount) {
+		this.items = items;
+		this.totalCount = totalCount;
+	}
+
 
 	/**
 	 * @return the items
 	 */
-	public T[] getItems() {
+	public List<T> getItems() {
 		return items;
 	}
 
@@ -42,10 +55,10 @@ public class PaginationDTO<T> {
 	}
 
 	/**
-	 * @param items the items to set
+	 * @param list the items to set
 	 */
-	public void setItems(T[] items) {
-		this.items = items;
+	public void setItems(List<T> list) {
+		this.items = list;
 	}
 
 	/**
@@ -54,4 +67,21 @@ public class PaginationDTO<T> {
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
 	}
+
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("PaginationDTO [items=");
+		builder.append(items);
+		builder.append(", totalCount=");
+		builder.append(totalCount);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
 }

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>제조 SCM 문제해결 AI 플랫폼</title>
+<title>입찰관리: 제조 SCM 문제해결 AI 플랫폼</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="title" content="제조 SCM 문제해결 AI 플랫폼" />
 <meta name="keywords" content="제조 SCM 문제해결 AI 플랫폼" />
 <meta name="description" content="API - Management" />
 <meta name="copyright" content="Copyright@2021 제조 SCM 문제해결 AI 플랫폼. All Rights Reserved." />
-<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" />
-<link rel="apple-touch-icon" href="/static/images/favicon.png" />
-<link rel="stylesheet" href="/static/css/common.css" media="all" />
-<link rel="stylesheet" href="/static/css/layout.css" media="all" />
+<link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico" />
+<link rel="apple-touch-icon" href="../images/favicon.png" />
+<link rel="stylesheet" href="../css/common.css" media="all" />
+<link rel="stylesheet" href="../css/layout.css" media="all" />
 <script>
  function microService(url, n, w, h, s) {
  var winl = (screen.width - w) / 2;
@@ -26,13 +26,13 @@
 <!-- scm-header :S -->
   <div id="scm-header">
      <div class="scm-header-logo">
-        <a href="#"><img src="/static/images/logo_leftmenu.png" alt="제조 SCM 문제해결 AI 플랫폼">제조 <span>SCM</span> 문제해결 <span>AI</span> 플랫폼</a>
+        <a href="#"><img src="../images/logo_leftmenu.png" alt="제조 SCM 문제해결 AI 플랫폼">제조 <span>SCM</span> 문제해결 <span>AI</span> 플랫폼</a>
      </div>
      <div class="scm-header-right">
         <ul>
-					<li><a href="mypage" title="마이페이지"><img src="/static/images/icon_set.png" alt="마이페이지"> <span>Mypage</span></a></li>
-					<li><a href="#" title="알람" class="alarm"><img src="/static/images/icon_alarm.png" alt="알람"></a></li>
-					<li><a href="login" title="로그아웃"><img src="/static/images/icon_logout.png" alt="logout"></a></li>
+					<li><a href="mypage.html" title="마이페이지"><img src="../images/icon_set.png" alt="마이페이지"> <span>Mypage</span></a></li>
+					<li><a href="#" title="알람" class="alarm"><img src="../images/icon_alarm.png" alt="알람"></a></li>
+					<li><a href="#" title="로그아웃"><img src="../images/icon_logout.png" alt="logout"></a></li>
 				</ul>
      </div>
   </div>    
@@ -44,19 +44,19 @@
     <!-- scm-leftMen : s -->
       <div id="scm-leftMenu">
          <ul>
-      	    <li><a href="dashboard" class="ico_board">대시보드</a></li>
-            <li class="on"><a href="bidView" class="ico_bid">입찰공고</a>
+      	    <li><a href="deshboard.html" class="ico_board">대시보드</a></li>
+            <li class="on"><a href="bidView.html" class="ico_bid">입찰공고</a>
               <ul>
-        				<li><a href="bidView">입찰조회</a></li>
-        				<li class="on"><a href="bidMana">입찰관리</a></li>
+        				<li><a href="bidView.html">입찰조회</a></li>
+        				<li class="on"><a href="bidMana.html">입찰관리</a></li>
       			  </ul>            
             </li>
-            <li><a href="manuMana" class="ico_fac">제조사관리</a></li>
-            <li><a href="itMana" class="ico_it">도메인IT 전문가관리</a></li>
-            <li><a href="dataMana" class="ico_data">데이터관리</a></li>
-            <li><a href="edgeGW" class="ico_gw">EdgeGW관리</a></li>
-            <li><a href="billingMana" class="ico_pay">과금관리</a></li>
-            <li><a href="alarmMana" class="ico_set">알람메시지관리</a></li>
+            <li><a href="manuMana.html" class="ico_fac">제조사관리</a></li>
+            <li><a href="itMana.html" class="ico_it">도메인IT 전문가관리</a></li>
+            <li><a href="dataMana.html" class="ico_data">데이터관리</a></li>
+            <li><a href="edgeGW.html" class="ico_gw">EdgeGW관리</a></li>
+            <li><a href="billingMana.html" class="ico_pay">과금관리</a></li>
+            <li><a href="alarmMana.html" class="ico_set">알람메시지관리</a></li>
       	</ul> 
     </div>
    <!-- scm-leftMen : e --> 
@@ -69,7 +69,7 @@
         <div class="main-header">
           <div class="title">입찰관리</div>
           <div class="right">
-               <a href="bidManaAddStep01"><button class="btn black big"><img src="/static/images/icon_bid_white.png" alt="입찰"><span>입찰공고</span></button></a>
+               <button class="btn black big"><img src="../images/icon_bid_white.png" alt="입찰"><span>입찰공고</span></button>
           </div>
         </div>       
           
@@ -85,7 +85,7 @@
               <th>공고일자</th>
               <td>            
                   <input name="date01" type="text" title="날짜선택" style="width: 90px;"> ~ <input name="date02" type="text" title="날짜선택" style="width: 90px;">
-                  <button class="btn white"><img src="/static/images/icon_calendar.png" alt="달력"></button>
+                  <button class="btn white"><img src="../images/icon_calendar.png" alt="달력"></button>
               </td>
               <td colspan="3"> 
                   <input type="radio" name="ck_month" id="month-1" class="dsi" checked=""><label for="month-1">최근 1개월</label>  
@@ -102,7 +102,7 @@
                   <input type="radio" name="bid-end" id="bid-02" class="dsi"><label for="bid-02">계약완료</label>               
               </td>
               <td>   
-                  <button class="btn blue"><img src="/static/images/icon_search.png" alt="검색"><span>검색</span></button>               
+                  <button class="btn blue"><img src="../images/icon_search.png" alt="검색"><span>검색</span></button>               
               </td>
             </tr>      
            </table> 
@@ -114,7 +114,7 @@
            <div class="table-header">
               <span class="table-title">입찰 공고 현황</span>
               <div class="table-header-right">
-                <span>전체 2건</span>
+                <span>전체 20건</span>
                   <select name="select" class="small">
                     <option selected>15개씩 보기</option>
                     <option>30개씩 보기 </option>
@@ -135,37 +135,36 @@
             </thead>
             <tbody>
               <tr>
-                <td>125468867</td>
-                <td class="al_left"><a href="bidManaDetail">티슈 패키징 머신의 생산량 파악을 위한 관리시스템 구축</a></td>
-                <td>2021.02.10</td>
-                <td><span class="span-none">계약완료</span></td>  
-<!--                 <td><span class="span-nomal">계약진행</span></td>   -->
+                 <td>125468871</td>
+                <td class="al_left"><a href="bidManaDetail.html">화장지의 생물촉진 재순환 발효소멸 생성 장치의..... </a></td>
+                <td>2021.06.21</td>
+                <td><span class="span-nomal">계약진행</span></td>  
                 <td>
-                   <!--button href="javascript:microService('pop_bid_contract','cnjopen',870,530,0)"  class="btn whiteblue small"><img src="/static/images/icon_confirm.png" alt="확인"><span>계약등록</span></button-->
-                   <a href="javascript:microService('pop_bid_contract','bid_contract',750,630,0)"  class="btn whiteblue small"><img src="/static/images/icon_confirm.png" alt="확인"><span>계약등록</span></a>
+                   <!--button href="javascript:microService('pop_bid_contract.html','cnjopen',870,530,0)"  class="btn whiteblue small"><img src="../images/icon_confirm.png" alt="확인"><span>계약등록</span></button-->
+                   <a href="javascript:microService('pop_bid_contract.html','bid_contract',750,630,0)"  class="btn whiteblue small"><img src="../images/icon_confirm.png" alt="확인"><span>계약등록</span></a>
                 </td>           
               </tr>   
               <tr>
-                 <td>125468866</td>
-                <td class="al_left"><a href="bidManaDetail">대형 롤 화장지 패키징 공정 안정화를 위한 시스템 자동화</a></td>
-                <td>2020.12.20</td>
+                 <td>125468871</td>
+                <td class="al_left"><a href="bidManaDetail.html">화장지의 생물촉진 재순환 발효소멸 생성 장치의..... </a></td>
+                <td>2021.06.21</td>
                 <td><span class="span-none">계약완료</span></td>  
-                <td> </td>           
+                <td></td>           
               </tr>                     
             </tbody>
            </table>             
         </div>
         
         <div class="paginate">
-    				<a class="dir" href="#link"><img src="/static/images/paginate_first.gif" alt="처음 페이지으로"></a>
-    				<a class="dir first" href="#link"><img src="/static/images/paginate_prev.gif" alt="이전 페이지로"></a>
+    				<a class="dir" href="#link"><img src="../images/paginate_first.gif" alt="처음 페이지으로"></a>
+    				<a class="dir first" href="#link"><img src="../images/paginate_prev.gif" alt="이전 페이지로"></a>
     				<strong>1</strong>
-    				<!-- <a href="#link">2</a>
+    				<a href="#link">2</a>
     				<a href="#link">3</a>
     				<a href="#link">4</a>
-    				<a href="#">5</a> -->
-    				<a class="dir last" href="#link"><img src="/static/images/paginate_next.gif" alt="다음 페이지로"></a>
-    				<a class="dir" href="#link"><img src="/static/images/paginate_last.gif" alt="끝 페이지로"></a> 
+    				<a href="#">5</a>
+    				<a class="dir last" href="#link"><img src="../images/paginate_next.gif" alt="다음 페이지로"></a>
+    				<a class="dir" href="#link"><img src="../images/paginate_last.gif" alt="끝 페이지로"></a> 
     		</div>
         <!-- Table-list : e -->   
              

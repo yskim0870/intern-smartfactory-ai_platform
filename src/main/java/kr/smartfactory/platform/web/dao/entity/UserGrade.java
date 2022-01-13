@@ -21,7 +21,7 @@
  * @require: 
  * @since: 2021. 8. 17. 오전 10:49:27
 */
-package kr.smartfactory.platform.web.dao.model;
+package kr.smartfactory.platform.web.dao.entity;
 
 import java.util.HashMap;
 

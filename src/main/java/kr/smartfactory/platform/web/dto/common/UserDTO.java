@@ -3,6 +3,7 @@
  */
 package kr.smartfactory.platform.web.dto.common;
 
+import kr.smartfactory.platform.web.dao.entity.User;
 
 /**
  * @packageName : kr.smartfactory.platform.web.dto
@@ -26,6 +27,15 @@ public class UserDTO {
 	 * Default Constructor
 	 */
 	public UserDTO() {
+	}
+
+	/**
+	 * @param data
+	 */
+	public UserDTO(User data) {
+		this.userInfo.setName(data.getName());
+		this.userInfo.setTelNumber(data.getTelNumber());
+		this.userInfo.setEmail(data.getEmail());
 	}
 
 	/**

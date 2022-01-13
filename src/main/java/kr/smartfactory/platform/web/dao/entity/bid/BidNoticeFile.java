@@ -1,8 +1,14 @@
 /**
  * 
  */
-package kr.smartfactory.platform.web.dao.model.bid;
+package kr.smartfactory.platform.web.dao.entity.bid;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import kr.smartfactory.platform.web.dto.bid.BidNoticeFileDTO;
 
 /**
  * @packageName : kr.smartfactory.platform.web.dao.model.bid
@@ -30,6 +36,36 @@ public class BidNoticeFile {
 	
 	// 파일위치
 	private String fileLocation;
+
+	/**
+	 * 
+	 */
+	public BidNoticeFile() {
+	}
+	
+	/**
+	 * @param file
+	 */
+	public BidNoticeFile(String uuid, String fileName) {
+		
+	}
+
+	/**
+	 * @param rs
+	 */
+	public BidNoticeFile(ResultSet rs) {
+		
+		try {
+			this.setBidID(rs.getInt("bid_notice_file.bid_id"));
+			this.setFileID(rs.getString("bid_notice_file.file_id"));
+			this.setFileType(rs.getInt("bid_notice_file.file_type"));
+			this.setFileName(rs.getString("bid_notice_file.file_name"));
+			this.setFileLocation(rs.getString("bid_notice_file.file_location"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	/**
 	 * @return the bidID

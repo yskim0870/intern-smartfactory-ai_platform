@@ -3,22 +3,37 @@
  */
 package kr.smartfactory.platform.web.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.multipart.MultipartFile;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.bid.BidDTO;
-import kr.smartfactory.platform.web.dto.bid.BidInfoDTO;
-import kr.smartfactory.platform.web.service.impl.BidServiceImpl;
+import kr.smartfactory.platform.web.dto.bid.BidNoticeFileDTO;
+import kr.smartfactory.platform.web.dto.bid.SampleFileDTO;
+import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
+import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
+import kr.smartfactory.platform.web.service.impl.BidService;
 import open.commons.Result;
 
 /**
@@ -26,17 +41,16 @@ import open.commons.Result;
  * @description : 입찰 조회에 대한 컨트롤러
  * @author : Younghun Yu
  * @date : 2021.12.23
- * ===========================================================
- *     DATE      AUTHOR      NOTE
- * -----------------------------------------------------------
- * 2021.12.23  Younghun Yu  최초 생성
+ *       =========================================================== DATE AUTHOR
+ *       NOTE -----------------------------------------------------------
+ *       2021.12.23 Younghun Yu 최초 생성
  */
 @Controller
-@RequestMapping(value="/bids")
+@RequestMapping(value = "/bids")
 public class BidController {
-	
+
 	@Autowired
-	private BidServiceImpl bidService;
+	private BidService bidService;
 
 	/**
 	 * @methodName : createBid
@@ -47,10 +61,62 @@ public class BidController {
 	 * @author : Younghun Yu
 	 * @date : 2021.12.23
 	 */
-	@PutMapping(value="")
-	public ResponseEntity<Boolean> createBid(@RequestBody BidDTO bid){
-		
-		return new ResponseEntity<>(bidService.createBid(bid), HttpStatus.OK);
+	@PostMapping(value = "")
+	public ResponseEntity<Boolean> createBid(HttpServletRequest req, HttpServletResponse res,//
+			BidNoticeFileDTO bidFiles
+			) {
+		return null;
+//		return ResponseEntity.ok(bidService.createBid(files, bid));
+	}
+	
+	/**
+	 * @methodName : selectCompanyName
+	 * @description : 회사 아이디로 이름 조회
+	 * @param id
+	 * @param request
+	 * @param response
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.01.09
+	 */
+	@GetMapping(value = "/company/{id}")
+	public ResponseEntity<Result<CompanyInfoDTO>> selectCompanyName(@PathVariable String id, HttpServletRequest request,
+			HttpServletResponse response){
+		return ResponseEntity.ok(bidService.selectCompany(id));
+	}
+	
+	/**
+	 * @methodName : selectExpertList
+	 * @description : 계약업체(전문업체) 조회
+	 * @param request
+	 * @param response
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.01.11
+	 */
+	@GetMapping(value = "/experts")
+	public ResponseEntity<Result<List<String>>> selectExpertList(HttpServletRequest request,
+			HttpServletResponse response){
+		return ResponseEntity.ok(bidService.selectExpertList());
+	}
+	
+	/**
+	 * @methodName : selectExpertManager
+	 * @description : 계약 등록 시 셀렉트 박스로 계약업체 클릭할 경우 해당 계약업체 정보 조회
+	 * @param companyName
+	 * @param request
+	 * @param response
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.01.09
+	 */
+	@GetMapping(value = "/contract/{companyName}")
+	ResponseEntity<Result<UserInfoDTO>> selectExpertManager(@PathVariable String companyName, HttpServletRequest request,
+			HttpServletResponse response){
+		return ResponseEntity.ok(bidService.selectExpertManager(companyName));
 	}
 	
 	/**
@@ -71,23 +137,22 @@ public class BidController {
 	 * @author : Younghun Yu
 	 * @date : 2021.12.23
 	 */
-	@GetMapping(value="")
-	public ResponseEntity<Result<PaginationDTO<BidDTO>>> selectBidList(
+	@GetMapping(value = "")
+	public ResponseEntity<Result<PaginationDTO<BidDTO>>> selectBidList(//
 			@RequestParam(required = false) Integer id//
-			,@RequestParam(required = false) Integer bidStartDate//
-			,@RequestParam(required = false) Integer bidEndDate//
-			,@RequestParam(required = false) String bidName//
-			,@RequestParam(required = false) String manufacturerName//
-			,@RequestParam(required = false) Integer status//
-			,@RequestParam int pageNum//
-			,@RequestParam int pageItemPerPage//
-			,@RequestParam(required = false) String orderby//
-			,@RequestParam(required = false) Boolean desc){
-		
-		return new ResponseEntity<>(bidService.selectBidList(
-				pageItemPerPage, bidStartDate, bidEndDate, bidName, manufacturerName, 
-				status, pageNum, pageItemPerPage, orderby, desc),
-				HttpStatus.OK);
+			, @RequestParam(required = false) Long bidStartDate//
+			, @RequestParam(required = false) Long bidEndDate//
+			, @RequestParam(required = false) String bidName//
+			, @RequestParam(required = false) String manufacturerName//
+			, @RequestParam(required = false) Integer status//
+			, @RequestParam Integer pageNum//
+			, @RequestParam Integer pageItemPerPage//
+			, @RequestParam(required = false) String orderby//
+			, @RequestParam(required = false) Boolean desc//
+			, HttpServletRequest request, HttpServletResponse response //
+	) {
+		return ResponseEntity.ok(bidService.selectBidList(id, bidStartDate, bidEndDate, bidName, manufacturerName,
+				status, pageNum, pageItemPerPage, orderby, desc));
 	}
 
 	/**
@@ -99,11 +164,11 @@ public class BidController {
 	 * @author : Younghun Yu
 	 * @date : 2021.12.23
 	 */
-	@GetMapping(value="/{id}")
-	public ResponseEntity<Result<BidDTO>> detailBid(@PathVariable Integer id){
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Result<BidDTO>> detailBid(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) {
 		return new ResponseEntity<>(bidService.detailBid(id), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * @methodName : updateBid
 	 * @description : 계약 등록(입찰공고문 수정)을 위한 메소드
@@ -113,8 +178,8 @@ public class BidController {
 	 * @author : Younghun Yu
 	 * @date : 2021.12.23
 	 */
-	@PatchMapping(value="/{id}")
-	public ResponseEntity<Boolean> updateBid(@RequestBody BidInfoDTO bidInfo){
+	@PatchMapping(value = "/{id}")
+	public ResponseEntity<Boolean> updateBid(@RequestBody BidDTO bidInfo, HttpServletRequest request, HttpServletResponse response) {
 		return new ResponseEntity<>(bidService.updateBid(bidInfo), HttpStatus.OK);
 	}
 }

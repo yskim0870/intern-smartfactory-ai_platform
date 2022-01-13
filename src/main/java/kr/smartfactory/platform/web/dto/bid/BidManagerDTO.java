@@ -19,7 +19,7 @@ import java.sql.SQLException;
 public class BidManagerDTO {
 	
 	// 공고 번호
-	private int bidID;
+	private Integer bidID;
 	
 	// 제조사 ID
 	private String managerID;
@@ -160,4 +160,29 @@ public class BidManagerDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("BidManagerDTO [bidID=");
+		builder.append(bidID);
+		builder.append(", managerID=");
+		builder.append(managerID);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", department=");
+		builder.append(department);
+		builder.append(", rank=");
+		builder.append(rank);
+		builder.append(", telNumber=");
+		builder.append(telNumber);
+		builder.append(", email=");
+		builder.append(email);
+		builder.append("]");
+		return builder.toString();
+	}
+	
 }
