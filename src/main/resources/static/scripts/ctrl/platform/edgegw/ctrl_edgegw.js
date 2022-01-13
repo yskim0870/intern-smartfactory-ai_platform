@@ -1,5 +1,6 @@
-platform.controller('EdgeController', function($log, $scope, $resource, $uibModal) {
+platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 
+	// Resource-------------------------------
 	let res = $resource(
 		"edge-gws/:val",
 		null,
@@ -27,38 +28,47 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 			}
 		}
 	);
+	// -------------------------------Resource
 
-	$scope.getEdges = function(managerId, startDate, endDate, itemCount, pageNum, pageItemPerPage, order, desc) {
+	// Scope -------------------------------
+	$scope.itemCount = 15;
+	$scope.startDate = 0;
+	$scope.endDate = 0;
+	$scope.name = "";
+	$scope.pageNum = 1;
+	$scope.pageItemPerPage = 1;
+	$scope.order = "id";
+	$scope.desc = false;
+	$scope.name = "";
+	// ------------------------------- Scope
+
+	// DB 기능 --------------------------------
+	$scope.getEdges = function() {
 		res.getEdges(
 			{
-				managerId: managerId,
-				startDate: dateToLong(startDate),
-				endDate: dateToLong(endDate),
-				itemCount: itemCount,
-				pageNum: pageNum,
-				pageItemPerPage: pageItemPerPage,
-				order: order,
-				desc: desc
+				managerId: $scope.name,
+				startDate: dateToLong($scope.startDate),
+				endDate: dateToLong($scope.endDate),
+				itemCount: $scope.itemCount,
+				pageNum: $scope.pageNum,
+				//pageItemPerPage: $scope.pageItemPerPage,
+				order: $scope.order,
+				desc: $scope.desc
 			}
 			, {}
-			, function(res) {
-				$scope.edgeGWs = res;
-			}
+			, function(res)
+			 {
+			$scope.edgeGWs = res;
+		}
 			, function() {
 
 			}
 		);
 	}
+	$scope.itemCount = 15;
 
-	$scope.reverseSort = false;
+	$scope.getEdges($scope.order, $scope.desc);
 
-	$scope.sortData = function() {
-		$scope.reverseSort = !$scope.reverseSort;
-	}
-
-
-	$scope.getEdges(null, 0, 0, 15, 1, 0);
-	$scope.desc = false;
 
 
 	$scope.getEdge = function(edgeInfo) {
@@ -72,7 +82,7 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 				$scope.clickHandler(edgeInfo);
 			}
 			, function() {
-
+				alert("select fail");
 			}
 		)
 	};
@@ -82,12 +92,20 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 			{ val: id }
 			, {}
 			, function() {
-				alert("삭제?");
+				$scope.getEdges(null, 0, 0, 15, 1, 0);
+				alert("삭제하였습니다.");
 			}
 			, function() {
 				alert("delete fail");
 			}
 		)
+	};
+	// -------------------------------- DB 기능 
+
+	$scope.deleteConfirm = function(id) {
+		if (confirm("정말로 삭제하시겠습니까?")) {
+			$scope.deleteEdge(id);
+		}
 	};
 
 	// recent month option
@@ -102,12 +120,21 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 			$scope.isChecked[2] = true;
 		}
 
-		$scope.option.startDate = recentMonth(num);
-		console.log($scope.startDate);
+		$scope.startDate = recentMonth(num);
 
-		$scope.option.endDate = new Date();
+		$scope.endDate = new Date();
 	};
 
+	// 데이터 정렬
+	$scope.reverseSort = false;
+	$scope.sortData = function(order) {
+		$scope.reverseSort = !$scope.reverseSort;
+		$scope.order = order;
+		$scope.desc = $scope.reverseSort
+		$scope.getEdges();
+	}
+
+	// 검색 날짜 선택
 	let recentMonth = function(num) {
 		let month = new Date();
 		month.setMonth(month.getMonth() - num);
@@ -115,6 +142,7 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 		return month;
 	};
 
+	// 검색 날짜 선택
 	$scope.dateChange = function() {
 		for (let check = 0; check < $scope.dateRadio.isChecked.length; check++) {
 			$scope.dateRadio.isChecked[check] = false;
@@ -125,7 +153,6 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 	function dateToLong(date) {
 		if (date != null) {
 			console.log(new Date(date).valueOf());
-
 			return new Date(date).valueOf();
 		}
 	};
@@ -146,8 +173,6 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 		edgeInfo.show = !edgeInfo.show;
 	};
 
-
-
 	//	pagination
 	$scope.pageNum = 1;
 	$scope.maxSize = 5;
@@ -157,8 +182,18 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 		$scope.pageNum = pageNum;
 	};
 
-	// Modal 
-	$scope.createModal = function(id, startDate, endDate, updateDate, port, host, status) {
+	// status
+	$scope.boolStatus = function(status) {
+		if (status == 0) {
+			return "N";
+		} else {
+			return "Y";
+		}
+	}
+
+
+	// -------------------------------- Modal 
+	$scope.createModal = function(id) {
 
 		let addInstance = $uibModal.open({
 			templateUrl: '/static/templates/platform/edgegw/modal_edgegw_add.html',
@@ -167,75 +202,40 @@ platform.controller('EdgeController', function($log, $scope, $resource, $uibModa
 			resolve: {
 				id: function() {
 					return id;
-				},
-				startDate: function() {
-					return startDate;
-				},
-				endDate: function() {
-					return endDate;
-				},
-				updateDate: function() {
-					return updateDate;
-				},
-				port: function() {
-					return port;
-				},
-				host: function() {
-					return host;
-				},
-				status: function() {
-					return status
 				}
 			}
-		})
+		});
 
 		addInstance.result.then(
 			function() {
+				$scope.getEdges($scope.itemCount, $scope.pageNum);
 				// 모달창 종료 close
 			}, function() {
-				// 여기가 dismiss
-			});
+			// 여기가 dismiss
+		});
 	};
 
-	$scope.updateModal = function(id, startDate, endDate, updateDate, port, host, status) {
+$scope.updateModal = function(id) {
 
-		let modifyInstance = $uibModal.open({
-			templateUrl: '/static/templates/platform/edgegw/modal_edgegw_modify.html',
-			controller: 'EdgeModalCtrl',
-			size: "md",
-			resolve: {
-				id: function() {
-					return id;
-				},
-				startDate: function() {
-					return new Date(startDate);
-				},
-				endDate: function() {
-					return new Date(endDate);
-				},
-				updateDate: function() {
-					return updateDate;
-				},
-				port: function() {
-					return port;
-				},
-				host: function() {
-					return host;
-				},
-				status: function() {
-					return status;
-				}
+	let modifyInstance = $uibModal.open({
+		templateUrl: '/static/templates/platform/edgegw/modal_edgegw_modify.html',
+		controller: 'EdgeModalCtrl',
+		size: "md",
+		resolve: {
+			id: function() {
+				return id;
 			}
-		})
+		}
+	})
 
-		modifyInstance.result.then(
-			function() {
-				// 모달 close
-			}, function() {
-				// 모달 dismiss
-			});
-	};
-
+	modifyInstance.result.then(
+		function() {
+			$scope.getEdges($scope.itemCount, $scope.pageNum);
+		}, function() {
+			// 모달 dismiss
+		});
+};
+	// --------------------------------ㅡ Modal
 });
 
 

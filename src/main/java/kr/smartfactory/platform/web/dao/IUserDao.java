@@ -25,6 +25,8 @@
 */
 package kr.smartfactory.platform.web.dao;
 
+import kr.smartfactory.platform.web.dto.UserDTO;
+
 /**
  *
  *
@@ -34,4 +36,16 @@ package kr.smartfactory.platform.web.dao;
  */
 public interface IUserDao {
 
+    /**
+     * 
+     * @param id
+     * @return :
+     *
+     * @since 2022. 1. 11. 오후 3:02:27
+     * @author "KyungHun Park"
+     * 
+     * @modified 2022. 1. 11. 오후 3:02:27 || Kyunghun Park || 최초 생성
+     *
+     */
+    public UserDTO detailUser(String businessNumber);
 }

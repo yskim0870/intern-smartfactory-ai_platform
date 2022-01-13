@@ -1,4 +1,4 @@
-package kr.smartfactory.platform.web.controller;
+package kr.smartfactory.platform.web.controller.edgegw;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

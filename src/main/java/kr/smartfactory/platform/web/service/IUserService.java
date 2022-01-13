@@ -25,6 +25,9 @@
 */
 package kr.smartfactory.platform.web.service;
 
+import kr.smartfactory.platform.web.dto.UserDTO;
+import open.commons.Result;
+
 /**
  *
  *
@@ -34,4 +37,15 @@ package kr.smartfactory.platform.web.service;
  */
 public interface IUserService {
 
+    /**
+     * 
+     * @return :
+     *
+     * @since 2022. 1. 11. 오후 2:33:52
+     * @author "KyungHun Park"
+     * 
+     * @modified 2022. 1. 11. 오후 2:33:52 || Kyunghun Park || 최초 생성
+     *
+     */
+    public Result<UserDTO> detailUser(String businessNumber);
 }

@@ -1,12 +1,6 @@
 <!-- 	ng-contoller 최상위에 있도록 제작 -->
 <div class="scm-main" ng-controller="EdgeController">
-	<div class="main-header">
-		<div class="right">
-			<button class="btn black big" ng-click="createModal()">
-				<img src="/static/images/icon_confirm_white.png" alt="신규 데이터 등록"><span>Edge 신규 등록</span>
-			</button>
-		</div>
-	</div>
+	<div class="main-header"></div>
 
 	<!-- Search : s -->
 	<div class="scm-card">
@@ -15,18 +9,22 @@
 			<tr>
 				<th style="width: 100px">업체명</th>
 				<td colspan="3">
-					<input name="name" type="text" title="업체명" ng-model="option.name" style="width: 150px;">
+					<input name="name" type="text" title="업체명" ng-model="name" style="width: 150px;">
+				</td>
+				<td>
+					<div class="right">
+						<button class="btn black big" ng-click="createModal()">
+							<img src="/static/images/icon_confirm_white.png" alt="신규 데이터 등록"><span>Edge 신규 등록</span>
+						</button>
+					</div>
 				</td>
 			</tr>
 			<tr>
 				<th>연동기간</th>
 				<td style="width: 400px">
-					<input name="date01" type="date" title="날짜선택" ng-model="option.startDate" style="width: 150px;" ng-change="dateChange">
+					<input name="date01" type="date" title="날짜선택" ng-model="startDate" style="width: 150px;" ng-change="dateChange">
 					~
-					<input name="date02" type="date" title="날짜선택" ng-model="option.endDate" style="width: 150px;" ng-change="dateChange">
-					<button class="btn white">
-						<img src="/static/images/icon_calendar.png" alt="달력" ui-date="">
-					</button>
+					<input name="date02" type="date" title="날짜선택" ng-model="endDate" style="width: 150px;" ng-change="dateChange">
 				</td>
 				<td>
 					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="isChecked[0]" ng-click="dateRadioClick(1)">
@@ -37,7 +35,7 @@
 					<label for="month-6">최근6개월</label>
 				</td>
 				<td>
-					<button class="btn blue" ng-click="getEdges(option.name, option.startDate, option.endDate, option.itemCount, pageNum, pageItemPerPage, order)">
+					<button class="btn blue" ng-click="getEdges(order)">
 						<img src="/static/images/icon_search.png" alt="검색"><span>검색</span>
 					</button>
 				</td>
@@ -51,9 +49,9 @@
 		<div class="table-header">
 			<span class="table-title">EdgeGateway 목록</span>
 			<div class="table-header-right">
-				<span>전체 {{edgeGWs.data.totalCount}}건</span> <select name="select" class="small" ng-model="option.itemCount"
+				<span>전체 {{edgeGWs.data.totalCount}}건</span> <select name="select" class="small" ng-model="itemCount"
 					ng-options="item.value as item.display for item in items"
-					ng-change="getEdges(option.name, option.startDate, option.endDate, option.itemCount, pageNum, pageItemPerPage)"
+					ng-change="getEdges()"
 				>
 				</select>
 			</div>
@@ -63,16 +61,15 @@
 			<caption>EdgeGateway 목록</caption>
 			<thead>
 				<tr>
-					<th ng-click="sortData(option.name, option.startDate, option.endDate, option.itemCount, pageNum, pageItemPerPage, 'id', desc)">
-					ID</th>
-					<th>제조사</th>
-					<th ng-model="order" ng-value="status">작동여부</th>
-					<th>최종 연동 일시</th>
-					<th ng-click="orderBy(column)">비고</th>
+					<th ng-click="sortData('id')">ID</th>
+					<th ng-click="sortData('manager_id')">제조사</th>
+					<th ng-click="sortData('status')">작동여부</th>
+					<th ng-click="sortData('update_date')">최종 연동 일시</th>
+					<th>비고</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat-start="edgeInfo in edgeGWs.data.items | orderBy:sortColumn:reverseSort" ng-click="getEdge(edgeInfo)">
+				<tr ng-repeat-start="edgeInfo in edgeGWs.data.items" ng-click="getEdge(edgeInfo)">
 					<td>
 						<span>{{edgeInfo.id}}</span>
 					</td>
@@ -80,16 +77,16 @@
 						<span>{{edgeInfo.managerId}}</span>
 					</td>
 					<td>
-						<span>{{edgeInfo.status}}</span>
+						<span>{{boolStatus(edgeInfo.status)}}</span>
 					</td>
 					<td>
-						<span>{{edgeInfo.updateDate}}</span>
+						<span>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</span>
 					</td>
 					<td>
-						<button class="btn white small" ng-click="updateModal(edgeInfo.id, edgeInfo.managerId, edgeInfo.startDate, edgeInfo.endDate)">
+						<button class="btn white small" ng-click="updateModal(edgeInfo.id)">
 							<img src="/static/images/icon_modify.png" alt="수정"><span>수정</span>
 						</button>
-						<button class="btn red small" ng-click="deleteEdge(edgeInfo.id)">
+						<button class="btn red small" ng-click="deleteConfirm(edgeInfo.id)">
 							<img src="/static/images/icon_del.png" alt="삭제"><span>삭제</span>
 						</button>
 					</td>
@@ -116,9 +113,9 @@
 									</tr>
 									<tr>
 										<td>작동 여부</td>
-										<td></td>
+										<td>{{boolStatus(edgeInfo.status)}}</td>
 										<td>최종연동일시</td>
-										<td>{{edgeInfo.updateDate | date: 'yyyy.MM.dd'}}</td>
+										<td>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</td>
 									</tr>
 									<tr>
 										<td>IP</td>

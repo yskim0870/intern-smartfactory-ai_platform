@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -52,6 +53,9 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
         } catch (EmptyResultDataAccessException e) {
             System.out.println("Target is empty");
             return 0;
+        } catch (DuplicateKeyException duple) {
+            System.out.println("이미 존재하는 ID입니다.");
+            return -1;
         }
     }
 
@@ -106,15 +110,12 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
 
         // 정렬 기준
         if (order != null) {
-            params.add("id");
-            sb.append(" order by ?");
+            sb.append(" order by ");
+            sb.append(order);
         } 
-
-
         // 내림차순 여부
         if (desc != false) {
-            params.add("desc");
-            sb.append("" + "?");
+            sb.append(" desc");
         } 
 
         // 총 데이터 건수를 위한 query
@@ -193,7 +194,7 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
 
         // TODO 예외처리 질문
         // 업데이트할 Edge Gateway ID, 변경할 기업 ID, 연동 시작 일자, 연동 종료 일자
-        return jdbcTemplate.update(Query.EDGE_UPDATE, edgeGW.getManagerId(), edgeGW.getStartDate(), edgeGW.getEndDate(), edgeGW.getId());
+        return jdbcTemplate.update(Query.EDGE_UPDATE, edgeGW.getManagerId(), edgeGW.getStartDate(), edgeGW.getEndDate(), edgeGW.getUpdateDate(), edgeGW.getId());
     }
 
     /**

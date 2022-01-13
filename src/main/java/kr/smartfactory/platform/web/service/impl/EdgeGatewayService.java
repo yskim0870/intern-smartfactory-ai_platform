@@ -42,7 +42,7 @@ public class EdgeGatewayService implements IEdgeGatewayService {
         // 결과, 메시지를 담을 객체
         Result<Boolean> result = new Result<>();
 
-        EdgeGateway edgeGW = new EdgeGateway(edgeGWDTO.getId(), edgeGWDTO.getManagerId(), edgeGWDTO.getStartDate(), edgeGWDTO.getEndDate());
+        EdgeGateway edgeGW = new EdgeGateway(edgeGWDTO.getId(), edgeGWDTO.getManagerId(), edgeGWDTO.getStartDate(), edgeGWDTO.getEndDate(), edgeGWDTO.getUpdateDate(), edgeGWDTO.getHost(), edgeGWDTO.getPort(), edgeGWDTO.getStatus());
 
         // POST 성공할 경우
         if (this.edgeGWDao.createEdgeGW(edgeGW) != 0) {
@@ -69,16 +69,16 @@ public class EdgeGatewayService implements IEdgeGatewayService {
         Result<PaginationDTO<EdgeGWDTO>> result = new Result<>();
 
         // EdgeGWDTO와 총 데이터 건수를 담은 객체
-        PaginationDTO<EdgeGWDTO> res = new PaginationDTO<>();
+        PaginationDTO<EdgeGWDTO> daoRes = new PaginationDTO<>();
 
         // SELECT 실행
-            res = edgeGWDao.selectEdgeGW(managerId, startDate, endDate, itemCount, pageNum, pageItemPerPage, order, desc);
+            daoRes = edgeGWDao.selectEdgeGW(managerId, startDate, endDate, itemCount, pageNum, pageItemPerPage, order, desc);
 
         // SELECT 결과가 null이 아닌 경우
-        if (res != null) {
+        if (daoRes != null) {
             result.setResult(true);
             result.setMessage("select success");
-            result.setData(res);
+            result.setData(daoRes);
 
             return result;
         } else { // SELECT 결과가 null인 경우
@@ -101,16 +101,16 @@ public class EdgeGatewayService implements IEdgeGatewayService {
 
         // EdgeGateway 정보(최종 연동 일자, 작동 여부, IP, Port) 및 제조사 정보(제조사 ID, 제조사명, 주소, 대표번호,
         // 대표자)를 담을 객체
-        EdgeGWDTO res = new EdgeGWDTO();
+        EdgeGWDTO daoRes = new EdgeGWDTO();
 
         // SELECT 실행
-        res = edgeGWDao.selectDetailEdgeGW(id);
+        daoRes = edgeGWDao.selectDetailEdgeGW(id);
 
         // SELECT 결과가 null이 아닌 경우
-        if (res != null) {
+        if (daoRes != null) {
             result.setResult(true);
             result.setMessage("detail success");
-            result.setData(res);
+            result.setData(daoRes);
 
             return result;
         } else { // SELECT 결과가 NULL일 경우
@@ -130,7 +130,7 @@ public class EdgeGatewayService implements IEdgeGatewayService {
     @Override
     public Result<Boolean> updateEdgeGW(String id, EdgeGWDTO edgeGWDTO) {
 
-        EdgeGateway edgeGW = new EdgeGateway(id, edgeGWDTO.getManagerId(), edgeGWDTO.getStartDate(), edgeGWDTO.getEndDate());
+        EdgeGateway edgeGW = new EdgeGateway(id, edgeGWDTO.getManagerId(), edgeGWDTO.getStartDate(), edgeGWDTO.getEndDate(), edgeGWDTO.getUpdateDate());
 
         // 결과, 메시지를 담을 객체
         Result<Boolean> result = new Result<>();

@@ -154,8 +154,8 @@ public class HomeController {
 
 				switch (userGrade.getGradeID()) {
 					case UserGrade.SUPER_ADMIN:
-					case UserGrade.ADMIN:
-					case UserGrade.USER:
+					case UserGrade.MANUFACTURER:
+					case UserGrade.EXPERT:
 						String userJSON = new ObjectMapper().writeValueAsString(authDetail.getUser());
 						JSONObject obj = new JSONObject(userJSON);
 						view.addObject(VO_AUTHENTICATION, obj);

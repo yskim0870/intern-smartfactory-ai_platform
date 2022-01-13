@@ -42,10 +42,10 @@ public class UserGrade {
 
 	/** 수퍼 관리자 */
 	public static final int SUPER_ADMIN = 0;
-	/** 관리자 */
-	public static final int ADMIN = 1;
-	/** 일반사용자 */
-	public static final int USER = 2;
+	/** 제조사 */
+	public static final int MANUFACTURER = 1;
+	/** 도메인 IT 전문가 */
+	public static final int EXPERT = 2;
 
 	private static final HashMap<Integer, String> USER_GRADES = new HashMap<>();
 
@@ -55,8 +55,8 @@ public class UserGrade {
 		USER_GRADES.put(INVALID_UNKNOWN_AND_ERROR, "ERROR");
 
 		USER_GRADES.put(SUPER_ADMIN, "ROLE_SUPER_ADMIN");
-		USER_GRADES.put(ADMIN, "ROLE_ADMIN");
-		USER_GRADES.put(USER, "ROLE_USER");
+		USER_GRADES.put(MANUFACTURER, "ROLE_ADMIN");
+		USER_GRADES.put(EXPERT, "ROLE_USER");
 	}
 
 	private Integer gradeID;
@@ -130,8 +130,8 @@ public class UserGrade {
 	public static boolean available(int grade) {
 		switch (grade) {
 			case UserGrade.SUPER_ADMIN:
-			case UserGrade.ADMIN:
-			case UserGrade.USER:
+			case UserGrade.MANUFACTURER:
+			case UserGrade.EXPERT:
 				return true;
 			default:
 				return false;
