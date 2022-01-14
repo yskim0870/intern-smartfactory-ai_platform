@@ -4,10 +4,13 @@
 package kr.smartfactory.platform.web.dto.bid;
 
 import java.sql.ResultSet;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.smartfactory.platform.web.dao.entity.bid.BidNoticeFile;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
 
@@ -22,6 +25,10 @@ import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
  * 2021.12.23  Younghun Yu  최초 생성
  */
 public class BidDTO {
+	
+	// 웹에서 파일정보를 제외한 나머지 정보를 JSON.stirngify()로 받아온 정보들 -> 문자열 정보이므로 다시 변환해준다.
+	private Map<String, String> sBidInfo;
+	private Map<String, String> sManager;
 
 	// 입찰공고 정보(계약자 포함)
 	private BidInfoDTO bidInfo;
@@ -31,6 +38,9 @@ public class BidDTO {
 	
 	// 샘플데이터파일 목록
 	private MultipartFile[] sampleFiles;
+	
+	// 입찰공고문 파일, 샘플데이터 파일들이 담긴 목록
+	private List<BidNoticeFile> fileList;
 	
 	// 입찰공고 담당자 정보
 	private BidManagerDTO manager;
@@ -46,6 +56,48 @@ public class BidDTO {
 	 */
 	public UserInfoDTO getContractor() {
 		return contractor;
+	}
+	
+	/**
+	 * @return the sBidInfo
+	 */
+	public Map<String, String> getsBidInfo() {
+		return sBidInfo;
+	}
+
+	/**
+	 * @param sBidInfo the sBidInfo to set
+	 */
+	public void setsBidInfo(Map<String, String> sBidInfo) {
+		this.sBidInfo = sBidInfo;
+	}
+
+	/**
+	 * @return the sManager
+	 */
+	public Map<String, String> getsManager() {
+		return sManager;
+	}
+
+	/**
+	 * @param sManager the sManager to set
+	 */
+	public void setsManager(Map<String, String> sManager) {
+		this.sManager = sManager;
+	}
+	
+	/**
+	 * @return the fileList
+	 */
+	public List<BidNoticeFile> getFileList() {
+		return fileList;
+	}
+
+	/**
+	 * @param fileList the fileList to set
+	 */
+	public void setFileList(List<BidNoticeFile> fileList) {
+		this.fileList = fileList;
 	}
 
 	/**
@@ -159,14 +211,17 @@ public class BidDTO {
 		StringBuilder builder = new StringBuilder();
 		builder.append("BidDTO [bidInfo=");
 		builder.append(bidInfo);
-		builder.append(", files=");
 		builder.append(", manager=");
 		builder.append(manager);
 		builder.append(", company=");
 		builder.append(company);
+		builder.append(", contractor=");
+		builder.append(contractor);
+		builder.append(", bidFiles=");
+		builder.append(Arrays.toString(bidFiles));
+		builder.append(", sampleFiles=");
+		builder.append(Arrays.toString(sampleFiles));
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
 }

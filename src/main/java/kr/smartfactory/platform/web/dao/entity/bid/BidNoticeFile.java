@@ -6,10 +6,6 @@ package kr.smartfactory.platform.web.dao.entity.bid;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import kr.smartfactory.platform.web.dto.bid.BidNoticeFileDTO;
-
 /**
  * @packageName : kr.smartfactory.platform.web.dao.model.bid
  * @description : 
@@ -46,8 +42,11 @@ public class BidNoticeFile {
 	/**
 	 * @param file
 	 */
-	public BidNoticeFile(String uuid, String fileName) {
-		
+	public BidNoticeFile(String uuid, String fileName, Integer type, String path) {
+		this.setFileID(uuid);
+		this.setFileName(fileName);
+		this.setFileType(type);
+		this.setFileLocation(path);
 	}
 
 	/**
@@ -136,4 +135,26 @@ public class BidNoticeFile {
 	public void setFileLocation(String fileLocation) {
 		this.fileLocation = fileLocation;
 	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("BidNoticeFile [bidID=");
+		builder.append(bidID);
+		builder.append(", fileID=");
+		builder.append(fileID);
+		builder.append(", fileType=");
+		builder.append(fileType);
+		builder.append(", fileName=");
+		builder.append(fileName);
+		builder.append(", fileLocation=");
+		builder.append(fileLocation);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
 }

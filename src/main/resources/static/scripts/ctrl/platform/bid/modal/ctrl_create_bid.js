@@ -16,7 +16,8 @@ platform.controller("CreateBidController", function($uibModalInstance, Upload, $
 			"telNumber": "",
 			"email": ""
 		},
-		"files": []
+		"bidFiles": [],
+		"sampleFiles": []
 	}
 
 	$scope.bidFiles = [];
@@ -52,55 +53,51 @@ platform.controller("CreateBidController", function($uibModalInstance, Upload, $
 	let dateToLong = function(date) {
 		return new Date(date).valueOf();
 	}
-	
-	
-	//
-	let bidFiles = [];
-	let sampleFiles = [];
-	//
+
+
 	$scope.uploadBidFile = function(file) {
-		bidFiles.push(file);
+		$scope.bid.bidFiles.push(file);
 	}
 	//
-	$scope.uploadSampleFile = function(file){
-		sampleFiles.push(file);
+	$scope.uploadSampleFile = function(file) {
+		$scope.bid.sampleFiles.push(file);
 	}
 
 	// ok button click
 	$scope.ok = function(bid) {
 
-		$scope.bid.bidInfo.status = getStatus();
+		bid.bidInfo.status = getStatus();
 
-		let bidData = angular.copy(bid);
-		bidData.bidInfo.bidStartDate = dateToLong(bidData.bidInfo.bidStartDate);
-		bidData.bidInfo.bidEndDate = dateToLong(bidData.bidInfo.bidEndDate);
-		bidData.bidInfo.prePrice = bid.bidInfo.prePrice;
-		bidData.manager.managerID = $rootScope.authentication.userID;
-		
+		let bidInfo = bid.bidInfo
+		bidInfo.bidStartDate = dateToLong(bid.bidInfo.bidStartDate);
+		bidInfo.bidEndDate = dateToLong(bid.bidInfo.bidEndDate);
+
+		let manager = bid.manager;
+		manager.managerID = $rootScope.authentication.userID
+
 		// 객체 복사 말고 그냥 하나 생성
-	//	let bidData = {
-	//		bidInfo: {				
-	//			bidStartDate: dateToLong(bidData.bidInfo.bidStartDate)
-	//		}
-	//	}
+		let bidData = {
+			sBidInfo: bidInfo,
+			sManager: manager,
+			bidFiles: bid.bidFiles,
+			sampleFiles: bid.sampleFiles
+		}
 
 		Upload.upload({
-            url: '/bids',
-            method: 'POST',
-            data: {
-				bidFiles: bidFiles,
-				sampleFiles: sampleFiles,
-				bid: JSON.stringify(bidData)
-			}
-        })
-        .then(function (resp) {
-            console.log('Success uploaded. Response: ' + resp.data);
-        }, function (resp) {
-            console.log('Error status: ' + resp.status);
-        }, function (evt) {
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log("");
-        });
+			url: '/bids',
+			method: 'POST',
+			data: bidData
+		})
+			.then(function(resp) {
+				console.log('Success uploaded. Response: ' + resp.data);
+			}, function(resp) {
+				console.log('Error status: ' + resp.status);
+			}, function(evt) {
+				var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+				console.log(progressPercentage);
+			});
+
+		$uibModalInstance.close();
 	};
 
 	// cancel button click

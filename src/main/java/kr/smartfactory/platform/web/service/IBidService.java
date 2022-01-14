@@ -27,6 +27,7 @@ package kr.smartfactory.platform.web.service;
 
 import java.util.List;
 
+import kr.smartfactory.platform.web.dao.entity.bid.BidNoticeFile;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.bid.BidDTO;
 import kr.smartfactory.platform.web.dto.bid.BidNoticeFileDTO;
@@ -53,7 +54,7 @@ public interface IBidService {
 	 * @author : Younghun Yu
 	 * @date : 2021.12.24
 	 */
-	public Boolean createBid(SampleFileDTO files, BidDTO bid);
+	public Boolean createBid(BidDTO bid);
 	
 	/**
 	 * @methodName : selectCompany
@@ -65,6 +66,17 @@ public interface IBidService {
 	 * @date : 2022.01.09
 	 */
 	public Result<CompanyInfoDTO> selectCompany(String id);
+	
+	/**
+	 * @methodName : selectFileList
+	 * @description : 
+	 * @param id
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.01.14
+	 */
+	public Result<List<BidNoticeFile>> selectFileList(Integer id);
 	
 	/**
 	 * @methodName : selectExpertList

@@ -1,36 +1,30 @@
-/**
- * 
- */
 package kr.smartfactory.platform.web.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Enumeration;
+import java.net.URLEncoder;
 import java.util.List;
-import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+
+import kr.smartfactory.platform.web.dao.entity.bid.BidNoticeFile;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.bid.BidDTO;
-import kr.smartfactory.platform.web.dto.bid.BidNoticeFileDTO;
-import kr.smartfactory.platform.web.dto.bid.SampleFileDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
 import kr.smartfactory.platform.web.service.impl.BidService;
@@ -62,13 +56,46 @@ public class BidController {
 	 * @date : 2021.12.23
 	 */
 	@PostMapping(value = "")
-	public ResponseEntity<Boolean> createBid(HttpServletRequest req, HttpServletResponse res,//
-			BidNoticeFileDTO bidFiles
-			) {
-		return null;
-//		return ResponseEntity.ok(bidService.createBid(files, bid));
+	public ResponseEntity<Boolean> createBid(HttpServletRequest req, HttpServletResponse res, //
+			@ModelAttribute BidDTO bid) {
+
+		return ResponseEntity.ok(bidService.createBid(bid));
 	}
-	
+
+	@GetMapping(value = "/download/{bidID}") // category=bid&id=''&file_id=
+	public void fileDownload(HttpServletRequest req, HttpServletResponse res, //
+			@PathVariable Integer bidID, //
+			@RequestParam String fileID) {
+
+		String path = "C:/Users/yyh77/Downloads/";
+		String fileName = "";
+
+		Result<List<BidNoticeFile>> fileList = bidService.selectFileList(bidID);
+		
+		if(fileList.getResult()) {
+			for(BidNoticeFile file : fileList.getData()) {
+				if(fileID.equalsIgnoreCase(file.getFileID())) {
+					fileName = file.getFileName();
+				}
+			}
+			path = String.join("", path, fileName);
+		}
+
+		try {
+			byte[] fileByte = FileUtils.readFileToByteArray(new File(path));
+
+			res.setContentType("application/octet-stream");
+			res.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(fileName, "UTF-8") + "\";");
+			res.setHeader("Content-Transfer-Encoding", "binary");
+			res.getOutputStream().write(fileByte);
+			res.getOutputStream().flush();
+			res.getOutputStream().close();
+		} catch (IOException e) {
+			System.out.printf("파일 다운로드 실패 : %s", e.getMessage());
+		}
+
+	}
+
 	/**
 	 * @methodName : selectCompanyName
 	 * @description : 회사 아이디로 이름 조회
@@ -82,10 +109,10 @@ public class BidController {
 	 */
 	@GetMapping(value = "/company/{id}")
 	public ResponseEntity<Result<CompanyInfoDTO>> selectCompanyName(@PathVariable String id, HttpServletRequest request,
-			HttpServletResponse response){
+			HttpServletResponse response) {
 		return ResponseEntity.ok(bidService.selectCompany(id));
 	}
-	
+
 	/**
 	 * @methodName : selectExpertList
 	 * @description : 계약업체(전문업체) 조회
@@ -98,10 +125,10 @@ public class BidController {
 	 */
 	@GetMapping(value = "/experts")
 	public ResponseEntity<Result<List<String>>> selectExpertList(HttpServletRequest request,
-			HttpServletResponse response){
+			HttpServletResponse response) {
 		return ResponseEntity.ok(bidService.selectExpertList());
 	}
-	
+
 	/**
 	 * @methodName : selectExpertManager
 	 * @description : 계약 등록 시 셀렉트 박스로 계약업체 클릭할 경우 해당 계약업체 정보 조회
@@ -114,11 +141,11 @@ public class BidController {
 	 * @date : 2022.01.09
 	 */
 	@GetMapping(value = "/contract/{companyName}")
-	ResponseEntity<Result<UserInfoDTO>> selectExpertManager(@PathVariable String companyName, HttpServletRequest request,
-			HttpServletResponse response){
+	ResponseEntity<Result<UserInfoDTO>> selectExpertManager(@PathVariable String companyName,
+			HttpServletRequest request, HttpServletResponse response) {
 		return ResponseEntity.ok(bidService.selectExpertManager(companyName));
 	}
-	
+
 	/**
 	 * @methodName : selectBidList
 	 * @description : 입찰 목록을 조회하기 위한 메소드
@@ -165,7 +192,8 @@ public class BidController {
 	 * @date : 2021.12.23
 	 */
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Result<BidDTO>> detailBid(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<Result<BidDTO>> detailBid(@PathVariable Integer id, HttpServletRequest request,
+			HttpServletResponse response) {
 		return new ResponseEntity<>(bidService.detailBid(id), HttpStatus.OK);
 	}
 
@@ -179,7 +207,8 @@ public class BidController {
 	 * @date : 2021.12.23
 	 */
 	@PatchMapping(value = "/{id}")
-	public ResponseEntity<Boolean> updateBid(@RequestBody BidDTO bidInfo, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<Boolean> updateBid(@RequestBody BidDTO bidInfo, HttpServletRequest request,
+			HttpServletResponse response) {
 		return new ResponseEntity<>(bidService.updateBid(bidInfo), HttpStatus.OK);
 	}
 }

@@ -7,10 +7,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-
 import kr.smartfactory.platform.web.dao.IBidDao;
 import kr.smartfactory.platform.web.dao.entity.Company;
 import kr.smartfactory.platform.web.dao.entity.User;
@@ -92,7 +90,6 @@ public class BidDao extends DBGenericDao implements IBidDao {
 	 */
 	@Override
 	public Result<Company> selectCompany(String id) {
-		System.out.println(id);
 		Result<Company> res = new Result<Company>();
 		try {
 			Company company = jdbcTemplate.queryForObject(BidQuery.SELECT_COMPANY_NAME_TO_USER_ID,
@@ -229,39 +226,40 @@ public class BidDao extends DBGenericDao implements IBidDao {
 
 		// 상세보기를 위한 Result 객체
 		Result<BidDTO> res = new Result<BidDTO>();
-//
-//		Connection conn = null;
-//		BidDTO bid = null;
-//
-//		try {
-//			conn = dataSource.getConnection();
-//			conn.setAutoCommit(false);
-//
-//			// 파일 정보를 제외한 나머지 데이터 조회
-//			bid = jdbcTemplate.queryForObject(BidQuery.SELECT_BID_DETAIL_QUERY, (rs, rowNum) -> new BidDTO(rs), id);
-//
-//			List<BidNoticeFile> selectFileResult = selectFileList(id);
-//			List<MultipartFile> resList = selectFileResult;
-//			
-//			// file 정보 조회
-//			bid.setFiles(resList);
-//
-//			conn.commit();
-//
-//		} catch (SQLException e) {
-//			try {
-//				conn.rollback();
-//			} catch (Exception exception) {
-//				exception.printStackTrace();
-//				System.out.println(exception.getMessage());
-//			}
-//		}
-//
-//		if (bid != null) {
-//			res.andTrue().setData(bid);
-//		} else {
-//			res.andFalse().setMessage("상세보기에 필요한 데이터를 불러오지 못했습니다.");
-//		}
+
+		Connection conn = null;
+		BidDTO bid = null;
+
+		try {
+			conn = dataSource.getConnection();
+			conn.setAutoCommit(false);
+
+			// 파일 정보를 제외한 나머지 데이터 조회
+			bid = jdbcTemplate.queryForObject(BidQuery.SELECT_BID_DETAIL_QUERY, (rs, rowNum) -> new BidDTO(rs), id);
+			
+			// file 정보 조회
+			List<BidNoticeFile> fileList = jdbcTemplate.query(BidQuery.SELECT_BID_FILE_QUERY, (rs, rowNum) -> new BidNoticeFile(rs), id);
+			
+			if(fileList != null) {
+				bid.setFileList(fileList);
+			}
+			
+			conn.commit();
+
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (Exception exception) {
+				exception.printStackTrace();
+				System.out.println(exception.getMessage());
+			}
+		}
+
+		if (bid != null) {
+			res.andTrue().setData(bid);
+		} else {
+			res.andFalse().setMessage("상세보기에 필요한 데이터를 불러오지 못했습니다.");
+		}
 		return res;
 	}
 

@@ -5,6 +5,7 @@ package kr.smartfactory.platform.web.dto.bid;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 /**
  * @packageName : kr.smartfactory.platform.web.dto.bid
@@ -61,6 +62,18 @@ public class BidManagerDTO {
 			System.out.printf("Error : %s", e.getMessage());
 		}
 		
+	}
+
+	/**
+	 * @param getsManager
+	 */
+	public BidManagerDTO(Map<String, String> manager) {
+		this.setManagerID(manager.get("managerID"));
+		this.setName(manager.get("name"));
+		this.setDepartment(manager.get("department"));
+		this.setRank(manager.get("rank"));
+		this.setTelNumber(manager.get("telNumber"));
+		this.setEmail(manager.get("email"));
 	}
 
 	/**

@@ -28,12 +28,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import kr.smartfactory.platform.web.dao.IBidDao;
 import kr.smartfactory.platform.web.dao.entity.Company;
 import kr.smartfactory.platform.web.dao.entity.User;
@@ -43,8 +41,8 @@ import kr.smartfactory.platform.web.dao.entity.bid.BidNoticeFile;
 import kr.smartfactory.platform.web.dao.impl.BidDao;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.bid.BidDTO;
-import kr.smartfactory.platform.web.dto.bid.BidNoticeFileDTO;
-import kr.smartfactory.platform.web.dto.bid.SampleFileDTO;
+import kr.smartfactory.platform.web.dto.bid.BidInfoDTO;
+import kr.smartfactory.platform.web.dto.bid.BidManagerDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
 import kr.smartfactory.platform.web.service.IBidService;
@@ -63,26 +61,50 @@ import open.commons.Result;
 public class BidService implements IBidService {
 
 	public final static String BEAN_QUALIFER = "kr.smartfactory.platform.web.service.impl.BidService";
-	
+
 	private IBidDao bidDao;
 
 	@Autowired
 	public BidService(@Qualifier(BidDao.BEAN_QUALIFER) IBidDao bidDao) {
 		this.bidDao = bidDao;
 	}
-	
+
+	/**
+	 * @methodName : uploadFile
+	 * @description :
+	 * @param file
+	 * @param upload
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.01.14
+	 */
+	public void uploadFile(List<BidNoticeFile> list, MultipartFile file, BidNoticeFile upload) {
+
+		File newFileName = new File(upload.getFileName());
+		try {
+			// 전달된 내용을 실제 물리적인 파일로 저장해준다.
+			file.transferTo(newFileName);
+		} catch (IllegalStateException | IOException e) {
+			System.out.printf("\n\nError : %s\n\n", e.getMessage());
+		}
+	}
+
 	/**
 	 * @see kr.smartfactory.platform.web.service.IBidService#createBid(kr.smartfactory.platform.web.dto.bid.BidDTO)
 	 */
 	@Override
-	public Boolean createBid(SampleFileDTO files, BidDTO bid) {
-		
+	public Boolean createBid(BidDTO bid) {
+
+		// 컨트롤러에서 받아온 데이터 설정
+		bid.setBidInfo(new BidInfoDTO(bid.getsBidInfo()));
+		bid.setManager(new BidManagerDTO(bid.getsManager()));
+		BidInfo bidInfo = new BidInfo(bid.getBidInfo());
+		BidManagerInfo managerInfo = new BidManagerInfo(bid.getManager());
+
+		// auto increment로 만들어진 공고번호 설정
 		Integer bidID = bidDao.selectAllCount() + 1;
 		bid.getBidInfo().setId(bidID);
 		bid.getManager().setBidID(bidID);
-		
-		BidInfo bidInfo = new BidInfo(bid.getBidInfo());
-		BidManagerInfo managerInfo = new BidManagerInfo(bid.getManager());
 
 		Result<Integer> createResult = bidDao.createBid(bidInfo, managerInfo);
 
@@ -90,31 +112,41 @@ public class BidService implements IBidService {
 		BidNoticeFile upload = null;
 		Integer uploadFileCount = 0;
 		List<BidNoticeFile> list = new ArrayList<>();
-//		for (MultipartFile file : files.getFiles()) {
-//	        if (!file.isEmpty()) {
-//	            // UUID를 이용해 unique한 파일 이름을 만들어준다.
-//	        	upload = new BidNoticeFile(UUID.randomUUID().toString(), file.getOriginalFilename());
-//	            list.add(upload);
-//
-//	            File newFileName = new File(upload.getFileID() + "_" + upload.getFileName());
-//	            // 전달된 내용을 실제 물리적인 파일로 저장해준다.
-//	            try {
-//					file.transferTo(newFileName);
-//				} catch (IllegalStateException | IOException e) {
-//					System.out.printf("\n\nError : %s\n\n", e.getMessage());
-//				}
-//	            
-//	            uploadFileCount = bidDao.uploadFile(bid.getBidInfo().getId(), upload);
-//	        }
-//	    }
-		
-		if (createResult.getResult()) {
+
+		String path = "C:\\Users\\yyh77\\Downloads";
+		// 입찰공고문 파일 업로드 및 데이터베이스에 정보 저장
+		if (bid.getBidFiles() != null) {
+			for (MultipartFile file : bid.getBidFiles()) {
+				if (!file.isEmpty()) {
+					// fileID: UUID, fileName: OriginalFileName
+					upload = new BidNoticeFile(UUID.randomUUID().toString(), file.getOriginalFilename(), 0, path);
+					list.add(upload);
+					uploadFile(list, file, upload);
+					uploadFileCount += bidDao.uploadFile(bid.getBidInfo().getId(), upload);
+				}
+			}
+		}
+
+		// 샘플데이터 파일 업로드 및 데이터베이스에 정보 저장
+		if (bid.getSampleFiles() != null) {
+			for (MultipartFile file : bid.getSampleFiles()) {
+				if (!file.isEmpty()) {
+					// fileID: UUID, fileName: OriginalFileName
+					upload = new BidNoticeFile(UUID.randomUUID().toString(), file.getOriginalFilename(), 1, path);
+					list.add(upload);
+					uploadFile(list, file, upload);
+					uploadFileCount += bidDao.uploadFile(bid.getBidInfo().getId(), upload);
+				}
+			}
+		}
+
+		if (createResult.getResult() && uploadFileCount == (bid.getBidFiles().length + bid.getSampleFiles().length)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * @see kr.smartfactory.platform.web.service.IBidService#selectCompanyName(java.lang.String)
 	 */
@@ -122,55 +154,53 @@ public class BidService implements IBidService {
 	public Result<CompanyInfoDTO> selectCompany(String id) {
 		Result<Company> company = bidDao.selectCompany(id);
 		Result<CompanyInfoDTO> companyInfo = new Result<CompanyInfoDTO>();
-		if(!company.getResult()) {
+		if (!company.getResult()) {
 			return companyInfo.andFalse().setMessage("회사명 조회 실패");
 		}
 		companyInfo = new Result<>(new CompanyInfoDTO(company));
-		
+
 		return companyInfo;
 	}
-	
+
 	/**
 	 * @see kr.smartfactory.platform.web.service.IBidService#selectExpertManager(java.lang.String)
 	 */
 	@Override
 	public Result<UserInfoDTO> selectExpertManager(String companyName) {
-		
+
 		Result<User> expertManager = bidDao.selectExpertManager(companyName);
 		Result<UserInfoDTO> res = new Result<UserInfoDTO>();
-		
-		if(expertManager.getResult()) {
+
+		if (expertManager.getResult()) {
 			res.andTrue().setData(new UserInfoDTO(expertManager.getData()));
-		}
-		else {
+		} else {
 			res.andFalse().setMessage(expertManager.getMessage());
 		}
-		
+
 		return res;
 	}
 
 	/**
 	 * @see kr.smartfactory.platform.web.service.IBidService#selectBidList(Integer,
-	 *      Integer, Integer, String,
-	 *      String, Integer, Integer, Integer, String,
+	 *      Integer, Integer, String, String, Integer, Integer, Integer, String,
 	 *      Boolean)
 	 */
 	@Override
-	public Result<PaginationDTO<BidDTO>> selectBidList(Integer id, Long bidStartDate, Long bidEndDate,
-			String bidName, String manufacturerName, Integer status, Integer pageNum,
-			Integer pageItemPerPage, String orderby, Boolean desc) {
-		
-		Result<List<BidDTO>> bidList = bidDao.selectBidList(id, bidStartDate, bidEndDate, bidName, manufacturerName, status, pageNum, pageItemPerPage, orderby, desc);
-		
+	public Result<PaginationDTO<BidDTO>> selectBidList(Integer id, Long bidStartDate, Long bidEndDate, String bidName,
+			String manufacturerName, Integer status, Integer pageNum, Integer pageItemPerPage, String orderby,
+			Boolean desc) {
+
+		Result<List<BidDTO>> bidList = bidDao.selectBidList(id, bidStartDate, bidEndDate, bidName, manufacturerName,
+				status, pageNum, pageItemPerPage, orderby, desc);
+
 		Result<PaginationDTO<BidDTO>> res = new Result<PaginationDTO<BidDTO>>();
 		Integer count = bidDao.selectAllCount();
-		
+
 		PaginationDTO<BidDTO> pagination = new PaginationDTO<BidDTO>(bidList.getData(), count);
-		
-		if(bidList.getResult()) {
+
+		if (bidList.getResult()) {
 			res.andTrue().setData(pagination);
-		}
-		else {
+		} else {
 			res.andFalse().setMessage(bidList.getMessage());
 		}
 		return res;
@@ -181,20 +211,19 @@ public class BidService implements IBidService {
 	 */
 	@Override
 	public Result<BidDTO> detailBid(Integer id) {
-		
+
 		Result<BidDTO> detailBid = bidDao.selectDetailBid(id);
 		Result<BidDTO> res = new Result<BidDTO>();
-		
-		if(detailBid.getResult()) {
+
+		if (detailBid.getResult()) {
 			res.setData(detailBid.getData());
 			res.setResult(true);
-			
+
 			return res;
-		}
-		else {
+		} else {
 			res.setMessage(detailBid.getMessage());
 			res.setResult(false);
-			
+
 			return res;
 		}
 	}
@@ -206,11 +235,10 @@ public class BidService implements IBidService {
 	public Boolean updateBid(BidDTO bidInfo) {
 
 		Result<Integer> updateResult = bidDao.updateBid(bidInfo);
-		
+
 		if (updateResult.getResult()) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -220,8 +248,28 @@ public class BidService implements IBidService {
 	 */
 	@Override
 	public Result<List<String>> selectExpertList() {
-		
+
 		Result<List<String>> res = bidDao.selectExpertList();
+
+		return res;
+	}
+
+	/**
+	 * @see kr.smartfactory.platform.web.service.IBidService#selectFileList(java.lang.Integer)
+	 */
+	@Override
+	public Result<List<BidNoticeFile>> selectFileList(Integer id) {
+		
+		List<BidNoticeFile> fileList = bidDao.selectFileList(id);
+		
+		Result<List<BidNoticeFile>> res = new Result<List<BidNoticeFile>>();
+		
+		if(fileList != null) {
+			res.andTrue().setData(fileList);
+		}
+		else {
+			res.andFalse().setMessage("파일 조회 실패!");
+		}
 		
 		return res;
 	}

@@ -7,7 +7,7 @@ platform.factory("Factory", function($resource) {
 			{
 				"createBidNotice": {
 					"method": "POST",
-					"headers": {enctype:'multipart/form-data'}
+					"headers": { enctype: 'multipart/form-data' }
 				},
 				"getBidList": {
 					"method": "GET",
@@ -105,6 +105,7 @@ platform.factory("Factory", function($resource) {
 				function(res) {
 					$scope.pagination.totalCount = res.data.totalCount;
 					$scope.items = res.data.items;
+					console.log($scope.items);
 					$scope.pagination.itemPerPage = Math.ceil($scope.pagination.totalCount / $scope.pagination.pageItemPerPage.value);
 
 					for (let i = 0; i < $scope.items.length; i++) {
@@ -113,17 +114,17 @@ platform.factory("Factory", function($resource) {
 						$scope.items[i].bidInfo.bidEndDate = longToDate($scope.items[i].bidInfo.bidEndDate);
 						$scope.items[i].detailStatus = false;
 						$scope.items[i].bidInfo.contractDate = //
-						$scope.items[i].bidInfo.contractDate ? longToDate($scope.items[i].bidInfo.contractDate) : null;
+							$scope.items[i].bidInfo.contractDate ? longToDate($scope.items[i].bidInfo.contractDate) : null;
 
 						// status 설정 - 계약일자의 유무를 판단하여 있을경우 상태를 계약완료로 바꿈
-						if($scope.items[i].bidInfo.contractDate){
+						if ($scope.items[i].bidInfo.contractDate) {
 							$scope.items[i].bidInfo.status = 2;
 						}
 						// status가 계약완료일 경우 계약등록을 더 누르지 못하도록 설정
-						if($scope.items[i].bidInfo.status == 2){
+						if ($scope.items[i].bidInfo.status == 2) {
 							$scope.items[i].bidInfo.isContracted = false;
 						}
-						else{
+						else {
 							$scope.items[i].bidInfo.isContracted = true;
 						}
 					}
@@ -144,7 +145,6 @@ platform.factory("Factory", function($resource) {
 					null,
 					function(res) {
 						$scope.bid = res.data;
-						console.log(res.data);
 						$scope.bid.bidInfo.bidStartDate = longToDate(res.data.bidInfo.bidStartDate);
 						$scope.bid.bidInfo.bidEndDate = longToDate(res.data.bidInfo.bidEndDate);
 						item.detailStatus = !item.detailStatus;

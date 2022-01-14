@@ -5,6 +5,8 @@ package kr.smartfactory.platform.web.dto.bid;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
+
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 
 /**
@@ -84,6 +86,18 @@ public class BidInfoDTO {
 		} catch (SQLException e) {
 			System.out.printf("Error : %s", e.getMessage());
 		}
+	}
+
+	/**
+	 * @param getsBidInfo
+	 */
+	public BidInfoDTO(Map<String, String> bidInfo) {
+		this.setBidName(bidInfo.get("bidName"));
+		this.setBidStartDate(Long.parseLong(bidInfo.get("bidStartDate")));
+		this.setBidEndDate(Long.parseLong(bidInfo.get("bidEndDate")));
+		this.setPrePrice(bidInfo.get("prePrice"));
+		this.setVatIncluded(Integer.parseInt(bidInfo.get("vatIncluded")));
+		this.setStatus(Integer.parseInt(bidInfo.get("status")));
 	}
 
 	/**

@@ -81,7 +81,7 @@
 				<!-- 목록 조회: s -->
 				<tr ng-repeat-start="item in items">
 					<td ng-click="selectDetail(item, item.bidInfo.id)">{{item.bidInfo.id}}</td>
-					<td class="al_left" ng-click="selectDetail(item, item.bidInfo.id)">{{item.bidInfo.bidName}}</td>
+					<td ng-click="selectDetail(item, item.bidInfo.id)" class="al_left">{{item.bidInfo.bidName}}</td>
 					<td ng-click="selectDetail(item, item.bidInfo.id)">{{item.bidInfo.contractDate}}</td>
 					<td ng-model="item.bidInfo.status" ng-click="selectDetail(item, item.bidInfo.id)">
 						<span style="width:65px" ng-if="item.bidInfo.status==0" class="span-nomal">대기중</span>
@@ -119,7 +119,7 @@
 								</tr>
 								<tr>
 									<th>공고일자</th>
-									<td>{{bid.bidInfo.bidStartDate}} ~ {{bid.bidInfo.bidEndDate}}</td>
+									<td>{{bid.bidInfo.bidStartDate | date : 'yyyy-MM-dd'}} ~ {{bid.bidInfo.bidEndDate}}</td>
 								</tr>
 								<tr>
 									<th>공고명</th>
@@ -131,13 +131,17 @@
 								</tr>
 
 								<!-- 파일 띄워야함 -->
-								<tr>
-									<th>입찰공고문</th>
-									<td>{{bid.files.fileName}}</td>
+								<tr ng-repeat="file in bid.fileList">
+									<th ng-if="file.fileType == 0">입찰공고문</th>
+									<td ng-if="file.fileType == 0">
+										<a href="{{'/bids/download/' + bid.bidInfo.id + '?fileID=' + file.fileID}}" id="bidFileDownload" download>{{file.fileName}}</a>
+									</td>
 								</tr>
-								<tr>
-									<th>샘플테이터</th>
-									<td>{{bid.files.fileName}}</td>
+								<tr ng-repeat="file in bid.fileList">
+									<th ng-if="file.fileType == 1">샘플테이터</th>
+									<td ng-if="file.fileType == 1">
+										<a href="{{'/bids/download/' + bid.bidInfo.id + '?fileID=' + file.fileID}}" id="sampleFileDownload" download>{{file.fileName}}</a>
+									</td>
 								</tr>
 
 							</table>
@@ -168,7 +172,7 @@
 							<!-- 계약완료건에 대한 상세보기 -->
 							<div class="table-header read mt_30" ng-if="bid.bidInfo.status==2">
 								<span class="table-title">입찰계약정보</span>
-							</div>
+							
 							<table class="table-read">
 								<caption>입찰계약정보</caption>
 								<tr>
@@ -188,7 +192,7 @@
 									<td>{{bid.bidInfo.contractPrice}}</td>
 								</tr>
 							</table>
-
+							</div>
 							<div class="table-text ">
 								※ 공고문의 내용은 위와 같습니다.
 							</div>

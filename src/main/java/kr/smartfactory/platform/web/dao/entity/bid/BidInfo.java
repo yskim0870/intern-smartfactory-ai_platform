@@ -57,7 +57,6 @@ public class BidInfo {
 	 * @param bidInfo
 	 */
 	public BidInfo(BidInfoDTO bidInfo) {
-		this.setId(bidInfo.getId());
 		this.setBidName(bidInfo.getBidName());
 		this.setBidStartDate(bidInfo.getBidStartDate());
 		this.setBidEndDate(bidInfo.getBidEndDate());
