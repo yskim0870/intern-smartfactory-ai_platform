@@ -50,7 +50,7 @@ public interface IEdgeGatewayDao {
      * @modified 2021. 12. 28. 오후 5:59:08 || Kyunghun Park || 최초 생성
      *
      */
-    public PaginationDTO<EdgeGWDTO> selectEdgeGW(String name, long startDate, long endDate, int itemCount, int pageNum, int pageItemPerPage, String order, boolean desc);
+    public PaginationDTO<EdgeGWDTO> selectEdgeGW(String name, long startDate, long endDate, int itemCount, int pageNum, String order, boolean desc);
 
     /**
      * EdgeGateway 상세보기

@@ -1,4 +1,3 @@
-<!-- 	ng-contoller 최상위에 있도록 제작 -->
 <div class="scm-main" ng-controller="EdgeController">
 	<div class="main-header"></div>
 
@@ -30,9 +29,9 @@
 					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="isChecked[0]" ng-click="dateRadioClick(1)">
 					<label for="month-1">최근 1개월</label>
 					<input type="radio" name="ck_month" id="month-3" class="dsi" ng-checked="isChecked[1]" ng-click="dateRadioClick(3)">
-					<label for="month-3">최근3개월</label>
+					<label for="month-3">최근 3개월</label>
 					<input type="radio" name="ck_month" id="month-6" class="dsi" ng-checked="isChecked[2]" ng-click="dateRadioClick(6)">
-					<label for="month-6">최근6개월</label>
+					<label for="month-6">최근 6개월</label>
 				</td>
 				<td>
 					<button class="btn blue" ng-click="getEdges(order)">
@@ -157,8 +156,8 @@
 	</div>
 	<div class="paginate">
 		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
-			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="option.itemCount"
-			ng-change="getEdges(option.name, option.startDate, option.endDate, option.itemCount, pageNum, pageItemPerPage)"
+			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount"
+			ng-change="getEdges()"
 		></ul>
 		<!-- Table-list : e -->
 	</div>

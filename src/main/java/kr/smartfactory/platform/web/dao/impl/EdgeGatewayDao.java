@@ -64,7 +64,7 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
      *      long, long, int, int, int, java.lang.String, boolean)
      */
     @Override
-    public PaginationDTO<EdgeGWDTO> selectEdgeGW(String managerId, long startDate, long endDate, int itemCount, int pageNum, int pageItemPerPage, String order, boolean desc) {
+    public PaginationDTO<EdgeGWDTO> selectEdgeGW(String managerId, long startDate, long endDate, int itemCount, int pageNum, String order, boolean desc) {
 
         // 조회 결과 list와 총 데이터 건수를 담을 객체
         PaginationDTO<EdgeGWDTO> res = new PaginationDTO<>();
@@ -100,12 +100,6 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
             params.add(startDate);
             params.add(endDate);
             sb.append("AND ? <= end_date AND ? >= start_date ");
-        }
-
-        // 페이지 범위
-        if (pageItemPerPage != 0) {
-            params.add("%" + pageItemPerPage + "%");
-            sb.append("AND page_item_per_page LIKE ?");
         }
 
         // 정렬 기준

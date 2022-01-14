@@ -63,7 +63,7 @@ public class EdgeGatewayService implements IEdgeGatewayService {
      *      long, long, int, int, int, String, boolean)
      */
     @Override
-    public Result<PaginationDTO<EdgeGWDTO>> selectEdgeGW(String managerId, long startDate, long endDate, int itemCount, int pageNum, int pageItemPerPage, String order, boolean desc) {
+    public Result<PaginationDTO<EdgeGWDTO>> selectEdgeGW(String managerId, long startDate, long endDate, int itemCount, int pageNum, String order, boolean desc) {
 
         // 결과, 메시지, 데이터를 담을 객체
         Result<PaginationDTO<EdgeGWDTO>> result = new Result<>();
@@ -72,7 +72,7 @@ public class EdgeGatewayService implements IEdgeGatewayService {
         PaginationDTO<EdgeGWDTO> daoRes = new PaginationDTO<>();
 
         // SELECT 실행
-            daoRes = edgeGWDao.selectEdgeGW(managerId, startDate, endDate, itemCount, pageNum, pageItemPerPage, order, desc);
+            daoRes = edgeGWDao.selectEdgeGW(managerId, startDate, endDate, itemCount, pageNum, order, desc);
 
         // SELECT 결과가 null이 아닌 경우
         if (daoRes != null) {

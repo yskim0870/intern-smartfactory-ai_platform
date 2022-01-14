@@ -64,8 +64,10 @@ public class UserDao extends DBGenericDao implements IUserDao {
         CompanyInfoDTO company = new CompanyInfoDTO();
         UserInfoDTO userInfo = new UserInfoDTO();
 
+        // 사업자 번호인지 확인
         String pattern = "^\\d{3}-\\d{2}-\\d{5}$";
 
+        // 사업자 번호인 경우
         if (Pattern.matches(pattern, businessNumber) == true) {
 
             company = jdbcTemplate.queryForObject(Query.COMPANY_SELECT_DETAIL_BUSNIESS, BeanPropertyRowMapper.newInstance(CompanyInfoDTO.class), businessNumber);
@@ -73,10 +75,11 @@ public class UserDao extends DBGenericDao implements IUserDao {
             userInfo = jdbcTemplate.queryForObject(Query.USER_SELECT_DETAIL_BUSNIESS, BeanPropertyRowMapper.newInstance(UserInfoDTO.class), businessNumber);
 
             return new UserDTO(company, userInfo);
-        } else {
+        }
+        // ID인 경우
+        else {
             userInfo = jdbcTemplate.queryForObject(Query.USER_SELECT_DETAIL_ID, BeanPropertyRowMapper.newInstance(UserInfoDTO.class), businessNumber);
             company = jdbcTemplate.queryForObject(Query.COMPANY_SELECT_DETAIL_BUSNIESS, BeanPropertyRowMapper.newInstance(CompanyInfoDTO.class), userInfo.getBusinessNumber());
-
 
             return new UserDTO(company, userInfo);
         }

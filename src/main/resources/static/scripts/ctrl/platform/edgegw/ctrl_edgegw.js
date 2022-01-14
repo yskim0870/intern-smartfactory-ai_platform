@@ -1,6 +1,6 @@
 platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 
-	// Resource-------------------------------
+	// Resource ----------------------------------------------------------------
 	let res = $resource(
 		"edge-gws/:val",
 		null,
@@ -28,21 +28,29 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 			}
 		}
 	);
-	// -------------------------------Resource
+	// ---------------------------------------------------------------- Resource
 
-	// Scope -------------------------------
-	$scope.itemCount = 15;
+
+	// Scope ----------------------------------------------------------------
+	$scope.name = "";
+	$scope.order = "id";
 	$scope.startDate = 0;
 	$scope.endDate = 0;
-	$scope.name = "";
 	$scope.pageNum = 1;
 	$scope.pageItemPerPage = 1;
-	$scope.order = "id";
+	$scope.itemCount = 15;
+	$scope.pageNum = 1;
+	$scope.maxSize = 5;
+	$scope.bigTotalItems = 175;
+	$scope.bigCurrentPage = 1;
 	$scope.desc = false;
-	$scope.name = "";
-	// ------------------------------- Scope
+	$scope.isChecked = false;
+	$scope.reverseSort = false;
 
-	// DB 기능 --------------------------------
+	// ---------------------------------------------------------------- Scope
+
+
+	// DB 기능 ----------------------------------------------------------------
 	$scope.getEdges = function() {
 		res.getEdges(
 			{
@@ -51,22 +59,19 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 				endDate: dateToLong($scope.endDate),
 				itemCount: $scope.itemCount,
 				pageNum: $scope.pageNum,
-				//pageItemPerPage: $scope.pageItemPerPage,
+				pageItemPerPage: $scope.pageItemPerPage,
 				order: $scope.order,
 				desc: $scope.desc
 			}
 			, {}
-			, function(res)
-			 {
-			$scope.edgeGWs = res;
-		}
+			, function(res) {
+				$scope.edgeGWs = res;
+			}
 			, function() {
 
 			}
 		);
 	}
-	$scope.itemCount = 15;
-
 	$scope.getEdges($scope.order, $scope.desc);
 
 
@@ -100,17 +105,9 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 			}
 		)
 	};
-	// -------------------------------- DB 기능 
+	// ---------------------------------------------------------------- DB 기능 
 
-	$scope.deleteConfirm = function(id) {
-		if (confirm("정말로 삭제하시겠습니까?")) {
-			$scope.deleteEdge(id);
-		}
-	};
-
-	// recent month option
-	$scope.isChecked = false;
-
+	// Recent Date ----------------------------------------------------------------
 	$scope.dateRadioClick = function(num) {
 		if (num == 1) {
 			$scope.isChecked[0] = true;
@@ -126,7 +123,6 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 	};
 
 	// 데이터 정렬
-	$scope.reverseSort = false;
 	$scope.sortData = function(order) {
 		$scope.reverseSort = !$scope.reverseSort;
 		$scope.order = order;
@@ -134,7 +130,7 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 		$scope.getEdges();
 	}
 
-	// 검색 날짜 선택
+	// 현재 개월 수 - 최근 개월
 	let recentMonth = function(num) {
 		let month = new Date();
 		month.setMonth(month.getMonth() - num);
@@ -142,13 +138,16 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 		return month;
 	};
 
-	// 검색 날짜 선택
+	// 날짜 변경
 	$scope.dateChange = function() {
 		for (let check = 0; check < $scope.dateRadio.isChecked.length; check++) {
 			$scope.dateRadio.isChecked[check] = false;
 		}
 	};
+	// ---------------------------------------------------------------- Recent Date
 
+
+	// Method ----------------------------------------------------------------
 	// Date To UnixTimestamp
 	function dateToLong(date) {
 		if (date != null) {
@@ -163,26 +162,17 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 		{ value: 30, display: "30개 보기" },
 	];
 
-	// 데이터 건수 default 값
-	$scope.option = {
-		itemCount: $scope.items[0].value
-	};
-
-	// 상세 보기
+	// 상세 보기 접기 / 펼치기
 	$scope.clickHandler = function(edgeInfo) {
 		edgeInfo.show = !edgeInfo.show;
 	};
 
 	//	pagination
-	$scope.pageNum = 1;
-	$scope.maxSize = 5;
-	$scope.bigTotalItems = 175;
-	$scope.bigCurrentPage = 1;
 	$scope.setPage = function(pageNum) {
 		$scope.pageNum = pageNum;
 	};
 
-	// status
+	// 작동 상태
 	$scope.boolStatus = function(status) {
 		if (status == 0) {
 			return "N";
@@ -191,8 +181,16 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 		}
 	}
 
+	// 삭제 확인
+	$scope.deleteConfirm = function(id) {
+		if (confirm("정말로 삭제하시겠습니까?")) {
+			$scope.deleteEdge(id);
+		}
+	};
+	// ---------------------------------------------------------------- Method
 
-	// -------------------------------- Modal 
+
+	// Modal ----------------------------------------------------------------
 	$scope.createModal = function(id) {
 
 		let addInstance = $uibModal.open({
@@ -211,31 +209,31 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 				$scope.getEdges($scope.itemCount, $scope.pageNum);
 				// 모달창 종료 close
 			}, function() {
-			// 여기가 dismiss
-		});
+				// 여기가 dismiss
+			});
 	};
 
-$scope.updateModal = function(id) {
+	$scope.updateModal = function(id) {
 
-	let modifyInstance = $uibModal.open({
-		templateUrl: '/static/templates/platform/edgegw/modal_edgegw_modify.html',
-		controller: 'EdgeModalCtrl',
-		size: "md",
-		resolve: {
-			id: function() {
-				return id;
+		let modifyInstance = $uibModal.open({
+			templateUrl: '/static/templates/platform/edgegw/modal_edgegw_modify.html',
+			controller: 'EdgeModalCtrl',
+			size: "md",
+			resolve: {
+				id: function() {
+					return id;
+				}
 			}
-		}
-	})
+		})
 
-	modifyInstance.result.then(
-		function() {
-			$scope.getEdges($scope.itemCount, $scope.pageNum);
-		}, function() {
-			// 모달 dismiss
-		});
-};
-	// --------------------------------ㅡ Modal
+		modifyInstance.result.then(
+			function() {
+				$scope.getEdges($scope.itemCount, $scope.pageNum);
+			}, function() {
+				// 모달 dismiss
+			});
+	};
+	// ---------------------------------------------------------------- Modal
 });
 
 

@@ -88,7 +88,7 @@ public class EdgeGatewayController {
             , @RequestParam(value = "pageItemPerPage", defaultValue = "0", required = false) int pageItemPerPage//
             , @RequestParam(value = "order", required = false) String order//
             , @RequestParam(value = "desc", required = false) boolean desc) {
-        return new ResponseEntity<>(edgeGWService.selectEdgeGW(managerId, startDate, endDate, itemCount, pageNum, pageItemPerPage, order, desc), HttpStatus.OK);
+        return new ResponseEntity<>(edgeGWService.selectEdgeGW(managerId, startDate, endDate, itemCount, pageNum, order, desc), HttpStatus.OK);
     }
 
     /**

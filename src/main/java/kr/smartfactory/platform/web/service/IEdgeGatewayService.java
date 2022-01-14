@@ -48,7 +48,7 @@ public interface IEdgeGatewayService {
      * @modified 2021. 12. 24. 오후 1:15:02 || Kyunghun Park || 최초 생성
      *
      */
-    public Result<PaginationDTO<EdgeGWDTO>> selectEdgeGW(String managerId, long startDate, long endDate, int itemCount, int pageNum, int pageItemPerPage, String order, boolean desc);
+    public Result<PaginationDTO<EdgeGWDTO>> selectEdgeGW(String managerId, long startDate, long endDate, int itemCount, int pageNum, String order, boolean desc);
 
     /**
      * 

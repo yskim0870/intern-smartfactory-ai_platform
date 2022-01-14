@@ -1,1 +1,147 @@
-tpl_content_billing_mgmt.html
+<div class="scm-main" ng-controller="BillingController">
+	<div class="main-header">
+		<div class="right">
+			<a href="billingManaAnalysisAdd">
+				<button class="btn black big">
+					<img src="/static/images/icon_confirm_white.png" alt="분석환경 신청"><span>분석환경 신청</span>
+				</button>
+			</a>
+		</div>
+	</div>
+
+	<!-- Search : s -->
+	<div class="scm-card">
+		<table class="table-search">
+			<caption>과금관리 조회</caption>
+			<tr>
+				<th>과금기간</th>
+				<td style="width: 400px">
+					<input name="date01" type="date" title="날짜선택" style="width: 150px;" ng-model="startDate" ng-change="dateChange">
+					~
+					<input name="date02" type="date" title="날짜선택" style="width: 150px;" ng-model="endDate" ng-change="dateChange">
+				</td>
+				<td colspan="3">
+					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="isChecked[0]" ng-click="dateRadioClick(1)">
+					<label for="month-1">최근 1개월</label>
+					<input type="radio" name="ck_month" id="month-3" class="dsi" ng-checked="isChecked[1]" ng-click="dateRadioClick(3)">
+					<label for="month-3">최근 3개월</label>
+					<input type="radio" name="ck_month" id="month-6" class="dsi" ng-checked="isChecked[2]" ng-click="dateRadioClick(6)">
+					<label for="month-6">최근 6개월</label>
+				</td>
+			</tr>
+			<tr>
+				<th style="width: 100px">사용자 분류</th>
+				<td>
+					<select name="select" ng-model="companyClass" ng-options="item.value as item.display for item in companyClassItems">
+						<option value="">전체</option>
+					</select>
+				</td>
+				<th style="width: 100px">분석환경등급</th>
+				<td colspan="2">
+					<select name="select" ng-model="envGrade" ng-options="item.value for item in envGradeItems">
+						<option value="">전체</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th style="width: 100px">납부상태</th>
+				<td>
+					<select name="select" ng-model="payStatus" ng-options="item.value as item.display for item in payStatusItems">
+						<option value="">전체</option>
+					</select>
+				</td>
+				<th style="width: 100px">승인여부</th>
+				<td>
+					<select name="select" ng-model="approvalStatus" ng-options="item.value as item.display for item in approvalStatusItems">
+						<option value="">전체</option>
+					</select>
+				</td>
+				<td>
+					<button class="btn blue">
+						<img src="/static/images/icon_search.png" alt="검색"><span>검색</span>
+					</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!-- Search : e -->
+
+	<!-- Table-list : s -->
+	<div class="scm-card">
+		<div class="table-header">
+			<span class="table-title">과금 목록</span>
+			<div class="table-header-right">
+				<span>전체 2건</span> <select name="select" class="small" ng-model="itemCount" ng-options="item.value as item.display for item in items">
+
+				</select>
+			</div>
+		</div>
+
+		<table class="table-list">
+			<caption>과금 목록</caption>
+			<thead>
+				<tr>
+					<th>과금일자</th>
+					<th>사용자 분류</th>
+					<th>담당자</th>
+					<th>과금</th>
+					<th>분석환경 등급</th>
+					<th>상태</th>
+					<th>승인여부</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>2021-03-31 14:00:03</td>
+					<td>
+						<a href="billingManaDetail">제조사</a>
+					</td>
+					<td>(주)유미테크</td>
+					<td>월 20,000</td>
+					<td>Standard</td>
+					<td>상태</td>
+					<td>
+						<span class="span-none-text"><img src="/static/images/icon_ok.png" alt="승인완료"><span>승인완료</span></span>
+					</td>
+				</tr>
+				<tr>
+					<td>2021-03-31 14:00:03</td>
+					<td>
+						<a href="billingManaDetail">도메인 IT 전문가</a>
+					</td>
+					<td>홍길동</td>
+					<td>월 20,000</td>
+					<td>Standard</td>
+					<td>상태</td>
+					<td>
+						<button class="btn whiteblue small">
+							<img src="/static/images/icon_wait.png" alt="승인대기"><span>승인대기</span>
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="paginate">
+		<a class="dir" href="#link">
+			<img src="/static/images/paginate_first.gif" alt="처음 페이지으로">
+		</a>
+		<a class="dir first" href="#link">
+			<img src="/static/images/paginate_prev.gif" alt="이전 페이지로">
+		</a>
+		<strong>1</strong>
+		<!-- <a href="#link">2</a>
+    				<a href="#link">3</a>
+    				<a href="#link">4</a>
+    				<a href="#">5</a> -->
+		<a class="dir last" href="#link">
+			<img src="/static/images/paginate_next.gif" alt="다음 페이지로">
+		</a>
+		<a class="dir" href="#link">
+			<img src="/static/images/paginate_last.gif" alt="끝 페이지로">
+		</a>
+	</div>
+	<!-- Table-list : e -->
+
+</div>

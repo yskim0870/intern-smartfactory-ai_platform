@@ -38,7 +38,7 @@ public interface IUserDao {
 
     /**
      * 
-     * @param id
+     * @param id : Business number or UserID를 이용한 사용자 및 회사 정보 조회
      * @return :
      *
      * @since 2022. 1. 11. 오후 3:02:27

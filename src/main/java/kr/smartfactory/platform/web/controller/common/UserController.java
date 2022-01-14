@@ -28,7 +28,7 @@ public class UserController {
      * 
      * @param request
      * @param response
-     * @param businessNumber
+     * @param businessNumber : 조회할 Busniess Number 또는 사용자 ID
      * @return :
      *
      * @since 2022. 1. 11. 오후 3:51:03
