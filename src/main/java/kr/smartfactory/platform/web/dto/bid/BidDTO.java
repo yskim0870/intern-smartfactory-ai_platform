@@ -59,6 +59,32 @@ public class BidDTO {
 	}
 	
 	/**
+	 * Default Constructor
+	 */
+	public BidDTO() {
+	}
+	
+	/**
+	 * @param rs
+	 */
+	public BidDTO(ResultSet rs) {
+		this.setBidInfo(new BidInfoDTO(rs));
+		this.setManager(new BidManagerDTO(rs));
+		this.setCompany(new CompanyInfoDTO(rs));
+	}
+
+	/**
+	 * @param bid
+	 * @param files2
+	 */
+	public BidDTO(BidDTO bid, List<MultipartFile> files) {
+		this.setBidInfo(bid.getBidInfo());
+		this.setManager(bid.getManager());
+		this.setCompany(bid.getCompany());
+//		this.setFiles(files);
+	}
+
+	/**
 	 * @return the sBidInfo
 	 */
 	public Map<String, String> getsBidInfo() {
@@ -105,32 +131,6 @@ public class BidDTO {
 	 */
 	public void setContractor(UserInfoDTO contractor) {
 		this.contractor = contractor;
-	}
-
-	/**
-	 * Default Constructor
-	 */
-	public BidDTO() {
-	}
-	
-	/**
-	 * @param rs
-	 */
-	public BidDTO(ResultSet rs) {
-		this.setBidInfo(new BidInfoDTO(rs));
-		this.setManager(new BidManagerDTO(rs));
-		this.setCompany(new CompanyInfoDTO(rs));
-	}
-
-	/**
-	 * @param bid
-	 * @param files2
-	 */
-	public BidDTO(BidDTO bid, List<MultipartFile> files) {
-		this.setBidInfo(bid.getBidInfo());
-		this.setManager(bid.getManager());
-		this.setCompany(bid.getCompany());
-//		this.setFiles(files);
 	}
 
 	/**

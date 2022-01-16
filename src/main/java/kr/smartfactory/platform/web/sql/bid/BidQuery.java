@@ -88,6 +88,12 @@ public class BidQuery {
 			, "join company_info on (user_info.business_number = company_info.business_number)" //
 			, "where bid_info.id=?");
 	
+	// 입찰정보 상세보기에서 계약완료건에 계약업체와 대표자에 대한 정보 조회
+	public final static String SELECT_CONTRACT_INFO = String.join(" "//
+			, "select * from user_info"
+			, "join bid_info on (bid_info.contractor_id = user_info.id)"
+			, "where bid_info.contractor_id=?");
+	
 	// 입찰 공고 파일목록 읽어오기
 	public final static String SELECT_BID_FILE_QUERY = "select * from `bid_notice_file` where bid_id=?";
 

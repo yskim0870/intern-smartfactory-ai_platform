@@ -7,8 +7,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+
 import kr.smartfactory.platform.web.dao.IBidDao;
 import kr.smartfactory.platform.web.dao.entity.Company;
 import kr.smartfactory.platform.web.dao.entity.User;
@@ -16,6 +18,8 @@ import kr.smartfactory.platform.web.dao.entity.bid.BidInfo;
 import kr.smartfactory.platform.web.dao.entity.bid.BidManagerInfo;
 import kr.smartfactory.platform.web.dao.entity.bid.BidNoticeFile;
 import kr.smartfactory.platform.web.dto.bid.BidDTO;
+import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
+import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
 import kr.smartfactory.platform.web.sql.bid.BidQuery;
 import open.commons.Result;
 
@@ -229,13 +233,21 @@ public class BidDao extends DBGenericDao implements IBidDao {
 
 		Connection conn = null;
 		BidDTO bid = null;
-
+		CompanyInfoDTO contractComapny = null;
+		UserInfoDTO contractor = null;
+		
 		try {
 			conn = dataSource.getConnection();
 			conn.setAutoCommit(false);
 
 			// 파일 정보를 제외한 나머지 데이터 조회
 			bid = jdbcTemplate.queryForObject(BidQuery.SELECT_BID_DETAIL_QUERY, (rs, rowNum) -> new BidDTO(rs), id);
+			
+			contractComapny = jdbcTemplate.queryForObject(BidQuery.SELECT_COMPANY_NAME_TO_USER_ID, (rs, rowNum) -> new CompanyInfoDTO(rs), bid.getBidInfo().getContractorID());
+			contractor = jdbcTemplate.queryForObject(BidQuery.SELECT_CONTRACT_INFO, (rs, rowNum) -> new UserInfoDTO(rs), bid.getBidInfo().getContractorID());
+			contractor.setCompanyInfo(contractComapny);
+			
+			bid.setContractor(contractor);
 			
 			// file 정보 조회
 			List<BidNoticeFile> fileList = jdbcTemplate.query(BidQuery.SELECT_BID_FILE_QUERY, (rs, rowNum) -> new BidNoticeFile(rs), id);

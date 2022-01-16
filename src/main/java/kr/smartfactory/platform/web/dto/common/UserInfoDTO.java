@@ -3,6 +3,9 @@
  */
 package kr.smartfactory.platform.web.dto.common;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import kr.smartfactory.platform.web.dao.entity.User;
 
 /**
@@ -44,6 +47,9 @@ public class UserInfoDTO {
 	// 도메인IT전문업체 상태 0: 승인대기, 1: 승인완료, 2:입찰계약 제한
 	private int status;
 	
+	// 해당 사용자의 회사 정보
+	private CompanyInfoDTO companyInfo;
+	
 	/**
 	 * Default Constructor
 	 */
@@ -57,6 +63,24 @@ public class UserInfoDTO {
 		this.setName(data.getName());
 		this.setTelNumber(data.getTelNumber());
 		this.setEmail(data.getEmail());
+	}
+
+	/**
+	 * @param rs
+	 */
+	public UserInfoDTO(ResultSet rs) {
+		try {
+			this.setId(rs.getString("user_info.id"));
+			this.setPassword(rs.getString("user_info.password"));
+			this.setName(rs.getString("user_info.name"));
+			this.setEmail(rs.getString("user_info.email"));
+			this.setTelNumber(rs.getString("user_info.tel_number"));
+			this.setDepartment(rs.getString("user_info.department"));
+			this.setRank(rs.getString("user_info.rank"));
+			this.setRegDate(rs.getInt("user_info.reg_date"));
+		} catch (SQLException e) {
+			System.out.println("정보 조회 실패");
+		}
 	}
 
 	/**
@@ -183,5 +207,19 @@ public class UserInfoDTO {
 	 */
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	
+	/**
+	 * @return the companyInfo
+	 */
+	public CompanyInfoDTO getCompanyInfo() {
+		return companyInfo;
+	}
+
+	/**
+	 * @param companyInfo the companyInfo to set
+	 */
+	public void setCompanyInfo(CompanyInfoDTO companyInfo) {
+		this.companyInfo = companyInfo;
 	}
 }
