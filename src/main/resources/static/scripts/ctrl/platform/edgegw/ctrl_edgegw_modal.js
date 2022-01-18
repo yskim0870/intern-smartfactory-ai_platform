@@ -22,7 +22,7 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 				method: 'PATCH',
 				params: { val: "" }
 			}
-		}
+		}	
 	);
 
 	let manures = $resource(

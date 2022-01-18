@@ -1,4 +1,4 @@
-platform.controller('BillingController', function($scope) {
+platform.controller('BillingController', function($scope, $uibModal) {
 
 	// Scope ---------------------------------------------------------------- 
 	$scope.companyClass = "";
@@ -89,6 +89,50 @@ platform.controller('BillingController', function($scope) {
 	]
 	// ---------------------------------------------------------------- Option
 
+	// Modal ---------------------------------------------------------------- 
+
+	$scope.createModal = function() {
+
+		let addInstance = $uibModal.open({
+			templateUrl: '/static/templates/platform/billing/modal_billing_add.html',
+			controller: 'BillingModalCtrl',
+			size: "md",
+			resolve: {
+
+			}
+		});
+
+		addInstance.result.then(
+			function() {
+				// 모달창 종료 close
+			}, function() {
+				// 여기가 dismiss
+			});
+	};
+
+	$scope.updateModal = function() {
+
+		let modifyInstance = $uibModal.open({
+			templateUrl: '/static/templates/platform/billing/modal_billing_modify.html',
+			controller: 'BillingModalCtrl',
+			size: "md",
+			resolve: {
+
+			}
+		})
+
+		modifyInstance.result.then(
+			function() {
+				// 모달창 종료 close
+			}, function() {
+				// 모달 dismiss
+			});
+	};
+
+	// ---------------------------------------------------------------- Modal
+
+
+	// Method ----------------------------------------------------------------
 	// 상세 보기
 	$scope.clickHandler = function(edgeInfo) {
 		edgeInfo.show = !edgeInfo.show;
@@ -113,5 +157,14 @@ platform.controller('BillingController', function($scope) {
 		$scope.order = order;
 		$scope.desc = $scope.reverseSort
 		$scope.getEdges();
+	};
+
+	$scope.checkGrade = function(){
+		if(AUTHENTICATION.grade == 0){
+			$scope.grade = false;
+		} else {
+			$scope.grade = true;
+		}
 	}
+	// ---------------------------------------------------------------- Method 
 });

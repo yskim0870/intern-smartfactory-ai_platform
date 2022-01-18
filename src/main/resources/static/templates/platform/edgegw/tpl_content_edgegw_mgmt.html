@@ -8,7 +8,7 @@
 			<tr>
 				<th style="width: 100px">업체명</th>
 				<td colspan="3">
-					<input name="name" type="text" title="업체명" ng-model="name" style="width: 150px;">
+					<input name="name" type="text" title="업체명" ng-model="name" style="width: 150px;" ng-disabled="checkGrade()">
 				</td>
 				<td>
 					<div class="right">
@@ -20,12 +20,12 @@
 			</tr>
 			<tr>
 				<th>연동기간</th>
-				<td style="width: 400px">
+				<td class="date-select">
 					<input name="date01" type="date" title="날짜선택" ng-model="startDate" style="width: 150px;" ng-change="dateChange">
 					~
 					<input name="date02" type="date" title="날짜선택" ng-model="endDate" style="width: 150px;" ng-change="dateChange">
 				</td>
-				<td>
+				<td class="date-recent" style="padding: 8px 0px 0px 0px;">
 					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="isChecked[0]" ng-click="dateRadioClick(1)">
 					<label for="month-1">최근 1개월</label>
 					<input type="radio" name="ck_month" id="month-3" class="dsi" ng-checked="isChecked[1]" ng-click="dateRadioClick(3)">
@@ -49,14 +49,20 @@
 			<span class="table-title">EdgeGateway 목록</span>
 			<div class="table-header-right">
 				<span>전체 {{edgeGWs.data.totalCount}}건</span> <select name="select" class="small" ng-model="itemCount"
-					ng-options="item.value as item.display for item in items"
-					ng-change="getEdges()"
+					ng-options="item.value as item.display for item in items" ng-change="getEdges()"
 				>
 				</select>
 			</div>
 		</div>
 
 		<table class="table-list">
+			<colgroup>
+				<col style="width: 15%">
+				<col style="width: 15%">
+				<col style="width: 5%">
+				<col style="width: 30%">
+				<col style="width: 10%">
+			</colgroup>
 			<caption>EdgeGateway 목록</caption>
 			<thead>
 				<tr>
@@ -92,11 +98,11 @@
 				</tr>
 				<tr ng-repeat-end ng-if="edgeInfo.show">
 					<td colspan="5">
-						<div id="demo1">
+						<div id="detail">
 							<table class="table-list">
 								<thead>
 									<tr>
-										<td colspan="4">EdgeGateway 정보</td>
+										<td colspan="4" style="background-color: lightgray">EdgeGateway 정보</td>
 									</tr>
 								</thead>
 								<tbody>
@@ -110,6 +116,7 @@
 										<td>{{edgeInfo.startDate | date: 'yyyy.MM.dd'}} ~ {{edgeInfo.endDate | date: 'yyyy. MM.dd'}}</td>
 
 									</tr>
+
 									<tr>
 										<td>작동 여부</td>
 										<td>{{boolStatus(edgeInfo.status)}}</td>
@@ -127,7 +134,7 @@
 							<table class="table-list">
 								<thead>
 									<tr>
-										<td colspan="4">제조사 정보</td>
+										<td colspan="4" style="background-color: lightgray">제조사 정보</td>
 									</tr>
 								</thead>
 								<tbody>
@@ -155,9 +162,8 @@
 		</table>
 	</div>
 	<div class="paginate">
-		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
-			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount"
-			ng-change="getEdges()"
+		<ul uib-pagination boundary-links="true" total-items="아이템 토탈 개수" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
+			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount" ng-change="체인지해서 보여줄 페이지"
 		></ul>
 		<!-- Table-list : e -->
 	</div>

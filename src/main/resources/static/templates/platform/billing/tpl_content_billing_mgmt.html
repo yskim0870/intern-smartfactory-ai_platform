@@ -1,32 +1,31 @@
 <div class="scm-main" ng-controller="BillingController">
-	<div class="main-header">
-		<div class="right">
-			<a href="billingManaAnalysisAdd">
-				<button class="btn black big">
-					<img src="/static/images/icon_confirm_white.png" alt="분석환경 신청"><span>분석환경 신청</span>
-				</button>
-			</a>
-		</div>
-	</div>
+	<div class="main-header"></div>
 
 	<!-- Search : s -->
-	<div class="scm-card">
+	<div class="scm-card" ng-model="grade" ng-init="checkGrade()">
 		<table class="table-search">
 			<caption>과금관리 조회</caption>
 			<tr>
 				<th>과금기간</th>
-				<td style="width: 400px">
+				<td class="date-select">
 					<input name="date01" type="date" title="날짜선택" style="width: 150px;" ng-model="startDate" ng-change="dateChange">
 					~
 					<input name="date02" type="date" title="날짜선택" style="width: 150px;" ng-model="endDate" ng-change="dateChange">
 				</td>
-				<td colspan="3">
+				<td class="date-recent" colspan="3">
 					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="isChecked[0]" ng-click="dateRadioClick(1)">
 					<label for="month-1">최근 1개월</label>
 					<input type="radio" name="ck_month" id="month-3" class="dsi" ng-checked="isChecked[1]" ng-click="dateRadioClick(3)">
 					<label for="month-3">최근 3개월</label>
 					<input type="radio" name="ck_month" id="month-6" class="dsi" ng-checked="isChecked[2]" ng-click="dateRadioClick(6)">
 					<label for="month-6">최근 6개월</label>
+				</td>
+				<td>
+					<div class="right" ng-if="grade">
+						<button class="btn black big" ng-click="createModal()">
+							<img src="/static/images/icon_confirm_white.png" alt="분석환경 신청"><span>분석환경 신청</span>
+						</button>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -78,6 +77,13 @@
 		</div>
 
 		<table class="table-list">
+			<col style="width: 15%">
+			<col style="width: 15%">
+			<col style="width: 10%">
+			<col style="width: 5%">
+			<col style="width: 10%">
+			<col style="width: 5%">
+			<col style="width: 8%">
 			<caption>과금 목록</caption>
 			<thead>
 				<tr>
@@ -119,29 +125,81 @@
 						</button>
 					</td>
 				</tr>
+				<tr>
+					<td colspan="5">
+						<div id="detail">
+							<table class="table-list">
+								<thead>
+									<tr>
+										<td colspan="4" style="background-color: lightgray">과금 정보</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>업체 분류</td>
+										<td>{{}}</td>
+										<td>업체</td>
+										<td>{{}}</td>
+									</tr>
+									<tr>
+										<td>사용 기간</td>
+										<td>{{}} ~ {{}}</td>
+									</tr>
+									<tr>
+										<td>요금</td>
+										<td>{{}}</td>
+										<td>총 금액</td>
+										<td>{{}}</td>
+									</tr>
+									<tr>
+										<td>납부 방법</td>
+										<td>{{}}</td>
+										<td>세금 계산서</td>
+										<td>{{}}</td>
+									</tr>
+									<tr>
+										<td>납부일</td>
+										<td>{{}}</td>
+										<td>등록일</td>
+										<td>{{}}</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="table-list">
+								<thead>
+									<tr>
+										<td colspan="4" style="background-color: lightgray">분석환경 정보</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>CPU</td>
+										<td>{{}}</td>
+
+									</tr>
+									<tr>
+										<td>메모리</td>
+										<td>{{}}</td>
+									</tr>
+									<tr>
+										<td>저장공간</td>
+										<td>{{}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
-
 	<div class="paginate">
-		<a class="dir" href="#link">
-			<img src="/static/images/paginate_first.gif" alt="처음 페이지으로">
-		</a>
-		<a class="dir first" href="#link">
-			<img src="/static/images/paginate_prev.gif" alt="이전 페이지로">
-		</a>
-		<strong>1</strong>
-		<!-- <a href="#link">2</a>
-    				<a href="#link">3</a>
-    				<a href="#link">4</a>
-    				<a href="#">5</a> -->
-		<a class="dir last" href="#link">
-			<img src="/static/images/paginate_next.gif" alt="다음 페이지로">
-		</a>
-		<a class="dir" href="#link">
-			<img src="/static/images/paginate_last.gif" alt="끝 페이지로">
-		</a>
+		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
+			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount" ng-change="getEdges()"
+		></ul>
+		<!-- Table-list : e -->
 	</div>
-	<!-- Table-list : e -->
+</div>
+<!-- Table-list : e -->
 
 </div>

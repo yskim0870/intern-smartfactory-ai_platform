@@ -1,0 +1,59 @@
+
+<div class="scm-main">
+
+	<div class="main-header">
+		<div class="title">분석환경 신청</div>
+	</div>
+
+	<!-- 분석환경 신청: s -->
+	<div class="scm-card" style="width: 99.7%;">
+		<div class="table-header read">
+			<span class="table-title">분석환경 정보</span>
+		</div>
+		<table class="table-read">
+			<caption>분석환경 정보</caption>
+			<tr>
+				<th style="width: 150px">분석환경 등급</th>
+				<td>
+					<select name="select" ng-model="envGrade" ng-options="item.Value as item.Display for item in envGrades">
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>과금</th>
+				<td>월 {{envGrades[envGrade].Price | number : 0}}원</td>
+			</tr>
+			<tr>
+				<th>CPU</th>
+				<td>{{envGrades[envGrade].CPU}}개</td>
+			</tr>
+			<tr>
+				<th>Memory</th>
+				<td>{{envGrades[envGrade].Memory | number : 0}}MB</td>
+			</tr>
+			<tr>
+				<th>디스크</th>
+				<td>{{envGrades[envGrade].Storage | number : 0}}GB</td>
+			</tr>
+			<tr>
+				<th>사용기간</th>
+				<td>
+					<input name="date01" type="date" title="날짜선택" style="width: 140px;" ng-model="startDate">
+					~
+					<input name="date02" type="date" title="날짜선택" style="width: 140px;" ng-model="endDate">
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!-- 제조사 정보: e -->
+
+	<p class="btn-box">
+		<button class="btn whiteblue mr_10" ng-click="close()">
+			<img src="/static/images/icon_confirm.png" alt="분석환경 신청"><span>분석환경 신청</span>
+		</button>
+		<button class="btn gray" ng-click="cancel()">
+			<img src="/static/images/icon_cancel.png" alt="취소"><span>취소하기</span>
+		</button>
+	</p>
+
+</div>

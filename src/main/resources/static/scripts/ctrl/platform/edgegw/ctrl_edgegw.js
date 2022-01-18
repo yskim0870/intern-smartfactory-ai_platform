@@ -30,7 +30,6 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 	);
 	// ---------------------------------------------------------------- Resource
 
-
 	// Scope ----------------------------------------------------------------
 	$scope.name = "";
 	$scope.order = "id";
@@ -46,6 +45,7 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 	$scope.desc = false;
 	$scope.isChecked = false;
 	$scope.reverseSort = false;
+
 
 	// ---------------------------------------------------------------- Scope
 
@@ -72,8 +72,6 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 			}
 		);
 	}
-	$scope.getEdges($scope.order, $scope.desc);
-
 
 
 	$scope.getEdge = function(edgeInfo) {
@@ -97,7 +95,7 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 			{ val: id }
 			, {}
 			, function() {
-				$scope.getEdges(null, 0, 0, 15, 1, 0);
+				$scope.getEdges();
 				alert("삭제하였습니다.");
 			}
 			, function() {
@@ -148,6 +146,7 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 
 
 	// Method ----------------------------------------------------------------
+
 	// Date To UnixTimestamp
 	function dateToLong(date) {
 		if (date != null) {
@@ -189,6 +188,16 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 	};
 	// ---------------------------------------------------------------- Method
 
+	$scope.checkGrade = function() {
+		if (AUTHENTICATION.grade == 0) {
+			return false;
+		} else if (AUTHENTICATION.grade == 1) {
+			$scope.name = AUTHENTICATION.userID;
+
+			return true;
+		}
+	};
+	$scope.getEdges($scope.order, $scope.desc);
 
 	// Modal ----------------------------------------------------------------
 	$scope.createModal = function(id) {
