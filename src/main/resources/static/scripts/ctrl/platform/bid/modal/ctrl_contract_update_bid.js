@@ -5,7 +5,7 @@ platform.controller("ContractBidController", function($scope, $rootScope, Factor
 	console.log(bidID);
 
 	let getDetail = function() {
-		Factory.resource.getBidDetail(
+		Factory.bidResource.getBidDetail(
 			{ "param2": bidID },
 			null,
 			function(res) {
@@ -32,7 +32,7 @@ platform.controller("ContractBidController", function($scope, $rootScope, Factor
 	// 전문업체 상태를 조회하여 가입승인이 된 경우 해당 회사 정보 표시
 
 	// 계약업체 select box
-	Factory.resource.getExpertList(
+	Factory.bidResource.getExpertList(
 		{ "param1": "experts" },
 		null,
 		function(res) {
@@ -69,7 +69,7 @@ platform.controller("ContractBidController", function($scope, $rootScope, Factor
 	// select box change
 	$scope.changeExpert = function() {
 		console.log($scope.bid.company.name);
-		Factory.resource.getExpertManager(
+		Factory.bidResource.getExpertManager(
 			{
 				"param1": "contract",
 				"param2": String($scope.bid.company.name)
@@ -102,7 +102,7 @@ platform.controller("ContractBidController", function($scope, $rootScope, Factor
 		bidCopy.bidInfo.contractorID = $scope.bid.bidInfo.contractorID;
 		console.log(bidCopy);
 
-		Factory.resource.updateBid(
+		Factory.bidResource.updateBid(
 			{ "param1": bidID },
 			bidCopy,
 			function(res) {

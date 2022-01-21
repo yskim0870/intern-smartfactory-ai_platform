@@ -4,8 +4,10 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 	let id = $rootScope.authentication.userID;
 	console.log(id);
 	let name = null;
+	
+	$scope.dash = 0;
 
-	let resource = Factory.resource;
+	let bidResource = Factory.bidResource;
 
 	// pagination 아이템 출력 갯수
 	$scope.pageOptions = [
@@ -75,12 +77,12 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 			"userType": $scope.userType ? $scope.userType : null
 		}
 
-		Factory.getBidList($scope, params, resource, $rootScope);
+		Factory.getBidList($scope, params, bidResource, $rootScope);
 	}
 
 
 	// ---------------------- 회사명 조회 ---------------------- //
-	resource.getCompanyInfo(
+	bidResource.getCompanyInfo(
 		{
 			"param1": "company",
 			"param2": id // 제조사 아이디

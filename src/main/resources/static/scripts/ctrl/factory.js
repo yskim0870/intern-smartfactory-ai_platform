@@ -1,7 +1,7 @@
 platform.factory("Factory", function($resource) {
 
 	return {
-		resource: $resource(
+		bidResource: $resource(
 			'/bids/:param1/:param2',
 			null,
 			{
@@ -38,8 +38,57 @@ platform.factory("Factory", function($resource) {
 			}
 		),
 
+		// ---------------------- 대시보드 -----------------------------
+
+		dashboardResource: $resource(
+			'/dashboard/:param',
+			null,
+			{
+				"getDashBoardCount": {
+					"method": "GET"
+				},
+				"getEdgeCount": {
+					"method": "GET",
+					"param": null
+				}
+			}
+		),
+
+		// ---------------------- 제조사 관리 -----------------------------
+
+		manuResource: $resource(
+			'/manufacturer/:param',
+			null,
+			{
+				// TODO 업태, 업종에 대한 처리 (모두 출력)
+				"getCondition": {
+					"method": "GET",
+					"param": null
+				},
+
+				// TODO 제조사 목록 조회
+				"getManuList": {
+					"method": "GET",
+					"param": null
+				},
+
+				// TODO 제조사 상세보기 조회	
+				"getManuDetail": {
+					"method": "GET",
+					"param": null
+				}
+			}
+		),
+
+
+		// ---------------------- 전문업체 관리 -----------------------------
+
+
+
+
 		// ---------------------- 입찰 공고 조회 -----------------------------
-		getBidList: function($scope, params, resource, $rootScope) {
+
+		getBidList: function($scope, params, bidResource, $rootScope) {
 
 			// ------------------ date 처리 ------------------
 			// radio 박스 체크 처리에 필요한 객체
@@ -59,9 +108,19 @@ platform.factory("Factory", function($resource) {
 				return d;
 			}
 
+			// date 객체 2022.1.2 -> 2022.01.02 포맷
+			let dateFormat = function(date) {
+				let year = date.getFullYear();
+				let month = date.getMonth() + 1;
+				let day = date.getDate();
+				let format = year + "-" + (("00" + month.toString()).slice(-2)) + "-" + (("00" + day.toString()).slice(-2));
+
+				return format;
+			}
+
 			// long 객체 -> date
 			let longToDate = function(date) {
-				return new Date(date).toLocaleDateString();
+				return dateFormat(new Date(date));
 			}
 
 			// 1,3,6개월 전 라디오 박스 클릭 시
@@ -87,13 +146,14 @@ platform.factory("Factory", function($resource) {
 				}
 			}
 
+			let item = ""
+
 			// ------------------ 목록 조회 ------------------
-			resource.getBidList(
+			bidResource.getBidList(
 				params,
 				{
 					"userID": function() {
 						if ($scope.userType == 1) {
-							console.log($rootScope.authentication.userID);
 							return $rootScope.authentication.userID;
 						}
 						else {
@@ -103,10 +163,11 @@ platform.factory("Factory", function($resource) {
 				},
 				// success
 				function(res) {
-					$scope.pagination.totalCount = res.data.totalCount;
+					if ($scope.dash != 1) {
+						$scope.pagination.totalCount = res.data.totalCount;
+						$scope.pagination.itemPerPage = Math.ceil($scope.pagination.totalCount / $scope.pagination.pageItemPerPage.value);
+					}
 					$scope.items = res.data.items;
-					console.log($scope.items);
-					$scope.pagination.itemPerPage = Math.ceil($scope.pagination.totalCount / $scope.pagination.pageItemPerPage.value);
 
 					for (let i = 0; i < $scope.items.length; i++) {
 						$scope.items[i].bidInfo.isContracted = true;
@@ -119,9 +180,6 @@ platform.factory("Factory", function($resource) {
 						// status 설정 - 계약일자의 유무를 판단하여 있을경우 상태를 계약완료로 바꿈
 						if ($scope.items[i].bidInfo.contractDate) {
 							$scope.items[i].bidInfo.status = 2;
-						}
-						// status가 계약완료일 경우 계약등록을 더 누르지 못하도록 설정
-						if ($scope.items[i].bidInfo.status == 2) {
 							$scope.items[i].bidInfo.isContracted = false;
 						}
 						else {
@@ -136,11 +194,10 @@ platform.factory("Factory", function($resource) {
 			);
 
 			// ------------------ detail ------------------
-			// TODO html 파일에 파일업로드/다운로드 띄워야함
 
 			let showDetail = function(item, id) {
 
-				resource.getBidDetail(
+				bidResource.getBidDetail(
 					{ "param1": id },
 					null,
 					function(res) {

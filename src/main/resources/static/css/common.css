@@ -276,4 +276,69 @@ a.link {color:#3b78ce;}
 .pl_55 {padding-left:55px !important;}
 .pl_60 {padding-left:60px !important;}
 
+/** div - 유영훈 */
+.dash-stat-divide { 
+  margin: 0 auto;
+  height: 175px;
+}
 
+#chart {
+  float: left;
+  width: 60%;
+  height: 100%;
+}
+#legend {
+  float: right;
+  height: 100%;
+  width: 40%;
+  display: table;
+}
+#pieChart {
+  display: block;
+  height: 100%;
+  margin-left: 35px;
+}
+[class$="-legend"] {
+  list-style: none;
+  padding-left: 0;
+  display: table-cell;
+  text-align: left;
+  vertical-align: middle;
+}
+[class$="-legend"] li {
+  display: block;
+  padding: 3px 5px;
+  font-size: 15px;
+}
+[class$="-legend"] li span {
+  border-radius: 5px;
+  display: inline-block;
+  height: 10px;
+  margin-right: 10px;
+  width: 10px;
+}
+
+.table-list-none-dash {width:90%; height:auto; border-collapse:collapse; padding:0; margin:0;}
+.table-list-none-dash button, table input {*overflow:auto;}
+.table-list-none-dash input, .table-list select, .table-list-nonetextarea{padding: 2px 6px;font-size:13px;}
+.table-list-none-dash label {font-size:13px;}
+.table-list-none-dash th {font-size:13px;text-align:center;color:#333;font-weight:500;height:32px; padding:2px 10px;/*border-bottom:1px solid #eeeeee;*/}
+.table-list-none-dash td {font-size:14px;text-align:left;padding:8px 10px 4px 5px;}
+
+.dash-list {
+	cursor: pointer;
+}
+.dash-list:hover {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+/** table header */
+.table-header-yyh {margin-bottom:6px}
+.table-header-yyh.read {padding-bottom: 12px;border-bottom:1px solid #dadce0;margin-bottom:12px;}
+.table-header-yyh.member {padding-bottom: 12px;border-bottom:1px solid #dadce0;margin-bottom:12px;}
+.table-header-yyh.member .table-title {color: #1976d2 !important;padding-bottom: 12px;border-bottom:1px solid #dadce0;margin-bottom:12px;}
+.table-header-yyh .table-title {font-size: 14px;color:#333;font-weight: 500;line-height: 20px;}
+.table-header-yyh .table-total {font-size: 12px;font-weight: 300;color: #555;margin-left: 10px;}
+.table-header-yyh .table-header-right {float:right}
+.table-header-yyh input, .table-header select {margin-top:-4px;}
+.table-header-yyh .table-header-right span {font-size: 12px;font-weight: 300;color: #555;margin-right:10px}

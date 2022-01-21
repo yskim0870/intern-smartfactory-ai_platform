@@ -1,1 +1,72 @@
-tpl_content_manufacturer_mgmt.html
+<div ng-controller="manuController">
+        <!-- Search : s -->
+        <div class="scm-card" ng-model="company">
+           <table class="table-search" >
+            <caption>제조사조회</caption>
+            <tr>
+              <th style="width:100px">업체명</th>
+              <td colspan="4"><input name="name" type="text" ng-model="company.name" title="업체명" style="width: 150px;"></td>
+            </tr> 
+            <tr>
+              <th style="width:100px">업태</th>
+              <td>            
+                  <select name="select" ng-model="company.condition" ng-options="condition.value as condition.name for condition in conditions"></select>
+              </td>
+              <th style="width:100px">종목</th>
+              <td>            
+                  <select name="select" ng-model="company.industryType" ng-options="industryType.value as industryType.name for industryType in industryTypes"></select>
+              </td>
+              <td>   
+                  <button class="btn blue" ng-click="getManuList(company)"><img src="/static/images/icon_search.png" alt="검색"><span>검색</span></button>               
+              </td>
+            </tr>
+           </table>
+        </div>
+        <!-- Search : e -->
+        
+        <!-- Table-list : s -->
+        <div class="scm-card">
+           <div class="table-header">
+              <span class="table-title">제조사명</span>
+              <div class="table-header-right">
+                <span>전체 20건</span>
+                  <select name="select" class="small">
+                    <option selected>15개씩 보기</option>
+                    <option>30개씩 보기 </option>
+                  </select>
+               </div>
+           </div>
+           
+           <table  class="table-list">
+            <caption>제조사목록</caption>
+            <thead>
+              <tr>
+                <th>업체명</th>
+                <th>사업자번호</th>
+                <th>대표자</th>  
+                <th>대표번호</th>  
+                <th>사업장소재지</th>   
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                 <td><a href="manuManaDetail.html">(주)유미테크</a></td>
+                 <td>314-81-24083</td>
+                 <td>윤대일</td>
+                 <td>042-867-4220</td>
+                 <td class="al_left">
+                    대전광역시, 유성구 가정로 218 703 (가정동, 융합기술연구생산센터)
+                 </td>
+              </tr>                     
+            </tbody>
+           </table>             
+        </div>
+        
+    <div class="paginate">
+		<ul uib-pagination total-items="pagination.totalCount" ng-model="pagination.pageNum"
+			items-per-page="pagination.pageItemPerPage" max-size="pagination.maxSize" class="pagination-sm"
+			previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true"
+			num-pages="numPages" ng-click="showBidView()"></ul>
+	</div>
+        <!-- Table-list : e -->   
+</div>

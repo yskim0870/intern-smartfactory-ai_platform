@@ -1,6 +1,8 @@
 platform.controller("BidCtrl", function($scope, Factory, $rootScope) {
 
-	let resource = Factory.resource;
+	let bidResource = Factory.bidResource;
+	
+	$scope.dash = 0;
 
 	// pagination 아이템 출력 갯수
 	$scope.pageOptions = [
@@ -68,6 +70,6 @@ platform.controller("BidCtrl", function($scope, Factory, $rootScope) {
 			"pageItemPerPage": $scope.pagination.pageItemPerPage
 		}
 
-		Factory.getBidList($scope, params, resource, $rootScope);
+		Factory.getBidList($scope, params, bidResource, $rootScope);
 	}
 });

@@ -75,7 +75,7 @@ public class UserController {
 	 * @author : Younghun Yu
 	 * @date : 2021.12.24
 	 */
-	@GetMapping(value = "/{grade}/{id}")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<UserDTO> selectUserDetail(@PathVariable UserInfoDTO user){
 		return new ResponseEntity<>(userService.selectUserDetail(user), HttpStatus.OK);
 	}

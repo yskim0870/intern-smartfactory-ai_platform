@@ -178,7 +178,6 @@ public class BidDao extends DBGenericDao implements IBidDao {
 		}
 		// 정렬기준이 있다면
 		if (orderby != null && desc != null) {
-
 			querySB.append(" order by ");
 
 			// 오름차순, 내림차순 true/false에 대한 처리
@@ -235,24 +234,30 @@ public class BidDao extends DBGenericDao implements IBidDao {
 		BidDTO bid = null;
 		CompanyInfoDTO contractComapny = null;
 		UserInfoDTO contractor = null;
-		
+
 		try {
 			conn = dataSource.getConnection();
 			conn.setAutoCommit(false);
 
 			// 파일 정보를 제외한 나머지 데이터 조회
 			bid = jdbcTemplate.queryForObject(BidQuery.SELECT_BID_DETAIL_QUERY, (rs, rowNum) -> new BidDTO(rs), id);
-			
-			contractComapny = jdbcTemplate.queryForObject(BidQuery.SELECT_COMPANY_NAME_TO_USER_ID, (rs, rowNum) -> new CompanyInfoDTO(rs), bid.getBidInfo().getContractorID());
-			contractor = jdbcTemplate.queryForObject(BidQuery.SELECT_CONTRACT_INFO, (rs, rowNum) -> new UserInfoDTO(rs), bid.getBidInfo().getContractorID());
-			contractor.setCompanyInfo(contractComapny);
-			
+
+			try {
+				contractComapny = jdbcTemplate.queryForObject(BidQuery.SELECT_COMPANY_NAME_TO_USER_ID, //
+						(rs, rowNum) -> new CompanyInfoDTO(rs), bid.getBidInfo().getContractorID());
+				contractor = jdbcTemplate.queryForObject(BidQuery.SELECT_CONTRACT_INFO, //
+						(rs, rowNum) -> new UserInfoDTO(rs), bid.getBidInfo().getContractorID());
+				contractor.setCompanyInfo(contractComapny);
+
+			} catch (EmptyResultDataAccessException e) {
+			}
 			bid.setContractor(contractor);
 			
 			// file 정보 조회
-			List<BidNoticeFile> fileList = jdbcTemplate.query(BidQuery.SELECT_BID_FILE_QUERY, (rs, rowNum) -> new BidNoticeFile(rs), id);
+			List<BidNoticeFile> fileList = jdbcTemplate.query(BidQuery.SELECT_BID_FILE_QUERY,
+					(rs, rowNum) -> new BidNoticeFile(rs), id);
 			
-			if(fileList != null) {
+			if (fileList != null) {
 				bid.setFileList(fileList);
 			}
 			
@@ -261,7 +266,7 @@ public class BidDao extends DBGenericDao implements IBidDao {
 		} catch (SQLException e) {
 			try {
 				conn.rollback();
-			} catch (Exception exception) {
+			} catch (SQLException exception) {
 				exception.printStackTrace();
 				System.out.println(exception.getMessage());
 			}
