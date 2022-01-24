@@ -6,7 +6,7 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 		null,
 		{
 			createEdge: {
-				method: 'POST',
+				method: 'PUT',
 				params: {
 					id: "",
 					managerId: "",
@@ -22,10 +22,10 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 				method: 'PATCH',
 				params: { val: "" }
 			}
-		}	
+		}
 	);
 
-	let manures = $resource(
+	let userRes = $resource(
 		"users/:val",
 		null,
 		{
@@ -55,7 +55,7 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  SCOPE
 
-	//  CRUD ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	// CRUD ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	$scope.getCompany = function() {
 		company.getCompany(
 			{}
@@ -70,14 +70,14 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 	$scope.getCompany();
 
 
-	$scope.getUser = function(businessNumber) {
-		manures.getUser(
+	$scope.getUser = function(id) {
+		userRes.getUser(
 			{
-				val: businessNumber
+				val: id
 			}
 			, {}
-			, function(manures) {
-				$scope.user = manures.data;
+			, function(userRes) {
+				$scope.user = userRes.data;
 			}
 			, function() {
 
@@ -149,6 +149,7 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 		}
 	};
 
+	// close, dismiss 선택시 재질문	
 	$scope.updateConfirm = function(managerId) {
 		if (confirm("정말로 수정하시겠습니까?")) {
 			$scope.updateEdge(managerId);
@@ -156,6 +157,7 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 	}
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ close and dismiss
 
+	// date to long 형변환
 	function dateToLong(date) {
 		if (date != null) {
 
@@ -163,7 +165,7 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 		}
 	};
 
-
+	
 	$scope.gradeCheck = function(grade) {
 		if (grade == 0) {
 			$scope.gradeAdmin = true;

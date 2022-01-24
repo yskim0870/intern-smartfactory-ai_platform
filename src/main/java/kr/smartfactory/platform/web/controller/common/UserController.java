@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.smartfactory.platform.web.dto.UserDTO;
@@ -37,13 +36,13 @@ public class UserController {
      * @modified 2022. 1. 11. 오후 3:51:03 || Kyunghun Park || 최초 생성
      *
      */
-    @RequestMapping(value = "/users/{business_number}", method = RequestMethod.GET)
-    public ResponseEntity<Result<UserDTO>> detailUser(//
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Result<UserDTO>> selectUserdetail(//
             HttpServletRequest request//
             , HttpServletResponse response//
-            , @PathVariable(value = "business_number", required = false) @Size(max = 36) String businessNumber//
+            , @PathVariable(value = "id", required = false) @Size(max = 36) String id//
     ) {
-        return new ResponseEntity<>(userService.detailUser(businessNumber), HttpStatus.OK);
+        return new ResponseEntity<>(userService.detailUser(id), HttpStatus.OK);
     }
     
 }

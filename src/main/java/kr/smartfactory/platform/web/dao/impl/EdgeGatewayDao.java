@@ -150,7 +150,7 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
                 public EdgeGWDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 
                     EdgeGWDTO edge = new EdgeGWDTO();
-
+                    
                     edge.setId(rs.getString("id"));
                     edge.setHost(rs.getString("host"));
                     edge.setPort(rs.getInt("port"));

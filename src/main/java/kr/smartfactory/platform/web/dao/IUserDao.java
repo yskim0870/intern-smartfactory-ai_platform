@@ -47,5 +47,5 @@ public interface IUserDao {
      * @modified 2022. 1. 11. 오후 3:02:27 || Kyunghun Park || 최초 생성
      *
      */
-    public UserDTO detailUser(String businessNumber);
+    public UserDTO detailUser(String id);
 }

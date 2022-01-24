@@ -22,6 +22,294 @@ public class Billing {
     // 분석환경 등급 ID
     private int envGradeID;
     
+    /**
+     * id을(를) 호출합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @return 
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * id 을(를) 지정합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @param id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * chargeDate을(를) 호출합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @return 
+     */
+    public long getChargeDate() {
+        return chargeDate;
+    }
+
+    /**
+     * chargeDate 을(를) 지정합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @param chargeDate
+     */
+    public void setChargeDate(long chargeDate) {
+        this.chargeDate = chargeDate;
+    }
+
+    /**
+     * userID을(를) 호출합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @return 
+     */
+    public int getUserID() {
+        return userID;
+    }
+
+    /**
+     * userID 을(를) 지정합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @param userID
+     */
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    /**
+     * envGradeID을(를) 호출합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @return 
+     */
+    public int getEnvGradeID() {
+        return envGradeID;
+    }
+
+    /**
+     * envGradeID 을(를) 지정합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @param envGradeID
+     */
+    public void setEnvGradeID(int envGradeID) {
+        this.envGradeID = envGradeID;
+    }
+
+    /**
+     * startDate을(를) 호출합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @return 
+     */
+    public long getStartDate() {
+        return StartDate;
+    }
+
+    /**
+     * startDate 을(를) 지정합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @param startDate
+     */
+    public void setStartDate(long startDate) {
+        StartDate = startDate;
+    }
+
+    /**
+     * endDate을(를) 호출합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @return 
+     */
+    public long getEndDate() {
+        return endDate;
+    }
+
+    /**
+     * endDate 을(를) 지정합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @param endDate
+     */
+    public void setEndDate(long endDate) {
+        this.endDate = endDate;
+    }
+
+    /**
+     * paymentMethod을(를) 호출합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @return 
+     */
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    /**
+     * paymentMethod 을(를) 지정합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @param paymentMethod
+     */
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    /**
+     * paymentDate을(를) 호출합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @return 
+     */
+    public long getPaymentDate() {
+        return paymentDate;
+    }
+
+    /**
+     * paymentDate 을(를) 지정합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @param paymentDate
+     */
+    public void setPaymentDate(long paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    /**
+     * taxBillpublished을(를) 호출합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @return 
+     */
+    public int getTaxBillpublished() {
+        return taxBillpublished;
+    }
+
+    /**
+     * taxBillpublished 을(를) 지정합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @param taxBillpublished
+     */
+    public void setTaxBillpublished(int taxBillpublished) {
+        this.taxBillpublished = taxBillpublished;
+    }
+
+    /**
+     * status을(를) 호출합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @return 
+     */
+    public int getStatus() {
+        return status;
+    }
+
+    /**
+     * status 을(를) 지정합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @param status
+     */
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    /**
+     * approvalStatus을(를) 호출합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @return 
+     */
+    public int getApprovalStatus() {
+        return approvalStatus;
+    }
+
+    /**
+     * approvalStatus 을(를) 지정합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @param approvalStatus
+     */
+    public void setApprovalStatus(int approvalStatus) {
+        this.approvalStatus = approvalStatus;
+    }
+
+    /**
+     * approvalMsg을(를) 호출합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @return 
+     */
+    public String getApprovalMsg() {
+        return approvalMsg;
+    }
+
+    /**
+     * approvalMsg 을(를) 지정합니다.
+     *
+     * @since 2022. 1. 24. 오전 10:57:37
+     * @author "KyungHun Park"
+     *
+     * @param approvalMsg
+     */
+    public void setApprovalMsg(String approvalMsg) {
+        this.approvalMsg = approvalMsg;
+    }
+
     // 사용 시작 날짜
     private long StartDate;
     

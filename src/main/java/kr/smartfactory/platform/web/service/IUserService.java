@@ -46,5 +46,5 @@ public interface IUserService {
      * @modified 2022. 1. 11. 오후 2:33:52 || Kyunghun Park || 최초 생성
      *
      */
-    public Result<UserDTO> detailUser(String businessNumber);
+    public Result<UserDTO> detailUser(String id);
 }

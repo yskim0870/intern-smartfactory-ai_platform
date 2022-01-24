@@ -8,7 +8,7 @@
 			<tr>
 				<th style="width: 100px">업체명</th>
 				<td colspan="3">
-					<input name="name" type="text" title="업체명" ng-model="name" style="width: 150px;" ng-disabled="checkGrade()">
+					<input name="name" type="text" title="업체명" ng-model="name" style="width: 150px;" ng-disabled="checkGrade">
 				</td>
 				<td>
 					<div class="right">
@@ -162,9 +162,10 @@
 		</table>
 	</div>
 	<div class="paginate">
-		<ul uib-pagination boundary-links="true" total-items="아이템 토탈 개수" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
-			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount" ng-change="체인지해서 보여줄 페이지"
+		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
+			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount" ng-change="getEdges()"
 		></ul>
+
 		<!-- Table-list : e -->
 	</div>
 </div>

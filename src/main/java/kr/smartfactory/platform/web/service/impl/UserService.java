@@ -55,11 +55,11 @@ public class UserService implements IUserService {
      * @see kr.smartfactory.platform.web.service.IUserService#detailUser(java.lang.String)
      */
     @Override
-    public Result<UserDTO> detailUser(String businessNumber) {
+    public Result<UserDTO> detailUser(String id) {
 
         UserDTO daoRes = new UserDTO();
         
-        daoRes = userDao.detailUser(businessNumber);
+        daoRes = userDao.detailUser(id);
         
         
         return new Result<>(daoRes);

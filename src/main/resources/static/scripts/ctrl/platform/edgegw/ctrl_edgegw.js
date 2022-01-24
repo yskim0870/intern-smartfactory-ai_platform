@@ -14,7 +14,9 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 					itemCount: "",
 					pageNum: "",
 					pageItemPerPage: "",
-					order: ""
+					order: "",
+					desc: ""
+
 				}
 			},
 
@@ -28,10 +30,21 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 			}
 		}
 	);
+
+	let userRes = $resource(
+		"users/:val",
+		null,
+		{
+			getUser: {
+				method: 'GET',
+				params: { val: "" }
+			}
+		}
+	);
 	// ---------------------------------------------------------------- Resource
 
 	// Scope ----------------------------------------------------------------
-	$scope.name = "";
+
 	$scope.order = "id";
 	$scope.startDate = 0;
 	$scope.endDate = 0;
@@ -103,6 +116,22 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 			}
 		)
 	};
+
+	// userID로 기업명 호출
+	$scope.getUser = function(id) {
+		userRes.getUser(
+			{
+				val: id
+			}
+			, {}
+			, function(userRes) {
+				$scope.name = userRes.data.companyInfoDTO.name;
+			}
+			, function() {
+
+			}
+		)
+	}
 	// ---------------------------------------------------------------- DB 기능 
 
 	// Recent Date ----------------------------------------------------------------
@@ -119,14 +148,6 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 
 		$scope.endDate = new Date();
 	};
-
-	// 데이터 정렬
-	$scope.sortData = function(order) {
-		$scope.reverseSort = !$scope.reverseSort;
-		$scope.order = order;
-		$scope.desc = $scope.reverseSort
-		$scope.getEdges();
-	}
 
 	// 현재 개월 수 - 최근 개월
 	let recentMonth = function(num) {
@@ -171,6 +192,14 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 		$scope.pageNum = pageNum;
 	};
 
+	// 데이터 정렬
+	$scope.sortData = function(order) {
+		$scope.reverseSort = !$scope.reverseSort;
+		$scope.order = order;
+		$scope.desc = $scope.reverseSort
+		$scope.getEdges();
+	}
+
 	// 작동 상태
 	$scope.boolStatus = function(status) {
 		if (status == 0) {
@@ -186,18 +215,23 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 			$scope.deleteEdge(id);
 		}
 	};
-	// ---------------------------------------------------------------- Method
 
+	// 권한 확인
 	$scope.checkGrade = function() {
-		if (AUTHENTICATION.grade == 0) {
+		if (AUTHENTICATION.grade == 1) {
 			return false;
-		} else if (AUTHENTICATION.grade == 1) {
-			$scope.name = AUTHENTICATION.userID;
+		} else if (AUTHENTICATION.grade == 0) {
+			$scope.getUser(AUTHENTICATION.userID);
 
 			return true;
 		}
 	};
+	$scope.checkGrade();
+
 	$scope.getEdges($scope.order, $scope.desc);
+
+	// ---------------------------------------------------------------- Method
+
 
 	// Modal ----------------------------------------------------------------
 	$scope.createModal = function(id) {

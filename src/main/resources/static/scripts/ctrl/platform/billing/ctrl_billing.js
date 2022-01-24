@@ -1,6 +1,39 @@
-platform.controller('BillingController', function($scope, $uibModal) {
+platform.controller('BillingController', function($scope, $resource, $uibModal) {
+
+	let res = $resource(
+		"billings/:val",
+		null,
+		{
+			selectBillings: {
+				method: 'GET',
+				params: {
+					startDate: "",
+					endDate: "",
+					name: "",
+					gradeName: "",
+					payStatus: "",
+					approvalStatus: "",
+					itemCount: "",
+					pageNum: "",
+					pageItemPerPage: "",
+					order: ""
+				}
+			},
+
+			detailBilling: {
+				method: `GET`,
+				params: { val: "" }
+			},
+
+			approvalBilling: {
+				method: 'POST',
+				params: { val: "" }
+			}
+		}
+	);
 
 	// Scope ---------------------------------------------------------------- 
+	$scope.order = "";
 	$scope.companyClass = "";
 	$scope.envGrade = "";
 	$scope.payStatus = "";
@@ -9,6 +42,8 @@ platform.controller('BillingController', function($scope, $uibModal) {
 	$scope.envGrade = "";
 	$scope.payStatus = "";
 	$scope.approvalStatus = "";
+	$scope.name = "";
+	$scope.pageItemPerPage = 1;
 	$scope.startDate = 0;
 	$scope.endDate = 0;
 	$scope.itemCount = 15;
@@ -18,7 +53,77 @@ platform.controller('BillingController', function($scope, $uibModal) {
 	$scope.bigCurrentPage = 1;
 	$scope.isChecked = false;
 	$scope.reverseSort = false;
+	$scope.desc = false;
 	// ---------------------------------------------------------------- Scope
+
+
+	// CRUD ----------------------------------------------------------------
+
+	$scope.selectBillings = function() {
+		res.selectBillings(
+			{}
+			, {
+				startDate: dateToLong($scope.startDate),
+				endDate: dateToLong($scope.endDate),
+				name: $scope.companyClass,
+				gradeName: $scope.envGrade,
+				payStatus: $scope.payStatus,
+				approvalStatus: $scope.approvalStatus,
+				itemCount: $scope.itemCount,
+				pageNum: $scope.pageNum,
+				pageItemPerPage: $scope.pageItemPerPage,
+				order: $scope.order,
+				desc: $scope.desc
+			}
+			, function(res) {
+				$scope.Billings = res;
+			}
+			, function(res) {
+				console.log("실패");
+				console.log(res);
+			}
+		)
+	}; 
+	$scope.selectBillings();
+	
+	$scope.test = function() {
+		console.log($scope.name);
+		$scope.selectBillings();
+	}
+
+	$scope.detailBilling = function(billingInfo) {
+		res.detailBilling(
+			{
+				val: billingInfo.id
+			}
+			, {}
+			, function(res) {
+				$scope.billing = res;
+				$scope.clickHandler(billingInfo);
+			}
+			, function() {
+
+			}
+		)
+	};
+
+	$scope.approvalBilling = function(id) {
+		res.approvalBilling(
+			{
+				val: id
+			}
+			, {}
+			, function(res) {
+				$scope.billing = res;
+				$scope.clickHandler();
+			}
+			, function() {
+
+			}
+		)
+	};
+
+	// ---------------------------------------------------------------- CRUD
 
 
 	// Recent Date ---------------------------------------------------------------- 
@@ -45,12 +150,14 @@ platform.controller('BillingController', function($scope, $uibModal) {
 		return month;
 	};
 
+
 	// 날짜 변경
 	$scope.dateChange = function() {
 		for (let check = 0; check < $scope.dateRadio.isChecked.length; check++) {
 			$scope.dateRadio.isChecked[check] = false;
 		}
 	};
+
 	// ---------------------------------------------------------------- Recent Date
 
 
@@ -134,8 +241,8 @@ platform.controller('BillingController', function($scope, $uibModal) {
 
 	// Method ----------------------------------------------------------------
 	// 상세 보기
-	$scope.clickHandler = function(edgeInfo) {
-		edgeInfo.show = !edgeInfo.show;
+	$scope.clickHandler = function(billingInfo) {
+		billingInfo.show = !billingInfo.show;
 	};
 
 	//	pagination
@@ -156,11 +263,12 @@ platform.controller('BillingController', function($scope, $uibModal) {
 		$scope.reverseSort = !$scope.reverseSort;
 		$scope.order = order;
 		$scope.desc = $scope.reverseSort
-		$scope.getEdges();
-	};
+		$scope.selectBillings();
+	}
 
-	$scope.checkGrade = function(){
-		if(AUTHENTICATION.grade == 0){
+	// 권한 확인
+	$scope.checkGrade = function() {
+		if (AUTHENTICATION.grade == 1) { // 수정해야됌!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			$scope.grade = false;
 		} else {
 			$scope.grade = true;

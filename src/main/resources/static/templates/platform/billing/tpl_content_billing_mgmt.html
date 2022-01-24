@@ -56,7 +56,8 @@
 					</select>
 				</td>
 				<td>
-					<button class="btn blue">
+				
+					<button class="btn blue" ng-click="test()">
 						<img src="/static/images/icon_search.png" alt="검색"><span>검색</span>
 					</button>
 				</td>
@@ -70,7 +71,7 @@
 		<div class="table-header">
 			<span class="table-title">과금 목록</span>
 			<div class="table-header-right">
-				<span>전체 2건</span> <select name="select" class="small" ng-model="itemCount" ng-options="item.value as item.display for item in items">
+				<span>전체 {{Billings.data.totalCount}}</span> <select name="select" class="small" ng-model="itemCount" ng-options="item.value as item.display for item in items">
 
 				</select>
 			</div>
@@ -87,115 +88,109 @@
 			<caption>과금 목록</caption>
 			<thead>
 				<tr>
-					<th>과금일자</th>
-					<th>사용자 분류</th>
-					<th>담당자</th>
-					<th>과금</th>
-					<th>분석환경 등급</th>
-					<th>상태</th>
-					<th>승인여부</th>
+					<th ng-click="sortData('chargeDate')">과금일자</th>
+					<th ng-click="sortData('industryType')">사용자 분류</th>
+					<th ng-click="sortData('name')">업체</th>
+					<th ng-click="sortData('price')">과금</th>
+					<th ng-click="sortData('name')">분석환경 등급</th>
+					<th ng-click="sortData('status')">상태</th>
+					<th ng-click="sortData()">승인여부</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>2021-03-31 14:00:03</td>
+				<tr ng-repeat-start="billingInfo in Billings.data.items" ng-click="detailBilling(billingInfo)">
 					<td>
-						<a href="billingManaDetail">제조사</a>
+						<span>{{billingInfo.chargeDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</span>
 					</td>
-					<td>(주)유미테크</td>
-					<td>월 20,000</td>
-					<td>Standard</td>
-					<td>상태</td>
 					<td>
-						<span class="span-none-text"><img src="/static/images/icon_ok.png" alt="승인완료"><span>승인완료</span></span>
+						<span>{{billingInfo.company.industryType}}</span>
 					</td>
-				</tr>
-				<tr>
-					<td>2021-03-31 14:00:03</td>
 					<td>
-						<a href="billingManaDetail">도메인 IT 전문가</a>
+						<span>{{billingInfo.company.name}}</span>
 					</td>
-					<td>홍길동</td>
-					<td>월 20,000</td>
-					<td>Standard</td>
-					<td>상태</td>
+					<td>
+						<span>월 {{billingInfo.gradeEnv.price | number:0}}</span>
+					</td>
+					<td>
+						<span>{{billingInfo.gradeEnv.name}}</span>
+					</td>
+					<td>
+						<span>{{billingInfo.approvalStatus}}</span>
+					</td>
 					<td>
 						<button class="btn whiteblue small">
-							<img src="/static/images/icon_wait.png" alt="승인대기"><span>승인대기</span>
+							<img src="static/images/icon_wait.png" alt="승인대기"><span>승인대기</span>
 						</button>
 					</td>
 				</tr>
-				<tr>
-					<td colspan="5">
-						<div id="detail">
-							<table class="table-list">
-								<thead>
-									<tr>
-										<td colspan="4" style="background-color: lightgray">과금 정보</td>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>업체 분류</td>
-										<td>{{}}</td>
-										<td>업체</td>
-										<td>{{}}</td>
-									</tr>
-									<tr>
-										<td>사용 기간</td>
-										<td>{{}} ~ {{}}</td>
-									</tr>
-									<tr>
-										<td>요금</td>
-										<td>{{}}</td>
-										<td>총 금액</td>
-										<td>{{}}</td>
-									</tr>
-									<tr>
-										<td>납부 방법</td>
-										<td>{{}}</td>
-										<td>세금 계산서</td>
-										<td>{{}}</td>
-									</tr>
-									<tr>
-										<td>납부일</td>
-										<td>{{}}</td>
-										<td>등록일</td>
-										<td>{{}}</td>
-									</tr>
-								</tbody>
-							</table>
-							<table class="table-list">
-								<thead>
-									<tr>
-										<td colspan="4" style="background-color: lightgray">분석환경 정보</td>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>CPU</td>
-										<td>{{}}</td>
 
-									</tr>
-									<tr>
-										<td>메모리</td>
-										<td>{{}}</td>
-									</tr>
-									<tr>
-										<td>저장공간</td>
-										<td>{{}}</td>
-									</tr>
-								</tbody>
+				<tr ng-repeat-end ng-if="billingInfo.show">
+					<td colspan="5">
+						<div>
+							<div class="table-header read">
+								<span class="table-title">과금정보</span>
+							</div>
+							<table class="table-read">
+								<caption>제조사정보</caption>
+								<tr>
+									<th style="width: 150px">사용자 분류</th>
+									<td>{{billingInfo.company.industryType}}</td>
+								</tr>
+								<tr>
+									<th>담당자</th>
+									<td class="td-bold">{{billingInfo.company.name}}</td>
+								</tr>
+								<tr>
+									<th>과금</th>
+									<td>월 {{billingInfo.gradeEnv.price | number : 0}}원</td>
+								</tr>
+								<tr>
+									<th>납부 방법</th>
+									<td>{{billingInfo.payMethod}}</td>
+								</tr>
+								<tr>
+									<th>세금계산서</th>
+									<td>{{billingInfo.taxBillPublished}}</td>
+								</tr>
+								<tr>
+									<th>등록일</th>
+									<td>{{billingInfo.useStartDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</td>
+								</tr>
+								<tr>
+									<th>사용기간</th>
+									<td>{{billingInfo.useStartDate | date: 'yyyy년 MM월 dd일'}} ~ {{billingInfo.useEndDate | date: 'yyyy년 MM월 dd일'}}</td>
+								</tr>
 							</table>
-						</div>
-					</td>
+							<div class="table-header read mt_30">
+								<span class="table-title">분석환경 정보</span>
+							</div>
+							<table class="table-read">
+								<caption>분석환경 정보</caption>
+								<tr>
+									<th style="width: 150px">분석환경 등급</th>
+									<td>Standard</td>
+								</tr>
+								<tr>
+									<th>CPU</th>
+									<td>{{billingInfo.gradeEnv.cpu}}개</td>
+								</tr>
+								<tr>
+									<th>Memory</th>
+									<td>{{billingInfo.gradeEnv.Ememory | number:0}}MB</td>
+								</tr>
+								<tr>
+									<th>디스크</th>
+									<td>{{billingInfo.gradeEnv.storage | number:0}}GB</td>
+								</tr>
+							</table>
 				</tr>
+				<!--  상세보기 -->
 			</tbody>
 		</table>
 	</div>
 	<div class="paginate">
-		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
-			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount" ng-change="getEdges()"
+		<ul uib-pagination boundary-links="true" total-items="Billings.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
+			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount" ng-change="selectBillings"
 		></ul>
 		<!-- Table-list : e -->
 	</div>
