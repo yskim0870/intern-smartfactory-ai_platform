@@ -48,6 +48,6 @@ platform.controller("manuController", function($scope) {
 			"pageItemPerPage": $scope.pagination.pageItemPerPage
 		}
 
-		Factory.selectManuList($scope, params, manuResource, $rootScope);
+		Factory.getManuList($scope, params, manuResource, $rootScope);
 	}
 });

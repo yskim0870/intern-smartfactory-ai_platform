@@ -7,9 +7,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.smartfactory.platform.web.dao.IBidDao;
 import kr.smartfactory.platform.web.dao.entity.Company;
@@ -32,7 +32,7 @@ import open.commons.Result;
  *       NOTE -----------------------------------------------------------
  *       2022.01.10 Younghun Yu 정렬기준 작성
  */
-@Service(BidDao.BEAN_QUALIFER)
+@Repository(BidDao.BEAN_QUALIFER)
 public class BidDao extends DBGenericDao implements IBidDao {
 
 	public final static String BEAN_QUALIFER = "kr.smartfactory.platform.web.dao.impl.BidDao";

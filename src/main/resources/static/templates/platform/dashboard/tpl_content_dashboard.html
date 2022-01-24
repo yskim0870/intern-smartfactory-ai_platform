@@ -39,7 +39,7 @@
       </a>
       <table class="table-list-none-dash">
         <colgroup>
-          <col width="180px">
+          <col width="175px">
           <col width="70px">
           <col width="650px">
         </colgroup>
@@ -68,7 +68,7 @@
       </a>
       <table class="table-list-none-dash">
         <colgroup>
-          <col width="180px">
+          <col width="175px">
           <col width="70px">
           <col width="650px">
         </colgroup>
@@ -95,8 +95,8 @@
     </div>
   </div>
   
-  <div class="dash-stat" ng-init="dashLoad()">
-    <div class="dash-stat-divide" ng-model="edgeGW" ng-init="selectEdgeCount()">
+  <div class="dash-stat" ng-model="comapny" ng-init="dashLoad()">
+    <div class="dash-stat-divide" ng-model="edgeGW" ng-init="selectEdgeCount(comapny.name)">
        <!-- pie chart s   -->
       <div id="chart">
       	<canvas id="pieChart"></canvas>

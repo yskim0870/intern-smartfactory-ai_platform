@@ -8,6 +8,7 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 	$scope.dash = 0;
 
 	let bidResource = Factory.bidResource;
+	let dateHandling = Factory.dateHandling;
 
 	// pagination 아이템 출력 갯수
 	$scope.pageOptions = [
@@ -77,7 +78,7 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 			"userType": $scope.userType ? $scope.userType : null
 		}
 
-		Factory.getBidList($scope, params, bidResource, $rootScope);
+		Factory.getBidList($scope, params, bidResource, $rootScope, dateHandling);
 	}
 
 

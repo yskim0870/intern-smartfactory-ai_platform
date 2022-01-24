@@ -13,6 +13,7 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 	// factory 선언
 	let bidResource = Factory.bidResource;
 	let dashboardResource = Factory.dashboardResource;
+	let dateHandling = Factory.dateHandling;
 
 	$scope.dashboard = {
 		"manufacturer": "",
@@ -38,29 +39,6 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 		);
 	}
 
-	$scope.edgeGW = {
-		"total": "",
-		"normal": "",
-		"nonNormal": ""
-	}
-
-	// 대시보드 하단 EdgeGW 상태 조회
-	$scope.selectEdgeCount = function() {
-		dashboardResource.getEdgeCount(
-			{ param: 'edge-gw' },
-			null,
-			function(res) {
-				$scope.edgeGW.total = res.data.totalCount;
-				$scope.edgeGW.normal = res.data.normalCount;
-				$scope.edgeGW.nonNormal = res.data.nonNormalCount;
-				$scope.dashLoad();
-			},
-			function(res) {
-				alert(res);
-			}
-		);
-	}
-
 	// 목록 출력을 위한 조건을 담은 params
 	let params = {
 		"pageNum": 0,
@@ -71,8 +49,9 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 	}
 
 	// 대시보드 입찰공고 목록 조회하는 부분
-	Factory.getBidList($scope, params, bidResource, $rootScope);
+	Factory.getBidList($scope, params, bidResource, $rootScope, dateHandling);
 
+	// 입찰공고, 입찰결과를 클릭했을 경우 목록 출력
 	$scope.changeDashList = function(title) {
 		if (title == '공고') {
 			params.status = null;
@@ -81,9 +60,10 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 			params.status = 2;
 		}
 
-		Factory.getBidList($scope, params, bidResource, $rootScope);
+		Factory.getBidList($scope, params, bidResource, $rootScope, dateHandling);
 	}
-	
+
+	// 상세보기 호출
 	$scope.moveDetailPage = function(id) {
 		let modalInstance = $uibModal.open({
 			templateUrl: "/static/templates/platform/dashboard/bid_detail_modal.html",
@@ -103,6 +83,56 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 			},
 			function(res) { // cancel
 				console.log('modal에서 dismissed at: ' + new Date() + '\n' + res);
+			}
+		);
+	}
+
+	$scope.edgeGW = {
+		"total": "",
+		"normal": "",
+		"nonNormal": ""
+	}
+
+	let companyName = function() {
+		if ($rootScope.authentication == 1) {
+			// --- 회사명(제조사만 따로 조회하기 위한 제조사명) 조회 --- //
+			let name = "";
+			bidResource.getCompanyInfo(
+				{
+					"param1": "company",
+					"param2": id // 제조사 아이디
+				},
+				null,
+				function(res) {
+					name = res.data.name;
+				},
+				function(res) {
+					alert(res);
+				}
+			);
+			return name;
+		}
+		else {
+			return null;
+		}
+	}
+
+	// 대시보드 하단 EdgeGW 상태 조회
+	$scope.selectEdgeCount = function() {
+		dashboardResource.getEdgeCount(
+			{
+				param1: 'edge-gw',
+				param2: companyName()
+			},
+			null,
+			function(res) {
+				$scope.edgeGW.total = res.data.totalCount;
+				$scope.edgeGW.normal = res.data.normalCount;
+				$scope.edgeGW.nonNormal = res.data.nonNormalCount;
+				$scope.dashLoad();
+			},
+			function(res) {
+				alert(res);
 			}
 		);
 	}

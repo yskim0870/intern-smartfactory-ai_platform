@@ -1,6 +1,7 @@
 platform.controller("BidCtrl", function($scope, Factory, $rootScope) {
 
 	let bidResource = Factory.bidResource;
+	let dateHandling = Factory.dateHandling;
 	
 	$scope.dash = 0;
 
@@ -70,6 +71,6 @@ platform.controller("BidCtrl", function($scope, Factory, $rootScope) {
 			"pageItemPerPage": $scope.pagination.pageItemPerPage
 		}
 
-		Factory.getBidList($scope, params, bidResource, $rootScope);
+		Factory.getBidList($scope, params, bidResource, $rootScope, dateHandling);
 	}
 });

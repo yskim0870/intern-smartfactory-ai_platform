@@ -4,12 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,12 +20,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import kr.smartfactory.platform.web.dao.entity.bid.BidNoticeFile;
+import kr.smartfactory.platform.web.dao.impl.BidDao;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.bid.BidDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
+import kr.smartfactory.platform.web.service.IBidService;
 import kr.smartfactory.platform.web.service.impl.BidService;
 import open.commons.Result;
 
@@ -39,12 +39,18 @@ import open.commons.Result;
  *       NOTE -----------------------------------------------------------
  *       2021.12.23 Younghun Yu 최초 생성
  */
-@Controller
+@Controller(BidController.BEAN_QUALIFER)
 @RequestMapping(value = "/bids")
 public class BidController {
 
+	public final static String BEAN_QUALIFER = "kr.smartfactory.platform.web.controller.BidController";
+	
+	private IBidService bidService;
+
 	@Autowired
-	private BidService bidService;
+	public BidController(@Qualifier(BidService.BEAN_QUALIFER) IBidService bidService) {
+		this.bidService = bidService;
+	}
 
 	/**
 	 * @methodName : createBid

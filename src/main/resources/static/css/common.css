@@ -296,7 +296,7 @@ a.link {color:#3b78ce;}
 #pieChart {
   display: block;
   height: 100%;
-  margin-left: 35px;
+  margin-left: 65px;
 }
 [class$="-legend"] {
   list-style: none;
