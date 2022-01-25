@@ -25,11 +25,12 @@
         <!-- Search : e -->
         
         <!-- Table-list : s -->
+        <div ng-model="pagination">
         <div class="scm-card">
            <div class="table-header">
               <span class="table-title">제조사명</span>
               <div class="table-header-right">
-                <span>전체 20건</span>
+                <span ng-model="pagination.totalCount">전체 20건</span>
                   <select name="select" class="small">
                     <option selected>15개씩 보기</option>
                     <option>30개씩 보기 </option>
@@ -37,7 +38,7 @@
                </div>
            </div>
            
-           <table  class="table-list">
+           <table  class="table-list" ng-modle="pagination.">
             <caption>제조사목록</caption>
             <thead>
               <tr>
@@ -69,4 +70,5 @@
 			num-pages="numPages" ng-click="showBidView()"></ul>
 	</div>
         <!-- Table-list : e -->   
+    </div>
 </div>

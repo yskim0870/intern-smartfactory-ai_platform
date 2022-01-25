@@ -3,8 +3,8 @@
  */
 package kr.smartfactory.platform.web.service;
 
-import java.util.Map;
-
+import kr.smartfactory.platform.web.dto.dashboard.DashboardCountDTO;
+import kr.smartfactory.platform.web.dto.dashboard.EdgeGWCountDTO;
 import open.commons.Result;
 
 /**
@@ -27,7 +27,7 @@ public interface IDashBoardService {
 	 * @author : Younghun Yu
 	 * @date : 2022.01.18
 	 */
-	public Result<Map<String, Integer>> selectCount();
+	public Result<DashboardCountDTO> selectCount();
 	
 	/**
 	 * @methodName : selectEdgeCount
@@ -37,5 +37,5 @@ public interface IDashBoardService {
 	 * @author : Younghun Yu
 	 * @date : 2022.01.18
 	 */
-	public Result<Map<String, Integer>> selectEdgeCount();
+	public Result<EdgeGWCountDTO> selectEdgeCount();
 }

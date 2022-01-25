@@ -3,14 +3,14 @@
  */
 package kr.smartfactory.platform.web.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import kr.smartfactory.platform.web.dto.dashboard.DashboardCountDTO;
+import kr.smartfactory.platform.web.dto.dashboard.EdgeGWCountDTO;
 import kr.smartfactory.platform.web.service.IDashBoardService;
 import kr.smartfactory.platform.web.service.impl.DashBoardService;
 import open.commons.Result;
@@ -48,12 +48,12 @@ public class DashBoardController {
 	 * @date : 2022.01.17
 	 */
 	@GetMapping(value = "")
-	public ResponseEntity<Result<Map<String, Integer>>> selectCount(){
+	public ResponseEntity<Result<DashboardCountDTO>> selectCount(){
 		return ResponseEntity.ok(dashboardService.selectCount());
 	}
 	
 	@GetMapping(value = "/edge-gw")
-	public ResponseEntity<Result<Map<String, Integer>>> selectEdgeCount(){
+	public ResponseEntity<Result<EdgeGWCountDTO>> selectEdgeCount(){
 		return ResponseEntity.ok(dashboardService.selectEdgeCount());
 	}
 }

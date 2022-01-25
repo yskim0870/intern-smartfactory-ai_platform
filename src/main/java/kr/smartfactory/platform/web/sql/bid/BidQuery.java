@@ -106,13 +106,13 @@ public class BidQuery {
 			, "join user_info on (company_info.business_number = user_info.business_number)" //
 			, "join expert_status on (user_info.id = expert_status.user_id) where expert_status.status=1");
 	
-	// 입찰 계약 등록에 필요한 정보 조회 - 회사 이름으로 해당 회사 정보 가져오기
+	// 계약 등록에 필요한 정보 조회 - 회사 이름으로 해당 회사 정보 가져오기
 	public final static String SELECT_EXPERT_COMPANY_INFO = String.join(" "//
 			, "select * from company_info" //
 			, "join user_info on (company_info.business_number = user_info.business_number)" // 
 			, "join expert_status on (user_info.id = expert_status.user_id)" //
 			, "where company_info.name=? and expert_status.status=1");
-			
+	
 	// 입찰공고 - 계약 등록
 	public final static String UPDATE_BID_CONTRACT_QUERY = String.join(" " //
 			, "update bid_info set" //

@@ -78,6 +78,7 @@ public class User {
 	 */
 	public User(ResultSet rs) {
 		try {
+			this.setUserID(rs.getString("user_info.id"));
 			this.setName(rs.getString("user_info.name"));
 			this.setTelNumber(rs.getString("user_info.tel_number"));
 			this.setEmail(rs.getString("user_info.email"));

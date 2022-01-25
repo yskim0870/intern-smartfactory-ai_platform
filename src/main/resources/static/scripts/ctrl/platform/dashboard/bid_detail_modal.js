@@ -1,19 +1,7 @@
 platform.controller("DashboardBidDetailCtrl", function($scope, $uibModalInstance, id, Factory) {
 
-	// date 객체 2022.1.2 -> 2022.01.02 포맷
-	let dateFormat = function(date) {
-		let year = date.getFullYear();
-		let month = date.getMonth() + 1;
-		let day = date.getDate();
-		let format = year + "-" + (("00" + month.toString()).slice(-2)) + "-" + (("00" + day.toString()).slice(-2));
-
-		return format;
-	}
-
-	// long 객체 -> date
-	let longToDate = function(date) {
-		return dateFormat(new Date(date));
-	}
+	$scope.bidFiles = [];
+	$scope.sampleFiles = [];
 
 	// 상세보기 정보 조회
 	Factory.bidResource.getBidDetail(
@@ -21,8 +9,25 @@ platform.controller("DashboardBidDetailCtrl", function($scope, $uibModalInstance
 		null,
 		function(res) {
 			$scope.bid = res.data;
-			$scope.bid.bidInfo.bidStartDate = longToDate(res.data.bidInfo.bidStartDate);
-			$scope.bid.bidInfo.bidEndDate = longToDate(res.data.bidInfo.bidEndDate);
+
+			let j = 0;
+			let k = 0;
+			for (let i = 0; i < $scope.bid.fileList.length; i++) {
+				if ($scope.bid.fileList[i].fileType == 0) {
+					$scope.bidFiles[j++] = $scope.bid.fileList[i];
+				}
+				else {
+					$scope.sampleFiles[k++] = $scope.bid.fileList[i];
+				}
+			}
+
+			$scope.bidFileLength = $scope.bidFiles.length;
+			$scope.sampleFileLength = $scope.sampleFiles.length;
+
+			$scope.bid.bidInfo.bidStartDate = Factory.dateHandling.longToDate(res.data.bidInfo.bidStartDate);
+			$scope.bid.bidInfo.bidEndDate = Factory.dateHandling.longToDate(res.data.bidInfo.bidEndDate);
+			$scope.bid.bidInfo.workStartDate = Factory.dateHandling.longToDate(res.data.bidInfo.workStartDate);
+			$scope.bid.bidInfo.workEndDate = Factory.dateHandling.longToDate(res.data.bidInfo.workEndDate);
 		},
 		function(res) {
 			alert(res);

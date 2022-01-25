@@ -32,16 +32,15 @@
 									<td class="td-bold">{{bid.bidInfo.prePrice}}</td>
 								</tr>
 
-								<!-- 파일 띄워야함 -->
-								<tr ng-repeat="file in bid.fileList">
-									<th ng-if="file.fileType == 0">입찰공고문</th>
-									<td ng-if="file.fileType == 0">
+								<tr ng-repeat="file in bidFiles">
+									<th rowspan="{{bidFileLength}}" ng-if="$first">입찰공고문</th>
+									<td>
 										<a href="{{'/bids/download/' + bid.bidInfo.id + '?fileID=' + file.fileID}}" id="bidFileDownload" download>{{file.fileName}}</a>
 									</td>
 								</tr>
-								<tr ng-repeat="file in bid.fileList">
-									<th ng-if="file.fileType == 1">샘플테이터</th>
-									<td ng-if="file.fileType == 1">
+								<tr ng-repeat="file in sampleFiles">
+									<th rowspan="{{sampleFileLength}}" ng-if="$first">샘플테이터</th>
+									<td>
 										<a href="{{'/bids/download/' + bid.bidInfo.id + '?fileID=' + file.fileID}}" id="sampleFileDownload" download>{{file.fileName}}</a>
 									</td>
 								</tr>

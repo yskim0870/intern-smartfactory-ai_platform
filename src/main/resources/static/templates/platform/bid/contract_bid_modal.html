@@ -2,7 +2,7 @@
     <button ng-click="cancel()" class="close_btn">닫기</button>
   </p>
   <!-- popup-cont : s -->
-  <div class="scm-popup">
+  <div class="scm-popup" ng-model="bid">
     <div class="popup-cont">
 
       <!-- 공고정보 : s -->
@@ -51,15 +51,15 @@
             </tr>
             <tr>
               <th>담당자</th>
-              <td>{{bid.contractor.name}}</td>
+              <td>{{bid.bidInfo.contractor.name}}</td>
             </tr>
             <tr>
               <th>연락처</th>
-              <td>{{bid.contractor.telNumber}}</td>
+              <td>{{bid.bidInfo.contractor.telNumber}}</td>
             </tr>
             <tr>
               <th>이메일</th>
-              <td>{{bid.contractor.email}}</td>
+              <td>{{bid.bidInfo.contractor.email}}</td>
             </tr>
             <tr>
               <th>수행기간</th>

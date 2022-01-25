@@ -60,6 +60,7 @@ public class UserInfoDTO {
 	 * @param data
 	 */
 	public UserInfoDTO(User data) {
+		this.setId(data.getUserID());
 		this.setName(data.getName());
 		this.setTelNumber(data.getTelNumber());
 		this.setEmail(data.getEmail());

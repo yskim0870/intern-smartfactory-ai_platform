@@ -21,11 +21,13 @@ platform.factory("Factory", function($resource) {
 					"method": "GET",
 					"param1": null
 				},
+				// 계약 업체에 대한 정보 조회 (계약 완료건 상세보기에 계약자 정보)
 				"getExpertManager": {
 					"method": "GET",
 					"param1": null,
 					"param2": null
 				},
+				// 사용자 id로 회사 정보 조회 (회사 이름 조회)
 				"getCompanyInfo": {
 					"method": "GET",
 					"param1": null,
@@ -106,6 +108,10 @@ platform.factory("Factory", function($resource) {
 			// long 객체 -> date
 			longToDate: function(date) {
 				return this.dateFormat(new Date(date));
+			},
+
+			dateToLong: function(date) {
+				return date.valueOf();
 			}
 		},
 
@@ -117,7 +123,7 @@ platform.factory("Factory", function($resource) {
 				params,
 				null,
 				function() {
-					
+
 				},
 				function(res) {
 					alert(res);
@@ -129,7 +135,7 @@ platform.factory("Factory", function($resource) {
 		// ---------------------- 입찰 공고 조회 -----------------------------
 
 		getBidList: function($scope, params, bidResource, $rootScope, dateHandling) {
-			
+
 			// ------------------ date 처리 ------------------
 			// radio 박스 체크 처리에 필요한 객체
 			// value = 1,3,6개월 전에 대한 값-1,3,6
@@ -178,7 +184,6 @@ platform.factory("Factory", function($resource) {
 				function(res) {
 					if ($scope.dash != 1) {
 						$scope.pagination.totalCount = res.data.totalCount;
-						$scope.pagination.itemPerPage = Math.ceil($scope.pagination.totalCount / $scope.pagination.pageItemPerPage.value);
 					}
 					$scope.items = res.data.items;
 
@@ -209,14 +214,34 @@ platform.factory("Factory", function($resource) {
 			// ------------------ detail ------------------
 
 			let showDetail = function(item, id) {
+				
+				$scope.bidFiles = [];
+				$scope.sampleFiles = [];
 
 				bidResource.getBidDetail(
 					{ "param1": id },
 					null,
 					function(res) {
 						$scope.bid = res.data;
+
+						let j = 0;
+						let k = 0;
+						for (let i = 0; i < $scope.bid.fileList.length; i++) {
+							if ($scope.bid.fileList[i].fileType == 0) {
+								$scope.bidFiles[j++] = $scope.bid.fileList[i];
+							}
+							else {
+								$scope.sampleFiles[k++] = $scope.bid.fileList[i];
+							}
+						}
+						
+						$scope.bidFileLength = $scope.bidFiles.length;
+						$scope.sampleFileLength = $scope.sampleFiles.length;
+
 						$scope.bid.bidInfo.bidStartDate = dateHandling.longToDate(res.data.bidInfo.bidStartDate);
 						$scope.bid.bidInfo.bidEndDate = dateHandling.longToDate(res.data.bidInfo.bidEndDate);
+						$scope.bid.bidInfo.workStartDate = dateHandling.longToDate(res.data.bidInfo.workStartDate);
+						$scope.bid.bidInfo.workEndDate = dateHandling.longToDate(res.data.bidInfo.workEndDate);
 						item.detailStatus = !item.detailStatus;
 					},
 					function(res) {

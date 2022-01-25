@@ -1,26 +1,23 @@
 <div ng-controller="BidMgmtController" ng-model="userGrade" ng-init="showBidView()">
 	<div ng-if="userGrade==1">
-	<div class="main-header" ng-model="dash">
-		<div class="right">
-			<button ng-click="createBidBtnClick()" class="btn black big"><img src="/static/images/icon_bid_white.png"
-					alt="입찰"><span>입찰공고</span></button>
-		</div>
-	</div>
 	<!-- Search : s -->
 	<div class="scm-card">
+				<div style="float: right">
+					<button ng-click="createBidBtnClick()" class="btn black big">
+						<img src="/static/images/icon_bid_white.png" alt="입찰"><span>입찰공고</span>
+					</button>
+				</div>
 		<table class="table-search">
 			<caption>입찰조회</caption>
 			<tr>
 				<th>공고번호</th>
-				<td colspan="4"><input name="num" ng-model="id" type="text" title="공고번호" style="width: 150px;"></td>
+				<td colspan="4"><input name="num" ng-model="id" type="text" title="공고번호" class="td-bidNum"></td>
 			</tr>
 			<tr>
 				<th>공고일자</th>
 				<td>
-					<input name="date01" ng-model="bidStartDate" type="date" title="날짜선택" style="width: 132px;"
-						ng-change="dateChange()"> ~
-					<input name="date02" ng-model="bidEndDate" type="date" title="날짜선택" style="width: 132px;"
-						ng-change="dateChange()">
+					<input class="td-date" name="date01" ng-model="bidStartDate" type="date" title="날짜선택" ng-change="dateChange()"> ~
+					<input class="td-date" name="date02" ng-model="bidEndDate" type="date" title="날짜선택" ng-change="dateChange()">
 				</td>
 				<td colspan="3">
 					<input type="radio" ng-model="dateRadio.value" value=1 ng-click="dateRadioClick(dateRadio.value)"
@@ -40,7 +37,7 @@
 				<th style="width:100px">공고명</th>
 				<td><input name="date" ng-model="bidName" type="text" title="공고명" style="width: 550px;"></td>
 				<th style="width:80px">계약상태</th>
-				<td style="width:180px">
+				<td style="width:185px">
 					<input type="radio" name="bid-ing" ng-model="status" value=1 id="bid-01" class="dsi"
 						checked=""><label for="bid-01">입찰중</label>
 					<input type="radio" name="bid-end" ng-model="status" value=2 id="bid-02" class="dsi"><label
@@ -133,15 +130,15 @@
 									<td class="td-bold">{{bid.bidInfo.prePrice}}</td>
 								</tr>
 
-								<tr ng-repeat="file in bid.fileList">
-									<th ng-if="file.fileType == 0">입찰공고문</th>
-									<td ng-if="file.fileType == 0">
+								<tr ng-repeat="file in bidFiles track by $index">
+									<th rowspan="{{bidFileLength}}" ng-if="$first">입찰공고문</th>
+									<td>
 										<a href="{{'/bids/download/' + bid.bidInfo.id + '?fileID=' + file.fileID}}" id="bidFileDownload" download>{{file.fileName}}</a>
 									</td>
 								</tr>
-								<tr ng-repeat="file in bid.fileList">
-									<th ng-if="file.fileType == 1">샘플테이터</th>
-									<td ng-if="file.fileType == 1">
+								<tr ng-repeat="file in sampleFiles track by $index">
+									<th rowspan="{{sampleFileLength}}" ng-if="$first">샘플테이터</th>
+									<td>
 										<a href="{{'/bids/download/' + bid.bidInfo.id + '?fileID=' + file.fileID}}" id="sampleFileDownload" download>{{file.fileName}}</a>
 									</td>
 								</tr>
@@ -179,11 +176,11 @@
 								<caption>입찰계약정보</caption>
 								<tr>
 									<th style="width:150px">도메인IT전문업체</th>
-									<td>{{bid.contractor.name}}</td>
+									<td>{{bid.contractor.companyInfo.name}}</td>
 								</tr>
 								<tr>
 									<th>대표자</th>
-									<td>{{bid.contractor.companyInfo.name}}</td>
+									<td>{{bid.contractor.name}}</td>
 								</tr>
 								<tr>
 									<th>계약기간</th>

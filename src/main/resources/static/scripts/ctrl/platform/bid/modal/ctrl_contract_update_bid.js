@@ -2,7 +2,26 @@ platform.controller("ContractBidController", function($scope, $rootScope, Factor
 
 	// -------------------- 계약 내용 정보 -------------------- //
 
-	console.log(bidID);
+	$scope.bid = {
+		"bidInfo": {
+			// 계약업체 아이디
+			"contractorID": "",
+			// 계약업체 정보 (CompanyInfoDTO)
+			"contractor":{
+				"name":"",
+				"telNumber":"",
+				"email":""
+			},
+			"workStartDate": "",
+			"workEndDate": "",
+			"contractPrice": "",
+			"contractDate": "",
+			"id": bidID
+		},
+		"company": {
+			"name": ""
+		}
+	}
 
 	let getDetail = function() {
 		Factory.bidResource.getBidDetail(
@@ -37,7 +56,6 @@ platform.controller("ContractBidController", function($scope, $rootScope, Factor
 		null,
 		function(res) {
 			// 계약업체 리스트
-			console.log(res.data);
 			$scope.experts = res.data;
 		},
 		function(res) {
@@ -45,30 +63,9 @@ platform.controller("ContractBidController", function($scope, $rootScope, Factor
 		}
 	)
 
-	$scope.bid = {
-		"bidInfo": {
-			"contractorID": bidID,
-			"contractName": $scope.expert,
-			"workStartDate": "",
-			"workEndDate": "",
-			"contractPrice": "",
-			"contractDate": "",
-			"id": bidID
-		},
-		"contractor":{
-			"name":"",
-			"telNumber":"",
-			"email":""
-		},
-		"company": {
-			"name": ""
-		}
-	}
-
 	// 계약 업체에 대한 정보 조회
 	// select box change
 	$scope.changeExpert = function() {
-		console.log($scope.bid.company.name);
 		Factory.bidResource.getExpertManager(
 			{
 				"param1": "contract",
@@ -76,9 +73,10 @@ platform.controller("ContractBidController", function($scope, $rootScope, Factor
 			},
 			null,
 			function(res) {
-				$scope.bid.contractor.name = res.data.name;
-				$scope.bid.contractor.telNumber = res.data.telNumber;
-				$scope.bid.contractor.email = res.data.email;
+				$scope.bid.bidInfo.contractorID = res.data.id;
+				$scope.bid.bidInfo.contractor.name = res.data.name;
+				$scope.bid.bidInfo.contractor.telNumber = res.data.telNumber;
+				$scope.bid.bidInfo.contractor.email = res.data.email;
 			},
 			function(res) {
 				alert(res);
@@ -86,21 +84,15 @@ platform.controller("ContractBidController", function($scope, $rootScope, Factor
 		);
 	}
 	
-	// date객체 -> long
-	let dateToLong = function(date) {
-		return new Date(date).valueOf();
-	}
-
 	// ok button click
 	$scope.ok = function() {
 
 		let bidCopy = angular.copy($scope.bid);
-		bidCopy.bidInfo.contractDate = dateToLong($scope.bid.bidInfo.contractDate);
-		bidCopy.bidInfo.workStartDate = dateToLong($scope.bid.bidInfo.workStartDate);
-		bidCopy.bidInfo.workEndDate = dateToLong($scope.bid.bidInfo.workEndDate);
+		bidCopy.bidInfo.contractDate = Factory.dateHandling.dateToLong($scope.bid.bidInfo.contractDate);
+		bidCopy.bidInfo.workStartDate = Factory.dateHandling.dateToLong($scope.bid.bidInfo.workStartDate);
+		bidCopy.bidInfo.workEndDate = Factory.dateHandling.dateToLong($scope.bid.bidInfo.workEndDate);
 		bidCopy.bidInfo.contractPrice = $scope.bid.bidInfo.contractPrice;
 		bidCopy.bidInfo.contractorID = $scope.bid.bidInfo.contractorID;
-		console.log(bidCopy);
 
 		Factory.bidResource.updateBid(
 			{ "param1": bidID },

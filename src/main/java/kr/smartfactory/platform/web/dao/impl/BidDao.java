@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import kr.smartfactory.platform.web.dao.IBidDao;
 import kr.smartfactory.platform.web.dao.entity.Company;
 import kr.smartfactory.platform.web.dao.entity.User;
@@ -239,10 +237,10 @@ public class BidDao extends DBGenericDao implements IBidDao {
 			conn = dataSource.getConnection();
 			conn.setAutoCommit(false);
 
-			// 파일 정보를 제외한 나머지 데이터 조회
-			bid = jdbcTemplate.queryForObject(BidQuery.SELECT_BID_DETAIL_QUERY, (rs, rowNum) -> new BidDTO(rs), id);
-
 			try {
+				// 파일 정보를 제외한 나머지 데이터 조회
+				bid = jdbcTemplate.queryForObject(BidQuery.SELECT_BID_DETAIL_QUERY, (rs, rowNum) -> new BidDTO(rs), id);
+
 				contractComapny = jdbcTemplate.queryForObject(BidQuery.SELECT_COMPANY_NAME_TO_USER_ID, //
 						(rs, rowNum) -> new CompanyInfoDTO(rs), bid.getBidInfo().getContractorID());
 				contractor = jdbcTemplate.queryForObject(BidQuery.SELECT_CONTRACT_INFO, //

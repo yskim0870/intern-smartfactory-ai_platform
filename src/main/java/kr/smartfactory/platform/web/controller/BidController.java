@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import kr.smartfactory.platform.web.dao.entity.bid.BidNoticeFile;
-import kr.smartfactory.platform.web.dao.impl.BidDao;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.bid.BidDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
@@ -147,11 +146,11 @@ public class BidController {
 	 * @date : 2022.01.09
 	 */
 	@GetMapping(value = "/contract/{companyName}")
-	ResponseEntity<Result<UserInfoDTO>> selectExpertManager(@PathVariable String companyName,
+	public ResponseEntity<Result<UserInfoDTO>> selectExpertManager(@PathVariable String companyName,
 			HttpServletRequest request, HttpServletResponse response) {
 		return ResponseEntity.ok(bidService.selectExpertManager(companyName));
 	}
-
+	
 	/**
 	 * @methodName : selectBidList
 	 * @description : 입찰 목록을 조회하기 위한 메소드

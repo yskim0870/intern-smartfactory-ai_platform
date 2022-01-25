@@ -35,7 +35,7 @@
     <tr>
       <th>입찰공고문</th>
       <td>
-        <input type="file" ng-repeat="file in bidFiles track by $index" ngf-select="uploadBidFile($file)">
+        <input type="file" ng-repeat="file in bidFiles track by $index" ngf-select="uploadBidFile($file)" style="font-size: 11px;">
         <button ng-click="addBidFiles()" class="btn white"><img src="/static/images/icon_plus.png" alt="추가"></button>
       </td>
     </tr>

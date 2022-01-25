@@ -16,10 +16,14 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 	let dateHandling = Factory.dateHandling;
 
 	$scope.dashboard = {
-		"manufacturer": "",
-		"bidNotice": "",
-		"edgeGW": "",
-		"expert": ""
+		"bidCount": "",
+		"manufacturerCount": "",
+		"edgeGWCount": {
+			"totalCount":"",
+			"normalCount":"",
+			"abnormalCount":""
+		},
+		"expertCount": ""
 	}
 
 	// 대시보드의 상단 카운트 조회
@@ -28,13 +32,13 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 			null,
 			null,
 			function(res) {
-				$scope.dashboard.manufacturer = res.data.manufacturer;
-				$scope.dashboard.bidNotice = res.data.bidNotice;
-				$scope.dashboard.edgeGW = res.data.edgeGW;
-				$scope.dashboard.expert = res.data.expert;
+				$scope.dashboard.manufacturerCount = res.data.manufacturerCount;
+				$scope.dashboard.bidCount = res.data.bidCount;
+				$scope.dashboard.edgeGWCount = res.data.edgeGWCount;
+				$scope.dashboard.expertCount = res.data.expertCount;
 			},
 			function(res) {
-				console.log(res);
+				alert(res);
 			}
 		);
 	}
@@ -82,15 +86,9 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 				console.log("modal result : " + bid);
 			},
 			function(res) { // cancel
-				console.log('modal에서 dismissed at: ' + new Date() + '\n' + res);
+				console.log('modal dismissed at: ' + new Date() + '\n' + res);
 			}
 		);
-	}
-
-	$scope.edgeGW = {
-		"total": "",
-		"normal": "",
-		"nonNormal": ""
 	}
 
 	let companyName = function() {
@@ -126,9 +124,9 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 			},
 			null,
 			function(res) {
-				$scope.edgeGW.total = res.data.totalCount;
-				$scope.edgeGW.normal = res.data.normalCount;
-				$scope.edgeGW.nonNormal = res.data.nonNormalCount;
+				$scope.dashboard.edgeGWCount.totalCount = res.data.totalCount;
+				$scope.dashboard.edgeGWCount.normalCount = res.data.normalCount;
+				$scope.dashboard.edgeGWCount.abnormalCount = res.data.abnormalCount;
 				$scope.dashLoad();
 			},
 			function(res) {
@@ -144,11 +142,11 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 
 		let normal = {
 			'label': '정상',
-			'value': $scope.edgeGW.normal
+			'value': $scope.dashboard.edgeGWCount.normalCount
 		}
 		let nonNormal = {
 			'label': '비정상',
-			'value': $scope.edgeGW.nonNormal
+			'value': $scope.dashboard.edgeGWCount.abnormalCount
 		}
 
 		let chartData = [normal.value, nonNormal.value];

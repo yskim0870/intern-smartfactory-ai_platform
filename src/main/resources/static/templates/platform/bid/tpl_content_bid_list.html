@@ -5,15 +5,13 @@
 			<caption>입찰조회</caption>
 			<tr>
 				<th style="width: 100px">공고번호</th>
-				<td colspan="4"><input ng-model="id" name="num" type="text" title="공고번호" style="width: 150px;"></td>
+				<td colspan="4"><input class="td-bidNum" ng-model="id" name="num" type="text" title="공고번호"></td>
 			</tr>
 			<tr>
 				<th style="width: 100px">공고기간</th>
 				<td>
-					<input name="date01" ng-model="bidStartDate" type="date" title="날짜선택" style="width: 132px;"
-						ng-change="dateChange()"> ~
-					<input name="date02" ng-model="bidEndDate" type="date" title="날짜선택" style="width: 132px;"
-						ng-change="dateChange()">
+					<input name="date01" ng-model="bidStartDate" type="date" title="날짜선택" class="td-date" ng-change="dateChange()"> ~
+					<input name="date02" ng-model="bidEndDate" type="date" title="날짜선택" class="td-date" ng-change="dateChange()">
 				</td>
 				<td colspan="3">
 					<input type="radio" ng-model="dateRadio.value" value=1 ng-click="dateRadioClick(dateRadio.value)"
@@ -31,13 +29,13 @@
 			</tr>
 			<tr>
 				<th style="width: 100px">공고명</th>
-				<td colspan="4"><input name="name" ng-model="bidName" type="text" title="공고명" style="width: 650px;">
+				<td colspan="4"><input name="name" ng-model="bidName" type="text" title="공고명" style="width: 550px;">
 				</td>
 			</tr>
 			<tr>
 				<th style="width: 100px">업체명</th>
 				<td style="width: 300px">
-					<input name="edgegw" type="text" ng-model="manufacturerName" title="EdgeGW" style="width: 150px;">
+					<input class="td-bidNum" name="edgegw" type="text" ng-model="manufacturerName" title="EdgeGW">
 				</td>
 				<th style="width: 100px">계약상태</th>
 				<td style="width: 200px">
@@ -125,15 +123,15 @@
 									<td class="td-bold">{{bid.bidInfo.prePrice}}</td>
 								</tr>
 
-								<tr ng-repeat="file in bid.fileList">
-									<th ng-if="file.fileType == 0">입찰공고문</th>
-									<td ng-if="file.fileType == 0">
+								<tr ng-repeat="file in bidFiles track by $index">
+									<th rowspan="{{bidFileLength}}" ng-if="$first">입찰공고문</th>
+									<td>
 										<a href="{{'/bids/download/' + bid.bidInfo.id + '?fileID=' + file.fileID}}" id="bidFileDownload" download>{{file.fileName}}</a>
 									</td>
 								</tr>
-								<tr ng-repeat="file in bid.fileList">
-									<th ng-if="file.fileType == 1">샘플테이터</th>
-									<td ng-if="file.fileType == 1">
+								<tr ng-repeat="file in sampleFiles track by $index">
+									<th rowspan="{{sampleFileLength}}" ng-if="$first">샘플테이터</th>
+									<td>
 										<a href="{{'/bids/download/' + bid.bidInfo.id + '?fileID=' + file.fileID}}" id="sampleFileDownload" download>{{file.fileName}}</a>
 									</td>
 								</tr>
