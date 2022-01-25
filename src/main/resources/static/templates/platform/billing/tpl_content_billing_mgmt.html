@@ -71,7 +71,7 @@
 		<div class="table-header">
 			<span class="table-title">과금 목록</span>
 			<div class="table-header-right">
-				<span>전체 {{Billings.data.totalCount}}</span> <select name="select" class="small" ng-model="itemCount" ng-options="item.value as item.display for item in items">
+				<span>전체 {{Billings.data.totalCount}}개</span> <select name="select" class="small" ng-model="itemCount" ng-options="item.value as item.display for item in items">
 
 				</select>
 			</div>
@@ -117,7 +117,7 @@
 					<td>
 						<span>{{billingInfo.approvalStatus}}</span>
 					</td>
-					<td>
+					<td ng-click="$event.stopPropagation();">
 						<button class="btn whiteblue small">
 							<img src="static/images/icon_wait.png" alt="승인대기"><span>승인대기</span>
 						</button>

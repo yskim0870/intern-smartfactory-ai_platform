@@ -87,7 +87,7 @@
 					<td>
 						<span>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</span>
 					</td>
-					<td>
+					<td ng-click="$event.stopPropagation();">
 						<button class="btn white small" ng-click="updateModal(edgeInfo.id)">
 							<img src="/static/images/icon_modify.png" alt="수정"><span>수정</span>
 						</button>
