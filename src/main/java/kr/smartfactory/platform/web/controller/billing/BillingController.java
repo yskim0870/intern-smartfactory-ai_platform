@@ -48,7 +48,7 @@ public class BillingController {
      * @modified 2022. 1. 13. 오후 4:49:12 || Kyunghun Park || 최초 생성
      *
      */
-    @RequestMapping(value = "/billings", method = RequestMethod.POST)
+    @RequestMapping(value = "/billings", method = RequestMethod.PUT)
     public ResponseEntity<Result<Boolean>> serviceApply(//
             HttpServletRequest request//
             , HttpServletResponse response//
@@ -148,4 +148,5 @@ public class BillingController {
     ) {
         return null;
     }
+    
 }

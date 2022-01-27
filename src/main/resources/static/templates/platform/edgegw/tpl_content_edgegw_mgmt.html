@@ -1,4 +1,4 @@
-<div class="scm-main" ng-controller="EdgeController">
+<div ng-controller="EdgeController">
 	<div class="main-header"></div>
 
 	<!-- Search : s -->
@@ -21,9 +21,9 @@
 			<tr>
 				<th>연동기간</th>
 				<td class="date-select">
-					<input name="date01" type="date" title="날짜선택" ng-model="startDate" style="width: 150px;" ng-change="dateChange">
+					<input name="date01" type="date" title="날짜선택" ng-model="startDate" style="width: 150px;" ng-change="dateChange" max="9999-12-31">
 					~
-					<input name="date02" type="date" title="날짜선택" ng-model="endDate" style="width: 150px;" ng-change="dateChange">
+					<input name="date02" type="date" title="날짜선택" ng-model="endDate" style="width: 150px;" ng-change="dateChange" max="9999-12-31">
 				</td>
 				<td class="date-recent" style="padding: 8px 0px 0px 0px;">
 					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="isChecked[0]" ng-click="dateRadioClick(1)">
@@ -73,92 +73,83 @@
 					<th>비고</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr ng-repeat-start="edgeInfo in edgeGWs.data.items" ng-click="getEdge(edgeInfo)">
-					<td>
-						<span>{{edgeInfo.id}}</span>
-					</td>
-					<td>
-						<span>{{edgeInfo.managerId}}</span>
-					</td>
-					<td>
-						<span>{{boolStatus(edgeInfo.status)}}</span>
-					</td>
-					<td>
-						<span>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</span>
-					</td>
-					<td ng-click="$event.stopPropagation();">
-						<button class="btn white small" ng-click="updateModal(edgeInfo.id)">
-							<img src="/static/images/icon_modify.png" alt="수정"><span>수정</span>
-						</button>
-						<button class="btn red small" ng-click="deleteConfirm(edgeInfo.id)">
-							<img src="/static/images/icon_del.png" alt="삭제"><span>삭제</span>
-						</button>
-					</td>
-				</tr>
-				<tr ng-repeat-end ng-if="edgeInfo.show">
-					<td colspan="5">
-						<div id="detail">
-							<table class="table-list">
-								<thead>
-									<tr>
-										<td colspan="4" style="background-color: lightgray">EdgeGateway 정보</td>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>ID</td>
-										<td>{{edgeInfo.id}}</td>
-									</tr>
-									<tr>
-										<td>연동 기간</td>
-										<!-- LONG TO DATE !!!!!! -->
-										<td>{{edgeInfo.startDate | date: 'yyyy.MM.dd'}} ~ {{edgeInfo.endDate | date: 'yyyy. MM.dd'}}</td>
 
-									</tr>
+			<tr class ng-repeat-start="edgeInfo in edgeGWs.data.items" ng-click="getEdge(edgeInfo)">
 
-									<tr>
-										<td>작동 여부</td>
-										<td>{{boolStatus(edgeInfo.status)}}</td>
-										<td>최종연동일시</td>
-										<td>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</td>
-									</tr>
-									<tr>
-										<td>IP</td>
-										<td>{{edgeInfo.host}}</td>
-										<td>Port</td>
-										<td>{{edgeInfo.port}}</td>
-									</tr>
-								</tbody>
-							</table>
-							<table class="table-list">
-								<thead>
-									<tr>
-										<td colspan="4" style="background-color: lightgray">제조사 정보</td>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>제조사명</td>
-										<td>{{edgeGW.name}}</td>
+				<td>
+					<span>{{edgeInfo.id}}</span>
+				</td>
+				<td>
+					<span>{{edgeInfo.managerId}}</span>
+				</td>
+				<td>
+					<span>{{boolStatus(edgeInfo.status)}}</span>
+				</td>
+				<td>
+					<span>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</span>
+				</td>
+				<td ng-click="$event.stopPropagation();">
+					<button class="btn white small" ng-click="updateModal(edgeInfo.id)">
+						<img src="/static/images/icon_modify.png" alt="수정"><span>수정</span>
+					</button>
+					<button class="btn red small" ng-click="deleteConfirm(edgeInfo.id)">
+						<img src="/static/images/icon_del.png" alt="삭제"><span>삭제</span>
+					</button>
+				</td>
+			</tr>
+			<tr class="detail"   ng-repeat-end ng-if="edgeInfo.show">
+				<td colspan="5">
+					<div class="table-header read">
+						<span class="table-title">EdgeGateway 정보</span>
+					</div>
+					<table class="table-read">
+						<tr>
+							<td>ID</td>
+							<td>{{edgeInfo.id}}</td>
+						</tr>
+						<tr>
+							<td>연동 기간</td>
+							<!-- LONG TO DATE !!!!!! -->
+							<td>{{edgeInfo.startDate | date: 'yyyy.MM.dd'}} ~ {{edgeInfo.endDate | date: 'yyyy. MM.dd'}}</td>
 
-									</tr>
-									<tr>
-										<td>주소</td>
-										<td>{{edgeGW.address}}</td>
-									</tr>
-									<tr>
-										<td>대표번호</td>
-										<td>{{edgeGW.telNumber}}</td>
-										<td>대표자</td>
-										<td>{{edgeGW.ceoName}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</td>
-				</tr>
-			</tbody>
+						</tr>
+
+						<tr>
+							<td>작동 여부</td>
+							<td>{{boolStatus(edgeInfo.status)}}</td>
+							<td>최종연동일시</td>
+							<td>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</td>
+						</tr>
+						<tr>
+							<td>IP</td>
+							<td>{{edgeInfo.host}}</td>
+							<td>Port</td>
+							<td>{{edgeInfo.port}}</td>
+						</tr>
+					</table>
+					<div class="table-header read mt_30">
+						<span class="table-title">제조사 정보</span>
+					</div>
+					<table class="table-read">
+						<caption>제조사 정보</caption>
+						<tr>
+							<td>제조사명</td>
+							<td>{{edgeGW.name}}</td>
+
+						</tr>
+						<tr>
+							<td>주소</td>
+							<td>{{edgeGW.address}}</td>
+						</tr>
+						<tr>
+							<td>대표번호</td>
+							<td>{{edgeGW.telNumber}}</td>
+							<td>대표자</td>
+							<td>{{edgeGW.ceoName}}</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
 		</table>
 	</div>
 	<div class="paginate">
@@ -169,4 +160,3 @@
 		<!-- Table-list : e -->
 	</div>
 </div>
-<!-- scm-main : e -->

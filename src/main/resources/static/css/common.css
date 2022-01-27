@@ -164,6 +164,7 @@ a.link {color:#3b78ce;}
 .table-search td {height:42px;text-align:left;font-size:13px;padding:6px 10px;}
 .table-search td:first-child {border-left:0;}
 .table-search .al_left {text-align:left; padding-left:15px;}
+.table-search select {height:32.56px;}
 
 .table-text {border-top:1px solid #eeeeee;margin-top:15px;padding-top:20px;line-height: 22px;}
 
@@ -279,9 +280,9 @@ a.link {color:#3b78ce;}
 .date-select {width:350px;}
 .date-recent {width:330px;}
 .right {float: right;}
-.scm-card {width:1250px;}
 
-#detail {border: solid 3px;}
+
+
 
 .dash-stat .dash-stat-divide{
 	display:inline-block;width:200px;

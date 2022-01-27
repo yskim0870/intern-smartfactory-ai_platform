@@ -5,7 +5,7 @@
 	</div>
 
 	<!--EdgeGW 등록하기: s -->
-	<div class="scm-card" style="width:99.7%">
+	<div class="scm-card" style="width: 99.7%">
 		<div class="table-header read">
 			<span class="table-title">장치 정보</span>
 		</div>
@@ -34,7 +34,9 @@
 				<td>
 					<select name="select" ng-model="companyInfo" ng-options="company as company.name for company in companies"
 						ng-change="getUser(companyInfo.businessNumber)"
-					></select>
+					>
+						<option value="">선택</option>
+					</select>
 				</td>
 			</tr>
 			<tr>
@@ -51,7 +53,7 @@
 			</tr>
 			<tr>
 				<th>이메일</th>
-				<td>{{user.userInfoDTO.email}}</td>
+				<td ng-if="authentication.userGannnnnnnnnnnnnnn")>{{user.userInfoDTO.email}}</td>
 			</tr>
 		</table>
 	</div>

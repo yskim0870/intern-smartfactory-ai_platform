@@ -10,17 +10,17 @@ package kr.smartfactory.platform.web.dto;
  *
  */
 public class UserDTO {
-    private CompanyInfoDTO companyInfoDTO;
-    private UserInfoDTO userInfoDTO;
-    private UserGradeDTO userGradeDTo;
+    private CompanyInfoDTO companyInfo;
+    private UserInfoDTO userInfo;
+    private UserGradeDTO userGrade;
 
     public UserDTO() {
 
     }
 
     public UserDTO(CompanyInfoDTO company, UserInfoDTO userInfo) {
-        this.companyInfoDTO = company;
-        this.userInfoDTO = userInfo;
+        this.companyInfo = company;
+        this.userInfo = userInfo;
     }
 
     /**
@@ -31,8 +31,8 @@ public class UserDTO {
      *
      * @return
      */
-    public CompanyInfoDTO getCompanyInfoDTO() {
-        return companyInfoDTO;
+    public CompanyInfoDTO getCompanyInfo() {
+        return companyInfo;
     }
 
     /**
@@ -43,8 +43,8 @@ public class UserDTO {
      *
      * @param companyInfoDTO
      */
-    public void setCompanyInfoDTO(CompanyInfoDTO companyInfoDTO) {
-        this.companyInfoDTO = companyInfoDTO;
+    public void setCompanyInfo(CompanyInfoDTO companyInfoDTO) {
+        this.companyInfo = companyInfoDTO;
     }
 
     /**
@@ -55,8 +55,8 @@ public class UserDTO {
      *
      * @return
      */
-    public UserInfoDTO getUserInfoDTO() {
-        return userInfoDTO;
+    public UserInfoDTO getUserInfo() {
+        return userInfo;
     }
 
     /**
@@ -67,8 +67,8 @@ public class UserDTO {
      *
      * @param userInfoDTO
      */
-    public void setUserInfoDTO(UserInfoDTO userInfoDTO) {
-        this.userInfoDTO = userInfoDTO;
+    public void setUserInfo(UserInfoDTO userInfoDTO) {
+        this.userInfo = userInfoDTO;
     }
 
     /**
@@ -79,8 +79,8 @@ public class UserDTO {
      *
      * @return
      */
-    public UserGradeDTO getUserGradeDTo() {
-        return userGradeDTo;
+    public UserGradeDTO getUserGrade() {
+        return userGrade;
     }
 
     /**
@@ -91,7 +91,7 @@ public class UserDTO {
      *
      * @param userGradeDTo
      */
-    public void setUserGradeDTo(UserGradeDTO userGradeDTo) {
-        this.userGradeDTo = userGradeDTo;
+    public void setUserGrade(UserGradeDTO userGradeDTo) {
+        this.userGrade = userGradeDTo;
     }
 }

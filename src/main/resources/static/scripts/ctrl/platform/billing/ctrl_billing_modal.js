@@ -16,6 +16,7 @@ platform.controller('BillingModalCtrl', function($resource, $scope, $uibModalIns
 	);
 	// CRUD ----------------------------------------------------------------
 
+	// 분석환경 신청
 	$scope.serviceApply = function() {
 		res.serviceApply(
 			{}
@@ -37,6 +38,7 @@ platform.controller('BillingModalCtrl', function($resource, $scope, $uibModalIns
 
 	$scope.envGrade = 0;
 
+	// 분석환경 등급
 	$scope.envGrades = [
 		{
 			Value: 0,
@@ -73,6 +75,7 @@ platform.controller('BillingModalCtrl', function($resource, $scope, $uibModalIns
 
 	//  close and dismiss ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
+	// 분석환경 신청 클릭시 재질문
 	$scope.applyConfirm = function() {
 		if (confirm("정말로 등록하시겠습니까?")) {
 			$scope.serviceApply();

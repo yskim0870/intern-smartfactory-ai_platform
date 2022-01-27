@@ -1,110 +1,130 @@
 
 <div class="main-header">
-	<div class="title">EdgeGW 등록하기</div>
+	<p class="popup-title">EdgeGateway 신규 등록</p>
 </div>
-<!--EdgeGW 등록하기: s -->
-<div class="scm-card" style="width:99.7%">
-	<div class="table-header read">
-		<span class="table-title">장치 정보</span>
+
+<div class="scm-popup">
+	<div class="popup-cont" style="margin-top: 30px; padding: 20px 20px 0px 20px;">
+
+		<!--EdgeGW 등록하기: s -->
+
+		<div class="scm-card" style="width: 99.7%">
+			<div class="table-header read">
+				<span class="table-title">장치 정보</span>
+			</div>
+			<table class="table-read">
+				<caption>장치정보</caption>
+				<tr>
+					<th style="width: 100px">장치 ID</th>
+					<td>
+						<input style="width: 48%;" name="equ" type="text" title="업체명" ng-model="id" placeholder="-">
+					</td>
+				</tr>
+				<tr>
+					<th>연동기간</th>
+					<td>
+						<input style="width: 48%;" name="date01" type="date" title="날짜선택" ng-model="startDate">
+
+						~
+						<input style="width: 48%;" name="date02" type="date" title="날짜선택" ng-model="endDate">
+
+					</td>
+				</tr>
+				<tr>
+					<th>포트번호</th>
+					<td>
+						<input style="width: 48%;" name="portNo" type="text" title="포트번호" ng-model="port" style="width: 48%;" placeholder="-">
+					</td>
+				</tr>
+				<tr>
+					<th>IP</th>
+					<td>
+						<input style="width: 48%;" nmae="ip" type="text" title="IP" ng-model="host" placeholder="-">
+					</td>
+				</tr>
+				<tr>
+					<th>작동여부</th>
+					<td>
+						<select style="width: 48%;" name="select" title="status" ng-model="status"
+							ng-options="statusItem as statusItem.display for statusItem in statusItems"
+						>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="scm-card" style="width: 99.7%" ng-if="gradeAdmin">
+
+			<div class="table-header read  mt_30">
+				<span class="table-title">제조사 정보</span>
+			</div>
+
+			<!-- 관리자 화면 -->
+			<table class="table-read" ng-model="gradeAdmin">
+				<caption>제조사 정보</caption>
+				<tr>
+					<th style="width: 100px">제조사</th>
+					<td>
+						<select name="select" ng-model="companyInfo" ng-options="company as company.name for company in companies"
+							ng-change="getUser(companyInfo.businessNumber)"
+						>
+							<option value="">선택</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>담당자</th>
+					<td>{{user.userInfo.name}}</td>
+				</tr>
+				<tr>
+					<th>직책</th>
+					<td>{{user.userInfo.rank}}</td>
+				</tr>
+				<tr>
+					<th>전화번호</th>
+					<td>{{user.userInfo.telNumber}}</td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td>{{user.userInfo.email}}</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="scm-card" style="width: 99.7%" ng-if="gradeCompany">
+			<!-- 제조사 화면 -->
+			<table class="table-read" ng-model="gradeCompany">
+				<caption>제조사 정보</caption>
+				<tr>
+					<th style="width: 100px">제조사</th>
+					<td>{{user.companyInfo.name}}</td>
+				</tr>
+				<tr>
+					<th>담당자</th>
+					<td>{{user.userInfo.name}}</td>
+				</tr>
+				<tr>
+					<th>직책</th>
+					<td>{{user.userInfo.rank}}</td>
+				</tr>
+				<tr>
+					<th>전화번호</th>
+					<td>{{user.userInfo.telNumber}}</td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td>{{user.userInfo.email}}</td>
+				</tr>
+			</table>
+		</div>
 	</div>
-	<table class="table-read">
-		<caption>장치정보</caption>
-		<tr>
-			<th style="width: 100px">장치 ID</th>
-			<td>
-				<input name="equ" type="text" title="업체명" style="width: 150px;" ng-model="id">
-			</td>
-		</tr>
-		<tr>
-			<th>연동기간</th>
-			<td>
-				<input name="date01" type="date" title="날짜선택" style="width: 150px;" ng-model="startDate">
-				~
-				<input name="date02" type="date" title="날짜선택" style="width: 150px;" ng-model="endDate">
-
-			</td>
-		</tr>
-		<tr>
-			<th>포트번호</th>
-			<td>
-				<input name="portNo" type="text" title="포트번호" ng-model="port">
-			</td>
-		</tr>
-		<tr>
-			<th>IP</th>
-			<td>
-				<input nmae="ip" type="text" title="IP" ng-model="host">
-			</td>
-		</tr>
-		<tr>
-			<th>작동여부</th>
-			<td>
-				<input name="status" type="text" title="status" ng-model="status">
-			</td>
-		</tr>
-	</table>
-	<div class="table-header read  mt_30">
-		<span class="table-title">제조사 정보</span>
-	</div>
-
-	<!-- 관리자 화면 -->
-	<table class="table-read" ng-model="gradeAdmin" ng-if="gradeAdmin">
-		<caption>제조사 정보</caption>
-		<tr>
-			<th style="width: 100px">제조사</th>
-			<td>
-				<select name="select" ng-model="companyInfo" ng-options="company as company.name for company in companies" ng-change="getUser(companyInfo.businessNumber)" ></select>
-			</td>
-		</tr>
-		<tr>
-			<th>담당자</th>
-			<td>{{user.userInfoDTO.name}}</td>
-		</tr>
-		<tr>
-			<th>직책</th>
-			<td>{{user.userInfoDTO.rank}}</td>
-		</tr>
-		<tr>
-			<th>전화번호</th>
-			<td>{{user.userInfoDTO.telNumber}}</td>
-		</tr>
-		<tr>
-			<th>이메일</th>
-			<td>{{user.userInfoDTO.email}}</td>
-		</tr>
-	</table>
-
-
-	<!-- 제조사 화면 -->
-	<table class="table-read" ng-model="gradeCompany" ng-if="gradeCompany">
-		<caption>제조사 정보</caption>
-		<tr>
-			<th style="width: 100px">제조사</th>
-			<td>{{user.companyInfoDTO.name}}</td>
-		</tr>
-		<tr>
-			<th>담당자</th>
-			<td>{{user.userInfoDTO.name}}</td>
-		</tr>
-		<tr>
-			<th>직책</th>
-			<td>{{user.userInfoDTO.rank}}</td>
-		</tr>
-		<tr>
-			<th>전화번호</th>
-			<td>{{user.userInfoDTO.telNumber}}</td>
-		</tr>
-		<tr>
-			<th>이메일</th>
-			<td>{{user.userInfoDTO.email}}</td>
-		</tr>
-	</table>
 </div>
 
 <!-- EdgeGW 등록하기: e -->
 
 <p class="btn-box">
-	<button class="btn whiteblue mr_5" ng-click="createConfirm(user.companyInfoDTO.name)">
+	<button class="btn whiteblue mr_5" ng-click="createConfirm(user.companyInfo.name)">
 		<img src="static/images/icon_confirm.png" alt="EdgeGW 등록"><span>EdgeGW 등록</span>
 	</button>
 	<button class="btn gray" ng-click="cancel()">

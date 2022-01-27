@@ -59,6 +59,7 @@ platform.controller('BillingController', function($scope, $resource, $uibModal) 
 
 	// CRUD ----------------------------------------------------------------
 
+	// 과금 목록 조회
 	$scope.selectBillings = function() {
 		res.selectBillings(
 			{}
@@ -83,14 +84,10 @@ platform.controller('BillingController', function($scope, $resource, $uibModal) 
 				console.log(res);
 			}
 		)
-	}; 
+	};
 	$scope.selectBillings();
-	
-	$scope.test = function() {
-		console.log($scope.name);
-		$scope.selectBillings();
-	}
 
+	// 과금 상세보기
 	$scope.detailBilling = function(billingInfo) {
 		res.detailBilling(
 			{
@@ -107,6 +104,7 @@ platform.controller('BillingController', function($scope, $resource, $uibModal) 
 		)
 	};
 
+	// 과금 승인
 	$scope.approvalBilling = function(id) {
 		res.approvalBilling(
 			{
@@ -197,7 +195,8 @@ platform.controller('BillingController', function($scope, $resource, $uibModal) 
 	// ---------------------------------------------------------------- Option
 
 	// Modal ---------------------------------------------------------------- 
-
+	
+	// 분석환경 신청 Modal
 	$scope.createModal = function() {
 
 		let addInstance = $uibModal.open({

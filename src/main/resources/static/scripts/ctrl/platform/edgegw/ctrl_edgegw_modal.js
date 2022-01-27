@@ -49,13 +49,12 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 	$scope.id = id;
 	$scope.startDate = 0;
 	$scope.endDate = 0;
-	$scope.host = 0;
-	$scope.port = 0;
-	$scope.status = 0;
+
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  SCOPE
 
 	// CRUD ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	// 회사 목록 조회
 	$scope.getCompany = function() {
 		company.getCompany(
 			{}
@@ -70,6 +69,7 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 	$scope.getCompany();
 
 
+	// 담당자 정보 조회
 	$scope.getUser = function(id) {
 		userRes.getUser(
 			{
@@ -85,6 +85,7 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 		)
 	}
 
+	// EdgeGateway 등록
 	$scope.createEdge = function(managerId) {
 		res.createEdge(
 			{}
@@ -108,6 +109,7 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 		)
 	};
 
+	// EdgeGateway 수정
 	$scope.updateEdge = function(managerId) {
 		res.updateEdge(
 			{
@@ -165,7 +167,7 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 		}
 	};
 
-	
+	// 사용자 권한확인
 	$scope.gradeCheck = function(grade) {
 		if (grade == 0) {
 			$scope.gradeAdmin = true;
@@ -177,4 +179,10 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 		}
 	};
 	$scope.gradeCheck(AUTHENTICATION.grade);
+
+	$scope.statusItems = [
+		{ value: 0, display: "미작동" },
+		{ value: 1, display: "작동" }
+	];
+	$scope.status = $scope.statusItems[0];
 });

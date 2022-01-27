@@ -49,7 +49,7 @@ public class EdgeGatewayController {
      * 
      * @modified 2021. 12. 30. 오전 11:10:11 || Kyunghun Park || Servlet 추가
      */
-    @RequestMapping(value = "/edge-gws", method = RequestMethod.POST)
+    @RequestMapping(value = "/edge-gws", method = RequestMethod.PUT)
     public ResponseEntity<Result<Boolean>> createEdgeGW(//
             HttpServletRequest request//
             , HttpServletResponse response//

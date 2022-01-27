@@ -122,7 +122,7 @@ public class EdgeGatewayService implements IEdgeGatewayService {
         }
 
     }
-
+    
     /**
      * @see kr.smartfactory.platform.web.service.IEdgeGatewayService#updateEdgeGW(java.lang.String,
      *      kr.smartfactory.platform.web.dto.EdgeGWDTO)

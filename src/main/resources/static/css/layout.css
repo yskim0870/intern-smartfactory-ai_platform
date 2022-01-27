@@ -67,7 +67,7 @@
 #scm-wrap {width:100%;height:100%;}
 #scm-container {position: absolute;top: 50px;bottom: 0;left: 0;right: 0;margin: 0; min-height: 0;z-index: 20;zoom: 1;}
 #scm-container #scm-section {position: absolute;left: 220px;top: 0;right: 0;bottom: 0; margin: 0!important;border: 0!important;height: 100%;width: auto; overflow: auto;zoom: 1;}
-#scm-container #scm-section .scm-main {float: left;width: 100%;max-width:1400px;min-width:1128px;margin-bottom: 0;padding:20px 20px 20px 30px;}
+#scm-container #scm-section .scm-main {float: left;width: 100%;min-width:1128px;margin-bottom: 0;padding:20px 20px 20px 30px;}
 
 /*-- main-header ---*/
 .main-header {margin: 0 0 20px 0;padding:2px;overflow: hidden;}
@@ -79,7 +79,7 @@
 .main-header .right {float:right;}
 
 /*--- div-card ---*/
-.scm-card  {background:#fff;border: 1px solid #eeeeee;padding:15px 24px;border-radius:5px;margin-bottom:20px;filter: drop-shadow(2px 2px 2px #e9ebf1);}
+.scm-card  {width:100%;background:#fff;border: 1px solid #eeeeee;padding:15px 24px;border-radius:5px;margin-bottom:20px;filter: drop-shadow(2px 2px 2px #e9ebf1);}
 
 /*-- span --*/
 .span-error {display: inline-block;line-height: 19px;font-size:12px;color: #f5222d;background: #fff1f0;border: 1px solid #ffa39e;padding: 2px 6px;border-radius: 2px;margin:0 2px;vertical-align: middle;}
@@ -149,10 +149,10 @@
 .scm-tabs {position: relative;background-color: #ffffff;margin: 0 auto;min-height: 230px;}
 .tab-item {display: block;float: left;font-size: 14px;font-weight: 400;text-align: center;color: #333333;text-align: center;cursor: pointer;padding:5px 5px 7px;margin-bottom: 4px; margin-right:10px;/*border-bottom: 1px solid #222E55;transition: all 0.2s ease;*/}
 .tab-item:hover {opacity: 0.75;}
-input[name="tab-item"] {display: none;} /* ¶óµð¿À ¹öÆ° UI»èÁ¦*/
-.tab-content {position: relative;display: none;padding:10px 0;clear: both;} /* ÅÇ ÄÁÅÙÃ÷ ½ºÅ¸ÀÏ */
-#bid-notice:checked ~ #notice-content, #bid-result:checked ~ #result-content {display: block;} /* ¼±ÅÃ µÈ ÅÇ ÄÜÅÙÃ÷¸¦ Ç¥½Ã */
-.scm-tabs input:checked + .tab-item {color: #4283ff;border-bottom: 2px solid #4283ff;} /* ¼±ÅÃµÈ ÅÇ ½ºÅ¸ÀÏ */
+input[name="tab-item"] {display: none;} /* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° UIï¿½ï¿½ï¿½ï¿½*/
+.tab-content {position: relative;display: none;padding:10px 0;clear: both;} /* ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ */
+#bid-notice:checked ~ #notice-content, #bid-result:checked ~ #result-content {display: block;} /* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ */
+.scm-tabs input:checked + .tab-item {color: #4283ff;border-bottom: 2px solid #4283ff;} /* ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ */
 .more-box {position: absolute;top:-27px;right: 0;}
 .more-box .btn-more {font-size:11px;color:#666}
 .more-box .btn-more:hover {color:#333}
