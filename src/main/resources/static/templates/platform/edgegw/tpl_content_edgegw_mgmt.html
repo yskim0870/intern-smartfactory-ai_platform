@@ -73,7 +73,6 @@
 					<th>비고</th>
 				</tr>
 			</thead>
-
 			<tr class ng-repeat-start="edgeInfo in edgeGWs.data.items" ng-click="getEdge(edgeInfo)">
 
 				<td>
@@ -97,57 +96,70 @@
 					</button>
 				</td>
 			</tr>
-			<tr class="detail"   ng-repeat-end ng-if="edgeInfo.show">
+
+			<!-- 상세보기 :s -->
+			<tr ng-repeat-end ng-if="edgeInfo.show">
 				<td colspan="5">
-					<div class="table-header read">
-						<span class="table-title">EdgeGateway 정보</span>
+					<div class="scm-card">
+						<div class="table-header read">
+							<span class="table-title"><strong>EdgeGateway 정보</strong></span>
+						</div>
+						<table class="table-read">
+							<caption>EdgeGateway 정보</caption>
+							<tr>
+								<th style="width: 150px">ID</th>
+								<td>{{edgeInfo.id}}</td>
+							</tr>
+							<tr>
+								<th>연동 기간</th>
+								<!-- LONG TO DATE !!!!!! -->
+								<td>{{edgeInfo.startDate | date: 'yyyy.MM.dd'}} ~ {{edgeInfo.endDate | date: 'yyyy. MM.dd'}}</td>
+
+							</tr>
+
+							<tr>
+								<th>작동 여부</th>
+								<td>{{boolStatus(edgeInfo.status)}}</td>
+							</tr>
+							<tr>
+								<th>최종연동일시</th>
+								<td>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</td>
+							</tr>
+							<tr>
+								<th>IP</th>
+								<td>{{edgeInfo.host}}</td>
+							</tr>
+							<tr>
+								<th>Port</th>
+								<td>{{edgeInfo.port}}</td>
+							</tr>
+						</table>
+
+
+						<div class="table-header read mt_30">
+							<span class="table-title">제조사 정보</span>
+						</div>
+						<table class="table-read">
+							<caption>제조사 정보</caption>
+							<tr>
+								<th style="width: 150px">제조사명</th>
+								<td>{{edgeGW.name}}</td>
+
+							</tr>
+							<tr>
+								<th>주소</th>
+								<td>{{edgeGW.address}}</td>
+							</tr>
+							<tr>
+								<th>대표번호</th>
+								<td>{{edgeGW.telNumber}}</td>
+							</tr>
+							<tr>
+								<th style="width: 150px">대표자</th>
+								<td>{{edgeGW.ceoName}}</td>
+							</tr>
+						</table>
 					</div>
-					<table class="table-read">
-						<tr>
-							<td>ID</td>
-							<td>{{edgeInfo.id}}</td>
-						</tr>
-						<tr>
-							<td>연동 기간</td>
-							<!-- LONG TO DATE !!!!!! -->
-							<td>{{edgeInfo.startDate | date: 'yyyy.MM.dd'}} ~ {{edgeInfo.endDate | date: 'yyyy. MM.dd'}}</td>
-
-						</tr>
-
-						<tr>
-							<td>작동 여부</td>
-							<td>{{boolStatus(edgeInfo.status)}}</td>
-							<td>최종연동일시</td>
-							<td>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</td>
-						</tr>
-						<tr>
-							<td>IP</td>
-							<td>{{edgeInfo.host}}</td>
-							<td>Port</td>
-							<td>{{edgeInfo.port}}</td>
-						</tr>
-					</table>
-					<div class="table-header read mt_30">
-						<span class="table-title">제조사 정보</span>
-					</div>
-					<table class="table-read">
-						<caption>제조사 정보</caption>
-						<tr>
-							<td>제조사명</td>
-							<td>{{edgeGW.name}}</td>
-
-						</tr>
-						<tr>
-							<td>주소</td>
-							<td>{{edgeGW.address}}</td>
-						</tr>
-						<tr>
-							<td>대표번호</td>
-							<td>{{edgeGW.telNumber}}</td>
-							<td>대표자</td>
-							<td>{{edgeGW.ceoName}}</td>
-						</tr>
-					</table>
 				</td>
 			</tr>
 		</table>
