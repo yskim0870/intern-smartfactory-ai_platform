@@ -88,10 +88,10 @@ platform.controller("CreateBidController", function($uibModalInstance, Upload, $
 			method: 'POST',
 			data: bidData
 		})
-			.then(function(resp) {
-				console.log('Success uploaded. Response: ' + resp.data);
-			}, function(resp) {
-				console.log('Error status: ' + resp.status);
+			.then(function(res) {
+				console.log('Success uploaded. Response: ' + res.data);
+			}, function(res) {
+				console.log('Error status: ' + res.status);
 			}, function(evt) {
 				var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
 				console.log(progressPercentage);

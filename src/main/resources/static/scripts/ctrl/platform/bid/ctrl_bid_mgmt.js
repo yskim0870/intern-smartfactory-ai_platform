@@ -3,7 +3,6 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 	$scope.userGrade = $rootScope.authentication.userGrade;
 	let id = $rootScope.authentication.userID;
 	console.log(id);
-	let name = null;
 	
 	$scope.dash = 0;
 
@@ -28,22 +27,11 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 		selectBidList();
 	}
 
-	// date객체 -> long
-	let dateToLong = function(date) {
-		return new Date(date).valueOf();
-	}
-
 	// ------------------ select bid list ------------------
 
 	// 검색 버튼 클릭 시 검색 조건에 맞게 조회
-	$scope.showBidView = function(id, bidStartDate, bidEndDate, bidName, manufacturerName//
-		, status, orderby, desc) {
-
-		let startDate = dateToLong(bidStartDate);
-		let endDate = dateToLong(bidEndDate);
-
-		selectBidList(id, startDate, endDate, bidName, manufacturerName//
-			, status, orderby, desc);
+	$scope.showBidView = function() {
+		selectBidList();
 	}
 
 	// th(= 테이블 칼럼 제목) 클릭시 정렬 기능
@@ -61,16 +49,15 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 	}
 
 	// 전체 조회
-	let selectBidList = function(id, bidStartDate, bidEndDate, bidName, manufacturerName//
-		, status) {
+	let selectBidList = function() {
 
 		let params = {
-			"id": id ? id : null,
-			"bidStartDate": bidStartDate ? bidStartDate : null,
-			"bidEndDate": bidEndDate ? bidEndDate : null,
-			"bidName": bidName ? bidName : null,
-			"manufacturerName": manufacturerName ? manufacturerName : null,
-			"status": status ? status : null,
+			"id": $scope.id ? $scope.id : null,
+			"bidStartDate": $scope.bidStartDate ? $scope.bidStartDate : null,
+			"bidEndDate": $scope.bidEndDate ? $scope.bidEndDate : null,
+			"bidName": $scope.bidName ? $scope.bidName : null,
+			"manufacturerName": $scope.manufacturerName ? $scope.manufacturerName : null,
+			"status": $scope.status ? $scope.status : null,
 			"orderby": $scope.orderby.order ? $scope.orderby.order : null,
 			"desc": $scope.orderby.desc ? $scope.orderby.desc : null,
 			"pageNum": $scope.pagination.pageNum,
@@ -81,6 +68,8 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 		Factory.getBidList($scope, params, bidResource, $rootScope, dateHandling);
 	}
 
+	// 회사명
+	let name = null;
 
 	// ---------------------- 회사명 조회 ---------------------- //
 	bidResource.getCompanyInfo(

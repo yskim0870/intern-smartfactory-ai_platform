@@ -331,7 +331,7 @@ ContentRouteConfig.getContents = function(id) {
 						ContentRouteConfig.ROLE_SUPER_ADMIN, ContentRouteConfig.ROLE_ADMIN, ContentRouteConfig.ROLE_USER
 					], "fa fa-tasks", false, false, true),//
 					new ContentMenu("mgmt", ctx + "/static/templates/platform/bid/tpl_content_bid_mgmt.html"//
-					, "입찰관리", ""//
+					, "입찰 관리", ""//
 					, [
 						ContentRouteConfig.ROLE_SUPER_ADMIN, ContentRouteConfig.ROLE_ADMIN, ContentRouteConfig.ROLE_USER
 					], "fa fa-tasks", false, false, true),//

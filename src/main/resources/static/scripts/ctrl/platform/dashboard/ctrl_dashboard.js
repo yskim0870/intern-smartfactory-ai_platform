@@ -1,14 +1,9 @@
 platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Factory) {
 	$scope.userGrade = $rootScope.authentication.grade;
+	// 대시보드에서 입찰공고 목록을 조회하기 위해 별도로 사용하는 변수 - factory에서 구현
 	$scope.dash = 1;
 
-	let today = new Date();
-	let year = today.getFullYear();
-	let month = today.getMonth() + 1;
-	let day = today.getDate();
-	let format = year + "-" + (("00" + month.toString()).slice(-2)) + "-" + (("00" + day.toString()).slice(-2));
-
-	$scope.currentTime = format;
+	$scope.currentTime = new Date();
 
 	// factory 선언
 	let bidResource = Factory.bidResource;
@@ -16,14 +11,14 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 	let dateHandling = Factory.dateHandling;
 
 	$scope.dashboard = {
-		"bidCount": "",
-		"manufacturerCount": "",
+		"bidCount": null,
+		"manufacturerCount": null,
 		"edgeGWCount": {
-			"totalCount":"",
-			"normalCount":"",
-			"abnormalCount":""
+			"totalCount": null,
+			"normalCount": null,
+			"abnormalCount": null
 		},
-		"expertCount": ""
+		"expertCount": null
 	}
 
 	// 대시보드의 상단 카운트 조회
@@ -42,8 +37,8 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 			}
 		);
 	}
-
-	// 목록 출력을 위한 조건을 담은 params
+	
+	// 목록 출력을 위한 조건을 담은 params	
 	let params = {
 		"pageNum": 0,
 		"pageItemPerPage": 5,
@@ -52,8 +47,12 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 		"desc": true
 	}
 
-	// 대시보드 입찰공고 목록 조회하는 부분
-	Factory.getBidList($scope, params, bidResource, $rootScope, dateHandling);
+	let getList = function() {
+		// 대시보드 입찰공고 목록 조회하는 부분
+		Factory.getBidList($scope, params, bidResource, $rootScope, dateHandling);
+	}
+
+	getList();
 
 	// 입찰공고, 입찰결과를 클릭했을 경우 목록 출력
 	$scope.changeDashList = function(title) {
@@ -63,8 +62,8 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 		else if (title == '결과') {
 			params.status = 2;
 		}
-
-		Factory.getBidList($scope, params, bidResource, $rootScope, dateHandling);
+		
+		getList();
 	}
 
 	// 상세보기 호출
@@ -212,6 +211,4 @@ platform.controller("DashboardCtrl", function($scope, $rootScope, $uibModal, Fac
 		myLegendContainer.innerHTML = pieChart.generateLegend();
 	}
 	/**        pie chart  -e-        */
-
-
 });

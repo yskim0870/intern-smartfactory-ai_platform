@@ -248,7 +248,6 @@ public class BidService implements IBidService {
 	 */
 	@Override
 	public Result<List<String>> selectExpertList() {
-
 		Result<List<String>> res = bidDao.selectExpertList();
 
 		return res;

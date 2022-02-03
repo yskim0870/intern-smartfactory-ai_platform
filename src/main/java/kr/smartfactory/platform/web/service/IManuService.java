@@ -5,6 +5,7 @@ package kr.smartfactory.platform.web.service;
 
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
+import open.commons.Result;
 
 /**
  * @packageName : kr.smartfactory.platform.web.service
@@ -21,11 +22,14 @@ public interface IManuService {
 	/**
 	 * @methodName : selectManuList
 	 * @description : 
+	 * @param name : 업체명
+	 * @param condition : 업태
+	 * @param industry : 종목
 	 * @return
 	 *
 	 * @author : Younghun Yu
-	 * @date : 2022.01.24
+	 * @date : 2022.01.26
 	 */
-	public PaginationDTO<CompanyInfoDTO> selectManuList();
+	public Result<PaginationDTO<CompanyInfoDTO>> selectManuList(String name, String condition, String industry);
 	
 }

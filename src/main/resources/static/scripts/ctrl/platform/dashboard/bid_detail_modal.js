@@ -10,6 +10,16 @@ platform.controller("DashboardBidDetailCtrl", function($scope, $uibModalInstance
 		function(res) {
 			$scope.bid = res.data;
 
+/*			$scope.bid.fileList.forEach(function(file){
+				if (file.fileType == 0) {
+					$scope.bidFiles.push(file);
+				}
+				else if(file.fileType == 1) {
+					$scope.sampleFiles.push(file);
+				}
+			});*/
+
+
 			let j = 0;
 			let k = 0;
 			for (let i = 0; i < $scope.bid.fileList.length; i++) {

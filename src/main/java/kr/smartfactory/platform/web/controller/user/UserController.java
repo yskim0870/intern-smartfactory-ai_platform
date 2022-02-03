@@ -4,6 +4,7 @@
 package kr.smartfactory.platform.web.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,13 +14,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserDTO;
-import kr.smartfactory.platform.web.dto.common.UserGradeDTO;
 import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
+import kr.smartfactory.platform.web.service.IManuService;
+import kr.smartfactory.platform.web.service.impl.ManuService;
 import kr.smartfactory.platform.web.service.impl.UserService;
+import open.commons.Result;
 
 /**
  * @packageName : kr.smartfactory.platform.web.controller
@@ -38,6 +41,13 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	private IManuService manuService;
+	
+	@Autowired
+	public UserController(@Qualifier(ManuService.BEAN_QUALIFER) IManuService manuService) {
+		this.manuService = manuService;
+	}
+	
 	/**
 	 * @methodName : createUser
 	 * @description : 사용자 등록을 위한 컨트롤러
@@ -53,33 +63,29 @@ public class UserController {
 	}
 	
 	/**
-	 * @methodName : selectUserGrade
-	 * @description : 사용자 권한 별 목록 조회
-	 * @param grade
+	 * @methodName : selectCompanyList
+	 * @description : 제조사 관리, 전문업체 관리 페이지의 목록 조회 메소드
+	 * @param name : 회사명
+	 * @param condition : 업태
+	 * @param industry : 업종
 	 * @return
 	 *
 	 * @author : Younghun Yu
-	 * @date : 2021.12.24
+	 * @date : 2022.01.28
 	 */
-	@GetMapping(value = "/{grade}")
-	public ResponseEntity<PaginationDTO<CompanyInfoDTO>> selectUserGrade(@PathVariable UserGradeDTO grade){
-		return new ResponseEntity<>(userService.selectUserGrade(grade), HttpStatus.OK);
+	@GetMapping(value = "/{user-type}")
+	public ResponseEntity<Result<PaginationDTO<CompanyInfoDTO>>> selectCompanyList(
+			@RequestParam(required = false) String name // 
+			, @RequestParam(required = false) String condition //
+			, @RequestParam(required = false) String industry //
+			, @RequestParam Integer pageNum//
+			, @RequestParam Integer pageItemPerPage//
+			, @RequestParam(required = false) String orderby//
+			, @RequestParam(required = false) Boolean desc//
+			) {
+		return ResponseEntity.ok(manuService.selectManuList(name, condition, industry));
 	}
 
-	/**
-	 * @methodName : selectUserDetail
-	 * @description : 
-	 * @param id
-	 * @return
-	 *
-	 * @author : Younghun Yu
-	 * @date : 2021.12.24
-	 */
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> selectUserDetail(@PathVariable UserInfoDTO user){
-		return new ResponseEntity<>(userService.selectUserDetail(user), HttpStatus.OK);
-	}
-	
 	/**
 	 * @methodName : updateUser
 	 * @description : 

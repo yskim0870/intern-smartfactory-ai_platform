@@ -1,4 +1,4 @@
-platform.controller("manuController", function($scope) {
+platform.controller("manuController", function($scope, Factory, $rootScope) {
 	
 	$scope.company = "";
 
@@ -8,15 +8,33 @@ platform.controller("manuController", function($scope) {
 		{ "value": "제조", "name": "제조사업" },
 		{ "value": "축산", "name": "축산사업" }
 	];
-	
+
 	// 업종 select box options
 	$scope.industryTypes = [
-		// 업태를 결정하고 나면 업태에 따른 목록 변화 필요할듯?
 		{ "value": "모바일", "name": "모바일 통신" },
 		{ "value": "문구", "name": "문구용품 생산" },
 		{ "value": "양봉", "name": "양봉" }
 	];
-	
+
+	// pagination 아이템 출력 갯수
+	$scope.pageOptions = [
+		{ "value": "15", "name": "15개씩" },
+		{ "value": "30", "name": "30개씩" },
+	];
+
+	// 페이지네이션 기본 설정
+	$scope.pagination = {
+		pageNum: 1,
+		pageItemPerPage: $scope.pageOptions[0].value,
+		maxSize: 10,
+		totalCount: 0,
+	}
+
+	// 15개씩, 30개씩 해당 갯수에 맞게 조회
+	$scope.changePageOption = function() {
+		selectBidList();
+	}
+
 	// 검색 버튼 클릭 시 검색 조건에 맞게 조회
 	$scope.getManuList = function(comapny) {
 		selectManuList(comapny);
@@ -36,18 +54,23 @@ platform.controller("manuController", function($scope) {
 	}
 
 	// 전체 조회
-	let selectManuList = function(company) {
+	let selectManuList = function() {
+		
+		// 제조사만 조회하기 위한 user type (path variable)
+		let companyResource = Factory.companyResource;
 
 		let params = {
-			"name": company.name ? company.name : null,
-			"condition": company.condition ? company.condition : null,
-			"industryType": company.industryType ? company.industryType : null,
+			"userType": 1,
+			"name": $scope.company.name ? $scope.company.name : null,
+			"condition": $scope.company.condition ? $scope.company.condition : null,
+			"industryType": $scope.company.industryType ? $scope.company.industryType : null,
 			"orderby": $scope.orderby.order ? $scope.orderby.order : null,
 			"desc": $scope.orderby.desc ? $scope.orderby.desc : null,
 			"pageNum": $scope.pagination.pageNum,
 			"pageItemPerPage": $scope.pagination.pageItemPerPage
 		}
 
-		Factory.getManuList($scope, params, manuResource, $rootScope);
+		Factory.getCompanyList($scope, params, companyResource, $rootScope, Factory.dateHandling);
 	}
+	selectManuList();
 });

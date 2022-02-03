@@ -146,7 +146,7 @@ public class BidDao extends DBGenericDao implements IBidDao {
 		// 공고번호가 있다면
 		if (id != null) {
 			params.add(String.join("", "%", id.toString(), "%"));
-			querySB.append("and bid_info.id like ?");
+			querySB.append(" and bid_info.id like ?");
 		}
 		// 공고시작, 종료 날짜가 있다면
 		if (bidStartDate != null) {

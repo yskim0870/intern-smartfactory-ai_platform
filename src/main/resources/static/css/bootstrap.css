@@ -2497,7 +2497,6 @@ label {
   max-width: 100%;
   margin-bottom: 5px;
   margin-right: 8px;
-  font-weight: bold;
 }
 input[type="search"] {
   -webkit-box-sizing: border-box;
@@ -4752,7 +4751,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   z-index: 3;
   color: #fff;
   cursor: default;
-  background-color: #7b7ac7;
+  background-color: #1d77ed;
   border-color: #6365b0;
 }
 .pagination > .disabled > span,
@@ -4784,7 +4783,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 }
 .pagination-sm > li > a,
 .pagination-sm > li > span {
-  padding: 5px 10px;
+  padding: 5px 0px;
   font-size: 12px;
   line-height: 1.5;
 }

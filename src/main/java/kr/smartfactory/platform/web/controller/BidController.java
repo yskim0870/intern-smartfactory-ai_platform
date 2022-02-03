@@ -67,7 +67,18 @@ public class BidController {
 		return ResponseEntity.ok(bidService.createBid(bid));
 	}
 
-	@GetMapping(value = "/download/{bidID}") // category=bid&id=''&file_id=
+	/**
+	 * @methodName : fileDownload
+	 * @description : 
+	 * @param req
+	 * @param res
+	 * @param bidID
+	 * @param fileID
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.02.03
+	 */
+	@GetMapping(value = "/download/{bidID}")
 	public void fileDownload(HttpServletRequest req, HttpServletResponse res, //
 			@PathVariable Integer bidID, //
 			@RequestParam String fileID) {

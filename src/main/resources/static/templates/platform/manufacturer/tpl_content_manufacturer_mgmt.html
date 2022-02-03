@@ -25,50 +25,48 @@
         <!-- Search : e -->
         
         <!-- Table-list : s -->
-        <div ng-model="pagination">
         <div class="scm-card">
            <div class="table-header">
               <span class="table-title">제조사명</span>
               <div class="table-header-right">
-                <span ng-model="pagination.totalCount">전체 20건</span>
-                  <select name="select" class="small">
-                    <option selected>15개씩 보기</option>
-                    <option>30개씩 보기 </option>
-                  </select>
+                <span>전체 {{pagination.totalCount}}건</span>
+				<select name="select" ng-model="pagination.pageItemPerPage" class="small"
+					ng-options="option.value as option.name for option in pageOptions"
+					ng-change="changePageOption()"></select>
                </div>
            </div>
            
-           <table  class="table-list" ng-modle="pagination.">
+           <table  class="table-list">
             <caption>제조사목록</caption>
             <thead>
-              <tr>
-                <th>업체명</th>
-                <th>사업자번호</th>
-                <th>대표자</th>  
-                <th>대표번호</th>  
-                <th>사업장소재지</th>   
+              <tr ng-model="orderby">
+                <th ng-click="sorting('company_info.name', orderby.desc)">업체명</th>
+                <th ng-click="sorting('company_info.business_number', orderby.desc)">사업자번호</th>
+                <th ng-click="sorting('company_info.ceo_name', orderby.desc)">대표자</th>  
+                <th ng-click="sorting('company_info.tel_number', orderby.desc)">대표번호</th>  
+                <th ng-click="sorting('company_info.address', orderby.desc)">사업장소재지</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                 <td><a href="manuManaDetail.html">(주)유미테크</a></td>
-                 <td>314-81-24083</td>
-                 <td>윤대일</td>
-                 <td>042-867-4220</td>
-                 <td class="al_left">
-                    대전광역시, 유성구 가정로 218 703 (가정동, 융합기술연구생산센터)
-                 </td>
-              </tr>                     
+              <tr ng-repeat-start="item in items" ng-click="selectDetail(item, item.businessNumber)">
+                 <td>{{item.name}}</td>
+                 <td>{{item.businessNumber}}</td>
+                 <td>{{item.ceoName}}</td>
+                 <td>{{item.telNumber}}</td>
+                 <td class="al_left">{{item.address}}</td>
+              </tr>
+              <tr ng-repeat-end>
+              	<!-- 상세보기 -->
+              </tr>
             </tbody>
-           </table>             
+           </table>
         </div>
         
-    <div class="paginate">
+   <div class="paginate">
 		<ul uib-pagination total-items="pagination.totalCount" ng-model="pagination.pageNum"
 			items-per-page="pagination.pageItemPerPage" max-size="pagination.maxSize" class="pagination-sm"
-			previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true"
+			previous-text="<" next-text=">" first-text="<<" last-text=">>" boundary-links="true"
 			num-pages="numPages" ng-click="showBidView()"></ul>
 	</div>
         <!-- Table-list : e -->   
-    </div>
 </div>

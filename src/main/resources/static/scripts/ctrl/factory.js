@@ -59,8 +59,8 @@ platform.factory("Factory", function($resource) {
 
 		// ---------------------- 제조사 관리 -----------------------------
 
-		manuResource: $resource(
-			'/manufacturer/:param',
+		companyResource: $resource(
+			'/users/:param', // param : {grade}
 			null,
 			{
 				// TODO 업태, 업종에 대한 처리 (모두 출력)
@@ -70,13 +70,13 @@ platform.factory("Factory", function($resource) {
 				},
 
 				// TODO 제조사 목록 조회
-				"getManuList": {
+				"getCompanyList": {
 					"method": "GET",
 					"param": null
 				},
 
 				// TODO 제조사 상세보기 조회	
-				"getManuDetail": {
+				"getCompanyDetail": {
 					"method": "GET",
 					"param": null
 				}
@@ -111,26 +111,39 @@ platform.factory("Factory", function($resource) {
 			},
 
 			dateToLong: function(date) {
-				return date.valueOf();
+				return new Date(date).valueOf();
 			}
 		},
 
 
-		// ---------------------- 전문업체 관리 -----------------------------
+		// ---------------------- 업체(제조사, 전문업체) 조회 -----------------------------
 
-		getManuList: function($scope, params, manuResource, $rootScope) {
-			manuResource.getManuList(
-				params,
+		getCompanyList: function($scope, params, companyResource, $rootScope, dateHandling) {
+
+			$scope.items = [];
+
+			// TODO 제조사만 전체 조회 user_type를 이용하여 출력
+			companyResource.getCompanyList(
+				{
+					param: params.userType,
+					"name": params.name ? params : null,
+					"condition": params.condition ? params.condition : null,
+					"industryType": params.industryType ? params.industryType : null,
+					"orderby": params.order ? params.order : null,
+					"desc": params.desc ? params.desc : null,
+					"pageNum": params.pageNum,
+					"pageItemPerPage": params.pageItemPerPage
+				},
 				null,
-				function() {
-
+				function(res) {
+					$scope.pagination.totalCount = res.data.totalCount;
+					$scope.items = res.data.items;
 				},
 				function(res) {
 					alert(res);
 				}
 			);
 		},
-
 
 		// ---------------------- 입찰 공고 조회 -----------------------------
 
@@ -192,8 +205,8 @@ platform.factory("Factory", function($resource) {
 						$scope.items[i].bidInfo.bidStartDate = dateHandling.longToDate($scope.items[i].bidInfo.bidStartDate);
 						$scope.items[i].bidInfo.bidEndDate = dateHandling.longToDate($scope.items[i].bidInfo.bidEndDate);
 						$scope.items[i].detailStatus = false;
-						$scope.items[i].bidInfo.contractDate = //
-							$scope.items[i].bidInfo.contractDate ? dateHandling.longToDate($scope.items[i].bidInfo.contractDate) : null;
+						$scope.items[i].bidInfo.contractDate = $scope.items[i].bidInfo.contractDate ? //
+							dateHandling.longToDate($scope.items[i].bidInfo.contractDate) : null;
 
 						// status 설정 - 계약일자의 유무를 판단하여 있을경우 상태를 계약완료로 바꿈
 						if ($scope.items[i].bidInfo.contractDate) {
@@ -214,7 +227,7 @@ platform.factory("Factory", function($resource) {
 			// ------------------ detail ------------------
 
 			let showDetail = function(item, id) {
-				
+
 				$scope.bidFiles = [];
 				$scope.sampleFiles = [];
 
@@ -234,7 +247,7 @@ platform.factory("Factory", function($resource) {
 								$scope.sampleFiles[k++] = $scope.bid.fileList[i];
 							}
 						}
-						
+
 						$scope.bidFileLength = $scope.bidFiles.length;
 						$scope.sampleFileLength = $scope.sampleFiles.length;
 
