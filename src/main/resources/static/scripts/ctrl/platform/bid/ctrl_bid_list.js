@@ -36,10 +36,27 @@ platform.controller("BidCtrl", function($scope, Factory, $rootScope) {
 		"order": "",
 		"desc": false
 	}
-	$scope.sorting = function(order, desc) {
+	$scope.sorting = function(order, sort) {
 		if (order) {
 			$scope.orderby.order = order;
-			$scope.orderby.desc = !desc;
+			$scope.orderby.desc = !$scope.orderby.desc;
+			$scope.sort = [false, false, false, false, false];
+			
+			if(sort == 'id'){
+				$scope.sort[0] = true;
+			}
+			else if(sort == 'name'){
+				$scope.sort[1] = true;
+			}
+			else if(sort == 'bidStartDate'){
+				$scope.sort[2] = true;
+			}
+			else if(sort == 'bidEndDate'){
+				$scope.sort[3] = true;
+			}
+			else if(sort == 'companyName'){
+				$scope.sort[4] = true;
+			}
 		}
 		selectBidList();
 	}
@@ -49,13 +66,13 @@ platform.controller("BidCtrl", function($scope, Factory, $rootScope) {
 
 		let params = {
 			"id": $scope.id ? $scope.id : null,
-			"bidStartDate": $scope.bidStartDate ? $scope.bidStartDate : null,
-			"bidEndDate": $scope.bidEndDate ? $scope.bidEndDate : null,
+			"bidStartDate": $scope.bidStartDate ? dateHandling.dateToLong($scope.bidStartDate) : null,
+			"bidEndDate": $scope.bidEndDate ? dateHandling.dateToLong($scope.bidStartDate) : null,
 			"bidName": $scope.bidName ? $scope.bidName : null,
 			"manufacturerName": $scope.manufacturerName ? $scope.manufacturerName : null,
 			"status": $scope.status ? $scope.status : null,
 			"orderby": $scope.orderby.order ? $scope.orderby.order : null,
-			"desc": $scope.orderby.desc ? $scope.orderby.desc : null,
+			"desc": $scope.orderby.desc,
 			"pageNum": $scope.pagination.pageNum,
 			"pageItemPerPage": $scope.pagination.pageItemPerPage
 		}

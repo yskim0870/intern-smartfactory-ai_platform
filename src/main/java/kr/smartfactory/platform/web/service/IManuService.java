@@ -5,6 +5,7 @@ package kr.smartfactory.platform.web.service;
 
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
+import kr.smartfactory.platform.web.dto.common.UserDTO;
 import open.commons.Result;
 
 /**
@@ -32,4 +33,15 @@ public interface IManuService {
 	 */
 	public Result<PaginationDTO<CompanyInfoDTO>> selectManuList(String name, String condition, String industry);
 	
+	/**
+	 * @methodName : selectCompanyUser
+	 * @description : 업체 상세보기
+	 * @param userType : 제조사, 도메인 전문 업체를 구분하기 위한 번호
+	 * @param id : 사업자번호
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.02.04
+	 */
+	public Result<UserDTO> selectCompanyUser(Integer userType, String id);
 }

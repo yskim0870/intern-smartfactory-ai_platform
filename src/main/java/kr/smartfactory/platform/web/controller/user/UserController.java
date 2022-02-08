@@ -3,6 +3,9 @@
  */
 package kr.smartfactory.platform.web.controller.user;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -58,7 +61,8 @@ public class UserController {
 	 * @date : 2021.12.24
 	 */
 	@PutMapping(value = "")
-	public ResponseEntity<Boolean> createUser(@RequestBody UserDTO user){
+	public ResponseEntity<Boolean> createUser(HttpServletRequest req, HttpServletResponse res, //
+			@RequestBody UserDTO user){
 		return new ResponseEntity<>(userService.createUser(user), HttpStatus.OK);		
 	}
 	
@@ -73,9 +77,11 @@ public class UserController {
 	 * @author : Younghun Yu
 	 * @date : 2022.01.28
 	 */
-	@GetMapping(value = "/{user-type}")
+	@GetMapping(value = "/{userType}")
 	public ResponseEntity<Result<PaginationDTO<CompanyInfoDTO>>> selectCompanyList(
-			@RequestParam(required = false) String name // 
+			HttpServletRequest req, HttpServletResponse res //
+			, @PathVariable Integer userType //
+			, @RequestParam(required = false) String name // 
 			, @RequestParam(required = false) String condition //
 			, @RequestParam(required = false) String industry //
 			, @RequestParam Integer pageNum//
@@ -85,6 +91,16 @@ public class UserController {
 			) {
 		return ResponseEntity.ok(manuService.selectManuList(name, condition, industry));
 	}
+	
+	@GetMapping(value = "/{userType}/{id}")
+	public ResponseEntity<Result<UserDTO>> selectCompanyUser(
+			HttpServletRequest req, HttpServletResponse res //
+			, @PathVariable Integer userType //
+			, @PathVariable String id // 사업자 번호
+			){
+		return ResponseEntity.ok(manuService.selectCompanyUser(userType, id));
+	}
+	
 
 	/**
 	 * @methodName : updateUser

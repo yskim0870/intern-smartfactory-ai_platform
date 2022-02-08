@@ -60,25 +60,20 @@ platform.factory("Factory", function($resource) {
 		// ---------------------- 제조사 관리 -----------------------------
 
 		companyResource: $resource(
-			'/users/:param', // param : {grade}
+			'/users/:param1/:param2', // param1 : {grade}, param2: {id}
 			null,
 			{
-				// TODO 업태, 업종에 대한 처리 (모두 출력)
-				"getCondition": {
-					"method": "GET",
-					"param": null
-				},
-
-				// TODO 제조사 목록 조회
+				// 제조사 목록 조회
 				"getCompanyList": {
 					"method": "GET",
-					"param": null
+					"param1": null
 				},
 
-				// TODO 제조사 상세보기 조회	
+				// 제조사 상세보기 조회	
 				"getCompanyDetail": {
 					"method": "GET",
-					"param": null
+					"param1": null,
+					"param2": null
 				}
 			}
 		),
@@ -122,10 +117,10 @@ platform.factory("Factory", function($resource) {
 
 			$scope.items = [];
 
-			// TODO 제조사만 전체 조회 user_type를 이용하여 출력
+			// 제조사만 전체 조회 user_type를 이용하여 출력
 			companyResource.getCompanyList(
 				{
-					param: params.userType,
+					"param1": params.userType,
 					"name": params.name ? params : null,
 					"condition": params.condition ? params.condition : null,
 					"industryType": params.industryType ? params.industryType : null,
@@ -138,12 +133,43 @@ platform.factory("Factory", function($resource) {
 				function(res) {
 					$scope.pagination.totalCount = res.data.totalCount;
 					$scope.items = res.data.items;
+
+					for (let i = 0; i < $scope.items.length; i++) {
+						$scope.items[i].detailStatus = false;
+					}
 				},
 				function(res) {
 					alert(res);
 				}
 			);
+
+			// ------------------ detail ------------------
+
+			let showDetail = function(item) {
+
+				companyResource.getCompanyDetail(
+					{
+						"param1": params.userType,
+						"param2": item.businessNumber
+					},
+					null,
+					function(res) {
+						$scope.manu = res.data;
+						item.detailStatus = !item.detailStatus;
+					},
+					function(res) {
+						alert(res);
+					}
+				);
+			}
+
+			// 공고 목록 클릭시
+			$scope.selectDetail = function(item) {
+				// 상세보기 조회
+				showDetail(item);
+			}
 		},
+
 
 		// ---------------------- 입찰 공고 조회 -----------------------------
 
@@ -183,18 +209,12 @@ platform.factory("Factory", function($resource) {
 			// ------------------ 목록 조회 ------------------
 			bidResource.getBidList(
 				params,
-				{
-					"userID": function() {
-						if ($scope.userType == 1) {
-							return $rootScope.authentication.userID;
-						}
-						else {
-							return null;
-						}
-					}
-				},
+				null,
 				// success
 				function(res) {
+					console.log("res params : ");
+					console.log(params);
+					
 					if ($scope.dash != 1) {
 						$scope.pagination.totalCount = res.data.totalCount;
 					}
@@ -237,20 +257,17 @@ platform.factory("Factory", function($resource) {
 					function(res) {
 						$scope.bid = res.data;
 
-						let j = 0;
-						let k = 0;
-						for (let i = 0; i < $scope.bid.fileList.length; i++) {
-							if ($scope.bid.fileList[i].fileType == 0) {
-								$scope.bidFiles[j++] = $scope.bid.fileList[i];
+						$scope.bid.fileList.forEach(function(file) {
+							if (file.fileType == 0) {
+								$scope.bidFiles.push(file);
 							}
 							else {
-								$scope.sampleFiles[k++] = $scope.bid.fileList[i];
+								$scope.sampleFiles.push(file);
 							}
-						}
+						});
 
 						$scope.bidFileLength = $scope.bidFiles.length;
 						$scope.sampleFileLength = $scope.sampleFiles.length;
-
 						$scope.bid.bidInfo.bidStartDate = dateHandling.longToDate(res.data.bidInfo.bidStartDate);
 						$scope.bid.bidInfo.bidEndDate = dateHandling.longToDate(res.data.bidInfo.bidEndDate);
 						$scope.bid.bidInfo.workStartDate = dateHandling.longToDate(res.data.bidInfo.workStartDate);

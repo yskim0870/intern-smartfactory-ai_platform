@@ -40,8 +40,7 @@
 						for="bid-02">계약완료</label>
 				</td>
 				<td>
-					<button class="btn blue"
-						ng-click="showBidView(id, bidStartDate, bidEndDate, bidName, manufacturerName, status, orderby, desc)">
+					<button class="btn blue" ng-click="showBidView()">
 						<img src="/static/images/icon_search.png" alt="검색"><span>검색</span>
 					</button>
 				</td>
@@ -73,11 +72,21 @@
         	</colgroup>
 			<thead>
 				<tr ng-model="orderby">
-					<th ng-click="sorting('bid_info.id', orderby.desc)">공고번호</th>
-					<th ng-click="sorting('bid_info.bid_name', orderby.desc)">공고명</th>
-					<th ng-click="sorting('bid_info.bid_start_date', orderby.desc)">공고시작일자</th>
-					<th ng-click="sorting('bid_info.bid_end_date', orderby.desc)">공고종료일자</th>
-					<th ng-click="sorting('company_info.name', orderby.desc)">업체명</th>
+					<th ng-click="sorting('bid_info.id', 'id')">공고번호
+						<span ng-if="sort[0]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+					</th>
+					<th ng-click="sorting('bid_info.bid_name', 'name')">공고명
+						<span ng-if="sort[1]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+					</th>
+					<th ng-click="sorting('bid_info.bid_start_date', 'bidStartDate')">공고시작일자
+						<span ng-if="sort[2]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+					</th>
+					<th ng-click="sorting('bid_info.bid_end_date', 'bidEndDate')">공고종료일자
+						<span ng-if="sort[3]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+					</th>
+					<th ng-click="sorting('company_info.name', 'companyName')">업체명
+						<span ng-if="sort[4]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+					</th>
 				</tr>
 			</thead>
 			<tbody>

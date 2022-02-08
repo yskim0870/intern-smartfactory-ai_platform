@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
+import kr.smartfactory.platform.web.dto.common.UserDTO;
+import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
 import kr.smartfactory.platform.web.service.IManuService;
 import open.commons.Result;
 
@@ -65,5 +67,43 @@ public class ManuService implements IManuService {
 		
 		return res;
 	}
+
+	/**
+	 * @see kr.smartfactory.platform.web.service.IManuService#selectCompanyUser(java.lang.Integer, java.lang.String)
+	 */
+	@Override
+	public Result<UserDTO> selectCompanyUser(Integer userType, String id) {
+		
+		UserInfoDTO userInfo = new UserInfoDTO();
+		CompanyInfoDTO companyInfo = new CompanyInfoDTO();
+		
+		userInfo.setId("1");
+		userInfo.setPassword("1");
+		userInfo.setName("이름");
+		userInfo.setEmail("yyh7750@gmail.com");
+		userInfo.setTelNumber("111-1111");
+		userInfo.setDepartment("개발1팀");
+		userInfo.setRank("인턴");
+		userInfo.setRegDate(20160613);
+		
+		companyInfo.setBusinessNumber(id);
+		companyInfo.setName("회사명");
+		companyInfo.setAddress("회사 주소");
+		companyInfo.setCondition("업태");
+		companyInfo.setIndustryType("업종");
+		companyInfo.setTelNumber("222-2222");
+		companyInfo.setFaxNumber("333333");
+		companyInfo.setSiteUrl("www.home.co.kr");
+		companyInfo.setCeoName("대표이름");
+		
+		UserDTO userDTO = new UserDTO(userInfo, companyInfo);
+		
+		Result<UserDTO> res = new Result<UserDTO>();
+		
+		res.andTrue().setData(userDTO);
+		
+		return res;
+	}
+	
 
 }

@@ -285,6 +285,7 @@ a.link {color:#3b78ce;}
   height: 175px;
 }
 
+/* 대시보드 - 파이차트 s  */
 #chart {
   float: left;
   width: 60%;
@@ -320,6 +321,7 @@ a.link {color:#3b78ce;}
   margin-right: 10px;
   width: 10px;
 }
+/* 대시보드 - 파이차트 e  */
 
 .td-date {width: 130px;}
 .td-bidNum {width: 270px;}
@@ -352,3 +354,6 @@ a.link {color:#3b78ce;}
 .table-header-yyh .table-header-right {float:right}
 .table-header-yyh input, .table-header select {margin-top:-4px; height:30px;}
 .table-header-yyh .table-header-right span {font-size: 12px;font-weight: 300;color: #555;margin-right:10px}
+
+/* 오름차순, 내림차순 기호 표시 */
+.sort-span {float: right;}

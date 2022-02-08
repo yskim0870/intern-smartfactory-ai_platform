@@ -39,6 +39,15 @@ public class UserDTO {
 	}
 
 	/**
+	 * @param userInfo2
+	 * @param companyInfo2
+	 */
+	public UserDTO(UserInfoDTO userInfo, CompanyInfoDTO companyInfo) {
+		this.setUserInfo(userInfo);
+		this.setCompanyInfo(companyInfo);
+	}
+
+	/**
 	 * @return the userInfo
 	 */
 	public UserInfoDTO getUserInfo() {

@@ -2,8 +2,8 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 
 	$scope.userGrade = $rootScope.authentication.userGrade;
 	let id = $rootScope.authentication.userID;
-	console.log(id);
 	
+	// 대시보드에서 입찰공고 목록을 조회하기 위해 별도로 사용하는 변수
 	$scope.dash = 0;
 
 	let bidResource = Factory.bidResource;
@@ -33,38 +33,49 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 	$scope.showBidView = function() {
 		selectBidList();
 	}
-
+	
 	// th(= 테이블 칼럼 제목) 클릭시 정렬 기능
 	$scope.orderby = {
 		"order": "",
 		"desc": false
 	}
-	$scope.sorting = function(order, desc) {
+	$scope.sorting = function(order, sort) {
 		if (order) {
 			$scope.orderby.order = order;
-			$scope.orderby.desc = !desc;
-			console.log($scope.orderby.desc);
+			$scope.orderby.desc = !$scope.orderby.desc;
+			$scope.sort = [false, false, false, false];
+			
+			if(sort == 'id'){
+				$scope.sort[0] = true;
+			}
+			else if(sort == 'name'){
+				$scope.sort[1] = true;
+			}
+			else if(sort == 'contractDate'){
+				$scope.sort[2] = true;
+			}
+			else if(sort == 'status'){
+				$scope.sort[3] = true;
+			}
 		}
 		selectBidList();
 	}
-
+	
 	// 전체 조회
 	let selectBidList = function() {
 
 		let params = {
 			"id": $scope.id ? $scope.id : null,
-			"bidStartDate": $scope.bidStartDate ? $scope.bidStartDate : null,
-			"bidEndDate": $scope.bidEndDate ? $scope.bidEndDate : null,
+			"bidStartDate": $scope.bidStartDate ? dateHandling.dateToLong($scope.bidStartDate) : null,
+			"bidEndDate": $scope.bidEndDate ? dateHandling.dateToLong($scope.bidStartDate) : null,
 			"bidName": $scope.bidName ? $scope.bidName : null,
-			"manufacturerName": $scope.manufacturerName ? $scope.manufacturerName : null,
 			"status": $scope.status ? $scope.status : null,
 			"orderby": $scope.orderby.order ? $scope.orderby.order : null,
-			"desc": $scope.orderby.desc ? $scope.orderby.desc : null,
+			"desc": $scope.orderby.desc,
 			"pageNum": $scope.pagination.pageNum,
-			"pageItemPerPage": $scope.pagination.pageItemPerPage,
-			"userType": $scope.userType ? $scope.userType : null
+			"pageItemPerPage": $scope.pagination.pageItemPerPage
 		}
-
+		
 		Factory.getBidList($scope, params, bidResource, $rootScope, dateHandling);
 	}
 

@@ -175,7 +175,7 @@ public class BidDao extends DBGenericDao implements IBidDao {
 			querySB.append(" and bid_info.status=?");
 		}
 		// 정렬기준이 있다면
-		if (orderby != null && desc != null) {
+		if (orderby != null) {
 			querySB.append(" order by ");
 
 			// 오름차순, 내림차순 true/false에 대한 처리
