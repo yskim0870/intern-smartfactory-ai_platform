@@ -1,5 +1,5 @@
 platform.controller("manuController", function($scope, Factory, $rootScope) {
-	
+
 	$scope.company = "";
 
 	// 업태 select box options	
@@ -57,20 +57,20 @@ platform.controller("manuController", function($scope, Factory, $rootScope) {
 			$scope.orderby.order = order;
 			$scope.orderby.desc = !$scope.orderby.desc;
 			$scope.sort = [false, false, false, false, false];
-			
-			if(sort == 'name'){
+
+			if (sort == 'name') {
 				$scope.sort[0] = true;
 			}
-			else if(sort == 'businessNumber'){
+			else if (sort == 'businessNumber') {
 				$scope.sort[1] = true;
 			}
-			else if(sort == 'ceoName'){
+			else if (sort == 'ceoName') {
 				$scope.sort[2] = true;
 			}
-			else if(sort == 'telNumber'){
+			else if (sort == 'telNumber') {
 				$scope.sort[3] = true;
 			}
-			else if(sort == 'address'){
+			else if (sort == 'address') {
 				$scope.sort[4] = true;
 			}
 		}
@@ -79,12 +79,13 @@ platform.controller("manuController", function($scope, Factory, $rootScope) {
 
 	// 전체 조회
 	let selectCompanyList = function() {
-		
-		// 제조사만 조회하기 위한 user type (path variable)
+
 		let companyResource = Factory.companyResource;
+		let userType = $rootScope.authentication.userGrade;
 
 		let params = {
-			"userType": 1,
+			// 제조사만 조회하기 위한 user type (path variable)
+			"userType": userType == 0 ? 1 : null,
 			"name": $scope.company.name ? $scope.company.name : null,
 			"condition": $scope.company.condition ? $scope.company.condition : null,
 			"industryType": $scope.company.industryType ? $scope.company.industryType : null,
@@ -93,7 +94,7 @@ platform.controller("manuController", function($scope, Factory, $rootScope) {
 			"pageNum": $scope.pagination.pageNum,
 			"pageItemPerPage": $scope.pagination.pageItemPerPage
 		}
-		
+
 		Factory.getCompanyList($scope, params, companyResource, $rootScope, Factory.dateHandling);
 	}
 	selectCompanyList();

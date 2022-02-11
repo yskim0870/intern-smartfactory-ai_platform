@@ -47,6 +47,9 @@ public class UserInfoDTO {
 	// 도메인IT전문업체 상태 0: 승인대기, 1: 승인완료, 2:입찰계약 제한
 	private int status;
 	
+	// 기타 정보(도메인전문업체 : 국가연구자번호)
+	private String etcInfo;
+	
 	// 해당 사용자의 회사 정보
 	private CompanyInfoDTO companyInfo;
 	
@@ -79,6 +82,7 @@ public class UserInfoDTO {
 			this.setDepartment(rs.getString("user_info.department"));
 			this.setRank(rs.getString("user_info.rank"));
 			this.setRegDate(rs.getInt("user_info.reg_date"));
+			this.setEtcInfo(rs.getString("user_info.etc_info"));
 		} catch (SQLException e) {
 			System.out.println("정보 조회 실패");
 		}
@@ -201,6 +205,20 @@ public class UserInfoDTO {
 	 */
 	public void setRegDate(long regDate) {
 		this.regDate = regDate;
+	}
+	
+	/**
+	 * @return the etcInfo
+	 */
+	public String getEtcInfo() {
+		return etcInfo;
+	}
+
+	/**
+	 * @param etcInfo the etcInfo to set
+	 */
+	public void setEtcInfo(String etcInfo) {
+		this.etcInfo = etcInfo;
 	}
 
 	/**

@@ -133,79 +133,99 @@ public class BidDao extends DBGenericDao implements IBidDao {
 	 *      Long, String, String, Integer, Integer, Integer, String, Boolean)
 	 */
 	@Override
-	public Result<List<BidDTO>> selectBidList(Integer id, Long bidStartDate, Long bidEndDate, String bidName,
-			String manufacturerName, Integer status, Integer pageNum, Integer pageItemPerPage, String orderby,
-			Boolean desc) {
+	public Result<List<BidDTO>> selectBidList(String url, String userID, Integer id, Long bidStartDate, Long bidEndDate,
+			String bidName, String manufacturerName, Integer status, Integer pageNum, Integer pageItemPerPage,
+			String orderby, Boolean desc) {
 
 		// where 절에 붙을 파라미터, 쿼리
 		List<Object> params = new ArrayList<Object>();
 		StringBuilder querySB = new StringBuilder();
 
-		String query = BidQuery.SELECT_BID_LIST_QUERY;
+		String query = null;
 
-		// 공고번호가 있다면
-		if (id != null) {
-			params.add(String.join("", "%", id.toString(), "%"));
-			querySB.append(" and bid_info.id like ?");
-		}
-		// 공고시작, 종료 날짜가 있다면
-		if (bidStartDate != null) {
-			params.add(bidStartDate);
-			params.add(bidStartDate);
-			querySB.append(" and ? <= bid_info.bid_end_date and ? >= bid_info.bid_start_date");
-		}
-		if (bidEndDate != null) {
-			params.add(bidEndDate);
-			params.add(bidEndDate);
-			querySB.append(" and bid_info.bid_start_date <= ? and bid_info.bid_end_date >= ?");
-		}
-		// 공고명이 있다면
-		if (bidName != null) {
-			params.add(String.join("", "%", bidName, "%"));
-			querySB.append(" and bid_info.bid_name like ?");
-		}
-		// 제조사명이 있다면
-		if (manufacturerName != null) {
-			params.add(String.join("", "%", manufacturerName, "%"));
-			querySB.append(" and company_info.name like ?");
-		}
-		// 계약상태가 있다면
-		if (status != null) {
-			params.add(status);
-			querySB.append(" and bid_info.status=?");
-		}
-		// 정렬기준이 있다면
-		if (orderby != null) {
-			querySB.append(" order by ");
+		if (url == "bid") {
 
-			// 오름차순, 내림차순 true/false에 대한 처리
-			if (desc) {
-				querySB.append(String.join(" ", orderby, "desc"));
-			} else {
-				querySB.append(String.join(" ", orderby, "asc"));
+			query = BidQuery.SELECT_BID_LIST_QUERY;
+
+			// userID가 있다면 (입찰관리 해당 제조사만 표시)
+			if (userID != null) {
+				params.add(userID);
+				querySB.append(" and user_info.id=?");
 			}
-		}
-		// limit에 쓰일 변수
-		if (pageItemPerPage != null) {
-			querySB.append("and pageItemPerPage=?");
-			params.add(pageItemPerPage);
-		}
-		// offset에 쓰일 변수
-		if (pageNum != null) {
-			querySB.append("and pageNum=?");
+			// 공고번호가 있다면
+			if (id != null) {
+				params.add(String.join("", "%", id.toString(), "%"));
+				querySB.append(" and bid_info.id like ?");
+			}
+			// 공고시작, 종료 날짜가 있다면
+			if (bidStartDate != null) {
+				params.add(bidStartDate);
+				params.add(bidStartDate);
+				querySB.append(" and ? <= bid_info.bid_end_date and ? >= bid_info.bid_start_date");
+			}
+			if (bidEndDate != null) {
+				params.add(bidEndDate);
+				params.add(bidEndDate);
+				querySB.append(" and bid_info.bid_start_date <= ? and bid_info.bid_end_date >= ?");
+			}
+			// 공고명이 있다면
+			if (bidName != null) {
+				params.add(String.join("", "%", bidName, "%"));
+				querySB.append(" and bid_info.bid_name like ?");
+			}
+			// 제조사명이 있다면
+			if (manufacturerName != null) {
+				params.add(String.join("", "%", manufacturerName, "%"));
+				querySB.append(" and company_info.name like ?");
+			}
+			// 계약상태가 있다면
+			if (status != null) {
+				params.add(status);
+				querySB.append(" and bid_info.status=?");
+			}
+			// 정렬기준이 있다면
+			if (orderby != null) {
+				querySB.append(" order by ");
 
-			if (pageItemPerPage == 15) {
-				pageNum = (pageNum - 1) * 15;
-			} else if (pageItemPerPage == 30) {
-				pageNum = (pageNum - 1) * 30;
+				// 오름차순, 내림차순 true/false에 대한 처리
+				if (desc) {
+					querySB.append(String.join(" ", orderby, "desc"));
+				} else {
+					querySB.append(String.join(" ", orderby, "asc"));
+				}
+			}
+			// limit에 쓰일 변수
+			if (pageItemPerPage != null) {
+				querySB.append("and pageItemPerPage=?");
+				params.add(pageItemPerPage);
+			}
+			// offset에 쓰일 변수
+			if (pageNum != null) {
+				querySB.append("and pageNum=?");
+
+				if (pageItemPerPage == 15) {
+					pageNum = (pageNum - 1) * 15;
+				} else if (pageItemPerPage == 30) {
+					pageNum = (pageNum - 1) * 30;
+				}
+
+				params.add(pageNum);
 			}
 
-			params.add(pageNum);
+			query = query.replace("{where_clause}", querySB.toString());
+			query = query.replace("and pageItemPerPage=", " limit ");
+			query = query.replace("and pageNum=", " offset ");
+		} //
+		else if (url == "expert") {
+			query = String.join(" "//
+					, "select * from bid_info"
+					, "join bid_manager_info on (bid_info.id = bid_manager_info.bid_id)"
+					, "join user_info on (bid_manager_info.manager_id = user_info.id)"
+					, "join company_info on (user_info.business_number = company_info.business_number)"
+					, "where bid_info.contractor_id=?"
+					, "and bid_info.status=1 or bid_info.status=2");
+			params.add(userID);
 		}
-
-		query = query.replace("{where_clause}", querySB.toString());
-		query = query.replace("and pageItemPerPage=", " limit ");
-		query = query.replace("and pageNum=", " offset ");
 
 		List<BidDTO> bidList = jdbcTemplate.query(query, (rs, rowNum) -> new BidDTO(rs), params.toArray());
 
@@ -250,15 +270,15 @@ public class BidDao extends DBGenericDao implements IBidDao {
 			} catch (EmptyResultDataAccessException e) {
 			}
 			bid.setContractor(contractor);
-			
+
 			// file 정보 조회
 			List<BidNoticeFile> fileList = jdbcTemplate.query(BidQuery.SELECT_BID_FILE_QUERY,
 					(rs, rowNum) -> new BidNoticeFile(rs), id);
-			
+
 			if (fileList != null) {
 				bid.setFileList(fileList);
 			}
-			
+
 			conn.commit();
 
 		} catch (SQLException e) {

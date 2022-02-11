@@ -75,13 +75,11 @@ public class BidDTO {
 
 	/**
 	 * @param bid
-	 * @param files2
 	 */
-	public BidDTO(BidDTO bid, List<MultipartFile> files) {
+	public BidDTO(BidDTO bid) {
 		this.setBidInfo(bid.getBidInfo());
 		this.setManager(bid.getManager());
 		this.setCompany(bid.getCompany());
-//		this.setFiles(files);
 	}
 
 	/**

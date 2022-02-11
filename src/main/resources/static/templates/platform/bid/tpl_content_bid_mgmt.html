@@ -1,5 +1,4 @@
-<div ng-controller="BidMgmtController" ng-model="userGrade" ng-init="showBidView()">
-	<div ng-if="userGrade==1">
+<div ng-controller="BidMgmtController" ng-model="userGrade" ng-init="getBidView()">
 	<!-- Search : s -->
 	<div class="scm-card">
 				<div style="float: right">
@@ -44,7 +43,7 @@
 						for="bid-02">계약완료</label>
 				</td>
 				<td>
-					<button class="btn blue" ng-click="showBidView()">
+					<button class="btn blue" ng-click=" getBidView()">
 						<img src="/static/images/icon_search.png" alt="검색"><span>검색</span>
 					</button>
 				</td>
@@ -219,8 +218,4 @@
 			num-pages="numPages" ng-click="showBidView()"></ul>
 	</div>
 	<!-- Table-list : e -->
-</div>
-<div ng-if="userGrade==0 || userGrade==2">
-	<h2>계약업체, 시스템관리자는 사용할 수 없습니다.</h2>
-	</div>
 </div>

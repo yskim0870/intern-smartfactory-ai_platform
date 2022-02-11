@@ -5,7 +5,6 @@ package kr.smartfactory.platform.web.controller.user;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -21,9 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserDTO;
-import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
-import kr.smartfactory.platform.web.service.IManuService;
-import kr.smartfactory.platform.web.service.impl.ManuService;
+import kr.smartfactory.platform.web.service.ICompanyService;
+import kr.smartfactory.platform.web.service.impl.CompanyService;
 import kr.smartfactory.platform.web.service.impl.UserService;
 import open.commons.Result;
 
@@ -44,10 +42,10 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	private IManuService manuService;
+	private ICompanyService manuService;
 	
 	@Autowired
-	public UserController(@Qualifier(ManuService.BEAN_QUALIFER) IManuService manuService) {
+	public UserController(@Qualifier(CompanyService.BEAN_QUALIFER) ICompanyService manuService) {
 		this.manuService = manuService;
 	}
 	
@@ -78,20 +76,33 @@ public class UserController {
 	 * @date : 2022.01.28
 	 */
 	@GetMapping(value = "/{userType}")
-	public ResponseEntity<Result<PaginationDTO<CompanyInfoDTO>>> selectCompanyList(
+	public ResponseEntity<Result<PaginationDTO<UserDTO>>> selectCompanyList(
 			HttpServletRequest req, HttpServletResponse res //
 			, @PathVariable Integer userType //
 			, @RequestParam(required = false) String name // 
 			, @RequestParam(required = false) String condition //
 			, @RequestParam(required = false) String industry //
+			, @RequestParam(required = false) Integer status//
 			, @RequestParam Integer pageNum//
 			, @RequestParam Integer pageItemPerPage//
 			, @RequestParam(required = false) String orderby//
 			, @RequestParam(required = false) Boolean desc//
 			) {
-		return ResponseEntity.ok(manuService.selectManuList(name, condition, industry));
+		return ResponseEntity.ok(manuService.selectCompanyList(userType, name, condition, industry, status));
 	}
 	
+	/**
+	 * @methodName : selectCompanyUser
+	 * @description : 상세보기
+	 * @param req
+	 * @param res
+	 * @param userType : 도메인, 제조사 구분짓기 위한 유저 타입
+	 * @param id : 제조사 : 사업자 번호, 전문업체 : 전문업체명
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.02.09
+	 */
 	@GetMapping(value = "/{userType}/{id}")
 	public ResponseEntity<Result<UserDTO>> selectCompanyUser(
 			HttpServletRequest req, HttpServletResponse res //
@@ -100,7 +111,6 @@ public class UserController {
 			){
 		return ResponseEntity.ok(manuService.selectCompanyUser(userType, id));
 	}
-	
 
 	/**
 	 * @methodName : updateUser

@@ -3,6 +3,8 @@
  */
 package kr.smartfactory.platform.web.dto.common;
 
+import java.util.List;
+
 import kr.smartfactory.platform.web.dao.entity.User;
 
 /**
@@ -22,6 +24,12 @@ public class UserDTO {
 
 	// 회사 정보 관리
 	private CompanyInfoDTO companyInfo;
+	
+	// 자격증 정보 관리
+	private List<CertificateDTO> certificateInfo;
+	
+	// 전문업체 승인상태 관리
+	private ExpertStatusDTO expertInfo;
 
 	/**
 	 * Default Constructor
@@ -42,9 +50,11 @@ public class UserDTO {
 	 * @param userInfo2
 	 * @param companyInfo2
 	 */
-	public UserDTO(UserInfoDTO userInfo, CompanyInfoDTO companyInfo) {
+	public UserDTO(UserInfoDTO userInfo, CompanyInfoDTO companyInfo, List<CertificateDTO> certificates, ExpertStatusDTO expertInfo) {
 		this.setUserInfo(userInfo);
 		this.setCompanyInfo(companyInfo);
+		this.setCertificateInfo(certificates);
+		this.setExpertInfo(expertInfo);
 	}
 
 	/**
@@ -73,5 +83,51 @@ public class UserDTO {
 	 */
 	public void setCompanyInfo(CompanyInfoDTO companyInfo) {
 		this.companyInfo = companyInfo;
+	}
+
+	/**
+	 * @return the certificateInfo
+	 */
+	public List<CertificateDTO> getCertificateInfo() {
+		return certificateInfo;
+	}
+
+	/**
+	 * @param certificateInfo the certificateInfo to set
+	 */
+	public void setCertificateInfo(List<CertificateDTO> certificateInfo) {
+		this.certificateInfo = certificateInfo;
+	}
+	
+	/**
+	 * @return the expertInfo
+	 */
+	public ExpertStatusDTO getExpertInfo() {
+		return expertInfo;
+	}
+
+	/**
+	 * @param expertInfo the expertInfo to set
+	 */
+	public void setExpertInfo(ExpertStatusDTO expertInfo) {
+		this.expertInfo = expertInfo;
+	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UserDTO [userInfo=");
+		builder.append(userInfo);
+		builder.append(", companyInfo=");
+		builder.append(companyInfo);
+		builder.append(", certificateInfo=");
+		builder.append(certificateInfo);
+		builder.append(", expertInfo=");
+		builder.append(expertInfo);
+		builder.append("]");
+		return builder.toString();
 	}
 }

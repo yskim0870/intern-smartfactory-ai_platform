@@ -101,7 +101,9 @@ public interface IBidService {
 	
 	/**
 	 * @methodName : selectBidList
-	 * @description : 
+	 * @description :
+	 * @param url : 입찰조회,관리와 도메인업체관리 페이지의 조회기능을 구분 짓기 위해 추가. 
+	 * @param userID : 입찰관리 페이지-제조사 아이디, 도메인IT전문업체관리 페이지-도메인IT전문업체 아이디
 	 * @param id
 	 * @param bidStartDate
 	 * @param bidEndDate
@@ -118,6 +120,8 @@ public interface IBidService {
 	 * @date : 2022.01.09
 	 */
 	public Result<PaginationDTO<BidDTO>> selectBidList(
+			String url,
+			String userID,
 			Integer id,
 			Long bidStartDate,
 			Long bidEndDate, 

@@ -65,6 +65,9 @@ public class User {
 
 	// 가입일자
 	private long regDate;
+	
+	// 기타 정보 (국가연구자번호)
+	private String etcInfo;
 
 	/**
 	 * Default Constructor
@@ -197,6 +200,20 @@ public class User {
 	 */
 	public void setRegDate(long regDate) {
 		this.regDate = regDate;
+	}
+	
+	/**
+	 * @return the etcInfo
+	 */
+	public String getEtcInfo() {
+		return etcInfo;
+	}
+
+	/**
+	 * @param etcInfo the etcInfo to set
+	 */
+	public void setEtcInfo(String etcInfo) {
+		this.etcInfo = etcInfo;
 	}
 
 	/**

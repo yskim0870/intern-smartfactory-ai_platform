@@ -11,7 +11,8 @@ platform.factory("Factory", function($resource) {
 				},
 				"getBidList": {
 					"method": "GET",
-					"param1": null
+					"param1": null,
+					"param2": null
 				},
 				"getBidDetail": {
 					"method": "GET",
@@ -113,7 +114,7 @@ platform.factory("Factory", function($resource) {
 
 		// ---------------------- 업체(제조사, 전문업체) 조회 -----------------------------
 
-		getCompanyList: function($scope, params, companyResource, $rootScope, dateHandling) {
+		getCompanyList: function($scope, params, companyResource, $rootScope, dateHandling, bidResource) {
 
 			$scope.items = [];
 
@@ -133,10 +134,6 @@ platform.factory("Factory", function($resource) {
 				function(res) {
 					$scope.pagination.totalCount = res.data.totalCount;
 					$scope.items = res.data.items;
-
-					for (let i = 0; i < $scope.items.length; i++) {
-						$scope.items[i].detailStatus = false;
-					}
 				},
 				function(res) {
 					alert(res);
@@ -147,14 +144,30 @@ platform.factory("Factory", function($resource) {
 
 			let showDetail = function(item) {
 
+				let getUserType = function() {
+					if (params.userType == 1) {
+						return item.companyInfo.businessNumber;
+					}
+					else if (params.userType == 2) {
+						return item.companyInfo.name;
+					}
+				}
+
 				companyResource.getCompanyDetail(
 					{
 						"param1": params.userType,
-						"param2": item.businessNumber
+						"param2": getUserType()
 					},
 					null,
 					function(res) {
-						$scope.manu = res.data;
+						if (params.userType == 1) {
+							$scope.manu = res.data;
+						}
+						else if (params.userType == 2) {
+							// 전문업체 정보와 자격증 정보는 한번에 가져오기, 입찰정보는 따로
+							$scope.expert = res.data;
+						}
+
 						item.detailStatus = !item.detailStatus;
 					},
 					function(res) {
@@ -163,10 +176,52 @@ platform.factory("Factory", function($resource) {
 				);
 			}
 
+			// 입찰정보는 따로 resource로 가져오기
+			let getBidList = function(item) {
+				let params = {
+					"contractorID": item.userInfo.name,
+					"orderby": null,
+					"desc": false,
+					"status": 1,
+					"pageNum": 10,
+					"pageItemPerPage": 10
+				}
+
+				bidResource.getBidList(
+					{
+						"param1": "expert",
+						"param2": params.contractorID,
+						"orderby": params.orderby,
+						"desc": params.desc,
+						"status": params.status,
+						"pageNum": params.pageNum,
+						"pageItemPerPage": params.pageItemPerPage
+					},
+					null,
+					function(res) {
+						// 전체 데이터 개수
+						$scope.bidLength = res.data.items.length;
+						$scope.bids = res.data.items;
+
+						for (let i = 0; i < $scope.bids.length; i++) {
+							$scope.bids[i].bidInfo.contractDate = $scope.bids[i].bidInfo.contractDate ? //
+								dateHandling.longToDate($scope.bids[i].bidInfo.contractDate) : null;
+						}
+					},
+					function(res) {
+						alert(res.data);
+					}
+				);
+			}
+
 			// 공고 목록 클릭시
 			$scope.selectDetail = function(item) {
 				// 상세보기 조회
 				showDetail(item);
+				if (params.userType == 2) {
+					// 입찰목록 조회
+					getBidList(item, params);
+				}
 			}
 		},
 
@@ -207,14 +262,47 @@ platform.factory("Factory", function($resource) {
 			}
 
 			// ------------------ 목록 조회 ------------------
+
+			let getParam1 = function() {
+				// 입찰관리 페이지 이동
+				if (params.userGrade == 1) {
+					return "mgmt";
+				}
+				// 일반 조회
+				else {
+					return null;
+				}
+			}
+
+			let getParam2 = function() {
+				// 입찰관리 페이지(해당 아이디의 제조사만 출력)
+				if (params.userID != null) {
+					return params.userID;
+				}
+				// 일반 조회
+				else {
+					return null;
+				}
+			}
+
 			bidResource.getBidList(
-				params,
+				{
+					"param1": getParam1(),
+					"param2": getParam2(),
+					"id": params.id ? params.id : null,
+					"bidStartDate": params.bidStartDate ? params.bidStartDate : null,
+					"bidEndDate": params.bidEndDate ? params.bidStartDate : null,
+					"bidName": params.bidName ? params.bidName : null,
+					"manufacturerName": params.manufacturerName ? params.manufacturerName : null,
+					"status": params.status ? params.status : null,
+					"orderby": params.orderby ? params.orderby : null,
+					"desc": params.desc,
+					"pageNum": params.pageNum,
+					"pageItemPerPage": params.pageItemPerPage
+				},
 				null,
 				// success
 				function(res) {
-					console.log("res params : ");
-					console.log(params);
-					
 					if ($scope.dash != 1) {
 						$scope.pagination.totalCount = res.data.totalCount;
 					}

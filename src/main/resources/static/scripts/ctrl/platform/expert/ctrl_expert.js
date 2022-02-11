@@ -1,4 +1,6 @@
-platform.controller("ExpertController", function($scope, Factory) {
+platform.controller("ExpertController", function($scope, Factory, $rootScope) {
+
+	$scope.company = "";
 
 	// pagination 아이템 출력 갯수
 	$scope.pageOptions = [
@@ -12,7 +14,7 @@ platform.controller("ExpertController", function($scope, Factory) {
 		maxSize: 10,
 		totalCount: 0,
 	}
-	
+
 	// th(= 테이블 칼럼 제목) 클릭시 정렬 기능
 	$scope.orderby = {
 		"order": "",
@@ -23,48 +25,50 @@ platform.controller("ExpertController", function($scope, Factory) {
 			$scope.orderby.order = order;
 			$scope.orderby.desc = !$scope.orderby.desc;
 			$scope.sort = [false, false, false, false, false, false];
-			
-			if(sort == 'expertManager'){
+
+			if (sort == 'expertManager') {
 				$scope.sort[0] = true;
 			}
-			else if(sort == 'companyName'){
+			else if (sort == 'companyName') {
 				$scope.sort[1] = true;
 			}
-			else if(sort == 'telNumber'){
+			else if (sort == 'telNumber') {
 				$scope.sort[2] = true;
 			}
-			else if(sort == 'email'){
+			else if (sort == 'email') {
 				$scope.sort[3] = true;
 			}
-			else if(sort == 'businessNumber'){
+			else if (sort == 'businessNumber') {
 				$scope.sort[4] = true;
 			}
-			else if(sort == 'status'){
+			else if (sort == 'status') {
 				$scope.sort[5] = true;
 			}
 		}
-		
+
 		selectCompanyList();
 	}
-	
-		// 전체 조회
+
+	// 전체 조회
 	let selectCompanyList = function() {
-		
-		// 제조사만 조회하기 위한 user type (path variable)
+
 		let companyResource = Factory.companyResource;
+		let dateHandling = Factory.dateHandling;
+		let bidResource = Factory.bidResource;
+		let userType = $rootScope.authentication.userGrade;
 
 		let params = {
-			"userType": 1,
+			// 계약업체만 조회하기 위한 user type (path variable)
+			"userType": userType == 0 ? 2 : null,
 			"name": $scope.company.name ? $scope.company.name : null,
-			"condition": $scope.company.condition ? $scope.company.condition : null,
-			"industryType": $scope.company.industryType ? $scope.company.industryType : null,
+			"status": $scope.company.status ? $scope.company.status : null,
 			"orderby": $scope.orderby.order ? $scope.orderby.order : null,
 			"desc": $scope.orderby.desc,
 			"pageNum": $scope.pagination.pageNum,
 			"pageItemPerPage": $scope.pagination.pageItemPerPage
 		}
-		
-		Factory.getCompanyList($scope, params, companyResource, $rootScope, Factory.dateHandling);
+
+		Factory.getCompanyList($scope, params, companyResource, $rootScope, dateHandling, bidResource);
 	}
 	selectCompanyList();
 });

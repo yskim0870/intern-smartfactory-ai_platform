@@ -194,7 +194,61 @@ public class BidController {
 			, @RequestParam(required = false) Boolean desc//
 			, HttpServletRequest request, HttpServletResponse response //
 	) {
-		return ResponseEntity.ok(bidService.selectBidList(id, bidStartDate, bidEndDate, bidName, manufacturerName,
+		return ResponseEntity.ok(bidService.selectBidList("bid", null, id, bidStartDate, bidEndDate, bidName, manufacturerName,
+				status, pageNum, pageItemPerPage, orderby, desc));
+	}
+	
+	/**
+	 * @methodName : selectBidMgmtList
+	 * @description : 입찰 관리 페이지 조회.
+	 * @param userID : 사용자 아이디
+	 * @param id : 공고 번호
+	 * @param bidStartDate
+	 * @param bidEndDate
+	 * @param bidName
+	 * @param manufacturerName
+	 * @param status
+	 * @param pageNum
+	 * @param pageItemPerPage
+	 * @param orderby
+	 * @param desc
+	 * @param request
+	 * @param response
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.02.09
+	 */
+	@GetMapping(value = "/mgmt/{userID}")
+	public ResponseEntity<Result<PaginationDTO<BidDTO>>> selectBidMgmtList(//
+			@PathVariable String userID//
+			, @RequestParam(required = false) Integer id//
+			, @RequestParam(required = false) Long bidStartDate//
+			, @RequestParam(required = false) Long bidEndDate//
+			, @RequestParam(required = false) String bidName//
+			, @RequestParam(required = false) String manufacturerName//
+			, @RequestParam(required = false) Integer status//
+			, @RequestParam Integer pageNum//
+			, @RequestParam Integer pageItemPerPage//
+			, @RequestParam(required = false) String orderby//
+			, @RequestParam(required = false) Boolean desc//
+			, HttpServletRequest request, HttpServletResponse response //
+	) {
+		return ResponseEntity.ok(bidService.selectBidList("bid", userID, id, bidStartDate, bidEndDate, bidName, manufacturerName,//
+				status, pageNum, pageItemPerPage, orderby, desc));
+	}
+	
+	@GetMapping(value = "/expert/{contractorID}")
+	public ResponseEntity<Result<PaginationDTO<BidDTO>>> selectBidExpertList(//
+			HttpServletRequest request, HttpServletResponse response//
+			, @PathVariable String contractorID//
+			, @RequestParam(required = false) String orderby//
+			, @RequestParam(required = false) Boolean desc//
+			, @RequestParam(required = false) Integer status//
+			, @RequestParam Integer pageNum//
+			, @RequestParam Integer pageItemPerPage//
+	) {
+		return ResponseEntity.ok(bidService.selectBidList("expert", contractorID, null, null, null, null, null,//
 				status, pageNum, pageItemPerPage, orderby, desc));
 	}
 
@@ -208,7 +262,7 @@ public class BidController {
 	 * @date : 2021.12.23
 	 */
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Result<BidDTO>> detailBid(@PathVariable Integer id, HttpServletRequest request,
+	public ResponseEntity<Result<BidDTO>> detailBid(@PathVariable Integer id, HttpServletRequest request,//
 			HttpServletResponse response) {
 		return new ResponseEntity<>(bidService.detailBid(id), HttpStatus.OK);
 	}

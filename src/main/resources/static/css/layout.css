@@ -91,6 +91,7 @@
 .span-error img,  .span-nomal img, .span-none img, .span-none-text img, .span-ing img, .span-ing-text img {vertical-align: middle !important;}
 .span-error span, .span-nomal span, .span-none span, .span-none-text span, .span-ing span, .span-ing-text span {margin-left: 4px;vertical-align: middle;}
 
+
 /* win_popup */
 .popup-title {position: absolute;top:0;bottom:0;left:0;right:0;margin:0;height:50px; font-weight:500; font-size:16px; color:#333; text-align:center; background: #fff; border-bottom:1px solid #c4c6c8;padding:9px;z-index: 999;}
 .scm-popup {position:relative;height:100%;overflow: hidden;} 

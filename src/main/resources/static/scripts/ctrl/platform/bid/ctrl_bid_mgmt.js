@@ -30,7 +30,7 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 	// ------------------ select bid list ------------------
 
 	// 검색 버튼 클릭 시 검색 조건에 맞게 조회
-	$scope.showBidView = function() {
+	$scope.getBidView = function() {
 		selectBidList();
 	}
 	
@@ -65,6 +65,8 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 	let selectBidList = function() {
 
 		let params = {
+			"userGrade": $scope.userGrade,
+			"userID": id,
 			"id": $scope.id ? $scope.id : null,
 			"bidStartDate": $scope.bidStartDate ? dateHandling.dateToLong($scope.bidStartDate) : null,
 			"bidEndDate": $scope.bidEndDate ? dateHandling.dateToLong($scope.bidStartDate) : null,

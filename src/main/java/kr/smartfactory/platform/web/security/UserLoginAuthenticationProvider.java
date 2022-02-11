@@ -56,7 +56,7 @@ public class UserLoginAuthenticationProvider implements AuthenticationProvider {
 //		}
 		
 		User user = new User();
-		user.setGrade(UserGrade.ADMIN);
+		user.setGrade(UserGrade.SUPER_ADMIN);
 		user.setName("관리자");
 		user.setUserID("admin");
 		user.setGradeObj(new UserGrade(UserGrade.ADMIN, "ROLE_ADMIN", "관리자"));

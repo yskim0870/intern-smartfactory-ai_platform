@@ -65,11 +65,11 @@
       </thead>
       <tbody>
         <tr ng-repeat-start="item in items" ng-click="selectDetail(item)">
-          <td>{{item.name}}</td>
-          <td>{{item.businessNumber}}</td>
-          <td>{{item.ceoName}}</td>
-          <td>{{item.telNumber}}</td>
-          <td class="al_left">{{item.address}}</td>
+          <td>{{item.companyInfo.name}}</td>
+          <td>{{item.companyInfo.businessNumber}}</td>
+          <td>{{item.companyInfo.ceoName}}</td>
+          <td>{{item.companyInfo.telNumber}}</td>
+          <td class="al_left">{{item.companyInfo.address}}</td>
         </tr>
 
 

@@ -181,27 +181,49 @@ public class BidService implements IBidService {
 	}
 
 	/**
-	 * @see kr.smartfactory.platform.web.service.IBidService#selectBidList(Integer,
-	 *      Integer, Integer, String, String, Integer, Integer, Integer, String,
-	 *      Boolean)
+	 * @see kr.smartfactory.platform.web.service.IBidService#selectBidList(java.lang.String,
+	 *      java.lang.Integer, java.lang.Long, java.lang.Long, java.lang.String,
+	 *      java.lang.String, java.lang.Integer, java.lang.Integer,
+	 *      java.lang.Integer, java.lang.String, java.lang.Boolean)
 	 */
 	@Override
-	public Result<PaginationDTO<BidDTO>> selectBidList(Integer id, Long bidStartDate, Long bidEndDate, String bidName,
-			String manufacturerName, Integer status, Integer pageNum, Integer pageItemPerPage, String orderby,
-			Boolean desc) {
+	public Result<PaginationDTO<BidDTO>> selectBidList(//
+			String url, String userID, Integer id, Long bidStartDate, Long bidEndDate, //
+			String bidName, String manufacturerName, Integer status, Integer pageNum, //
+			Integer pageItemPerPage, String orderby, Boolean desc//
+	) {
 
-		Result<List<BidDTO>> bidList = bidDao.selectBidList(id, bidStartDate, bidEndDate, bidName, manufacturerName,
-				status, pageNum, pageItemPerPage, orderby, desc);
+		Result<PaginationDTO<BidDTO>> res = null;
 
-		Result<PaginationDTO<BidDTO>> res = new Result<PaginationDTO<BidDTO>>();
-		Integer count = bidDao.selectAllCount();
+		if (url == "bid") {
+			Result<List<BidDTO>> bidList = bidDao.selectBidList(url, userID, id, bidStartDate, bidEndDate, bidName, manufacturerName,
+					status, pageNum, pageItemPerPage, orderby, desc);
 
-		PaginationDTO<BidDTO> pagination = new PaginationDTO<BidDTO>(bidList.getData(), count);
+			res = new Result<PaginationDTO<BidDTO>>();
+			Integer count = bidDao.selectAllCount();
 
-		if (bidList.getResult()) {
-			res.andTrue().setData(pagination);
-		} else {
-			res.andFalse().setMessage(bidList.getMessage());
+			PaginationDTO<BidDTO> pagination = new PaginationDTO<BidDTO>(bidList.getData(), count);
+
+			if (bidList.getResult()) {
+				res.andTrue().setData(pagination);
+			} else {
+				res.andFalse().setMessage(bidList.getMessage());
+			}
+		} //
+		else if (url == "expert") {
+			Result<List<BidDTO>> bidList = bidDao.selectBidList(url, userID, id, bidStartDate, bidEndDate, bidName, manufacturerName,
+					status, pageNum, pageItemPerPage, orderby, desc);
+
+			res = new Result<PaginationDTO<BidDTO>>();
+			Integer count = bidDao.selectAllCount();
+
+			PaginationDTO<BidDTO> pagination = new PaginationDTO<BidDTO>(bidList.getData(), count);
+
+			if (bidList.getResult()) {
+				res.andTrue().setData(pagination);
+			} else {
+				res.andFalse().setMessage(bidList.getMessage());
+			}
 		}
 		return res;
 	}
@@ -258,18 +280,17 @@ public class BidService implements IBidService {
 	 */
 	@Override
 	public Result<List<BidNoticeFile>> selectFileList(Integer id) {
-		
+
 		List<BidNoticeFile> fileList = bidDao.selectFileList(id);
-		
+
 		Result<List<BidNoticeFile>> res = new Result<List<BidNoticeFile>>();
-		
-		if(fileList != null) {
+
+		if (fileList != null) {
 			res.andTrue().setData(fileList);
-		}
-		else {
+		} else {
 			res.andFalse().setMessage("파일 조회 실패!");
 		}
-		
+
 		return res;
 	}
 }
