@@ -204,4 +204,63 @@ public class CompanyService implements ICompanyService {
 
 		return res;
 	}
+
+	/**
+	 * @see kr.smartfactory.platform.web.service.ICompanyService#selectConditionList()
+	 */
+	@Override
+	public Result<List<CompanyInfoDTO>> selectConditionList() {
+		
+		CompanyInfoDTO companyInfo1 = new CompanyInfoDTO();
+		CompanyInfoDTO companyInfo2 = new CompanyInfoDTO();
+		CompanyInfoDTO companyInfo3 = new CompanyInfoDTO();
+		CompanyInfoDTO companyInfo4 = new CompanyInfoDTO();
+		
+		companyInfo1.setCondition("업태1");
+		companyInfo2.setCondition("업태2");
+		companyInfo3.setCondition("업태3");
+		companyInfo4.setCondition("업태4");
+		
+		List<CompanyInfoDTO> conditionList = new ArrayList<CompanyInfoDTO>();
+		
+		conditionList.add(companyInfo1);
+		conditionList.add(companyInfo2);
+		conditionList.add(companyInfo3);
+		conditionList.add(companyInfo4);
+		
+		Result<List<CompanyInfoDTO>> res = new Result<List<CompanyInfoDTO>>();
+		
+		res.andTrue().setData(conditionList);
+		
+		return res;
+	}
+
+	/**
+	 * @see kr.smartfactory.platform.web.service.ICompanyService#selectIndustryTypeList()
+	 */
+	@Override
+	public Result<List<CompanyInfoDTO>> selectIndustryTypeList() {
+		CompanyInfoDTO companyInfo1 = new CompanyInfoDTO();
+		CompanyInfoDTO companyInfo2 = new CompanyInfoDTO();
+		CompanyInfoDTO companyInfo3 = new CompanyInfoDTO();
+		CompanyInfoDTO companyInfo4 = new CompanyInfoDTO();
+		
+		companyInfo1.setIndustryType("업종1");
+		companyInfo2.setIndustryType("업종2");
+		companyInfo3.setIndustryType("업종3");
+		companyInfo4.setIndustryType("업종4");
+		
+		List<CompanyInfoDTO> conditionList = new ArrayList<CompanyInfoDTO>();
+		
+		conditionList.add(companyInfo1);
+		conditionList.add(companyInfo2);
+		conditionList.add(companyInfo3);
+		conditionList.add(companyInfo4);
+		
+		Result<List<CompanyInfoDTO>> res = new Result<List<CompanyInfoDTO>>();
+		
+		res.andTrue().setData(conditionList);
+		
+		return res;
+	}
 }

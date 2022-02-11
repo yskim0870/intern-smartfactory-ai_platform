@@ -75,7 +75,19 @@ platform.factory("Factory", function($resource) {
 					"method": "GET",
 					"param1": null,
 					"param2": null
-				}
+				},
+				
+				// 업태 조회
+				"getCondition":{
+					"method": "GET",
+					"param1": null
+				},
+				
+				// 업종 조회
+				"getIndustryType":{
+					"method": "GET",
+					"param1": null
+				},
 			}
 		),
 

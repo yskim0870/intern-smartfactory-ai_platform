@@ -1,20 +1,42 @@
 platform.controller("manuController", function($scope, Factory, $rootScope) {
 
-	$scope.company = "";
-
 	// 업태 select box options	
-	$scope.conditions = [
-		{ "value": "통신", "name": "통신사업" },
-		{ "value": "제조", "name": "제조사업" },
-		{ "value": "축산", "name": "축산사업" }
-	];
+	Factory.companyResource.getCondition(
+		{ "param1": "condition" },
+		null,
+		function(res) {
+			let list = res.data;
+			$scope.conditions = [];
+
+			list.forEach(function(companyInfo) {
+				if (companyInfo.condition != null) {
+					$scope.conditions.push({ "name": companyInfo.condition, "value": companyInfo.condition });
+				}
+			});
+		},
+		function(res) {
+			alert(res.data);
+		}
+	);
 
 	// 업종 select box options
-	$scope.industryTypes = [
-		{ "value": "모바일", "name": "모바일 통신" },
-		{ "value": "문구", "name": "문구용품 생산" },
-		{ "value": "양봉", "name": "양봉" }
-	];
+	Factory.companyResource.getIndustryType(
+		{ "param1": "industry-type" },
+		null,
+		function(res) {
+			let list = res.data;
+			$scope.industryTypes = [];
+
+			list.forEach(function(companyInfo) {
+				if (companyInfo.industryType != null) {
+					$scope.industryTypes.push({ "name": companyInfo.industryType, "value": companyInfo.industryType });
+				}
+			});
+		},
+		function(res) {
+			alert(res.data);
+		}
+	);
 
 	// pagination 아이템 출력 갯수
 	$scope.pageOptions = [
@@ -38,6 +60,9 @@ platform.controller("manuController", function($scope, Factory, $rootScope) {
 	// 검색 버튼 클릭 시 검색 조건에 맞게 조회
 	$scope.getCompanyList = function() {
 		selectCompanyList();
+		$scope.company.name = null;
+		$scope.industryType = null;
+		$scope.condition = null;
 	}
 
 	// th(= 테이블 칼럼 제목) 클릭시 정렬 기능
@@ -83,12 +108,13 @@ platform.controller("manuController", function($scope, Factory, $rootScope) {
 		let companyResource = Factory.companyResource;
 		let userType = $rootScope.authentication.userGrade;
 
+		$scope.company = "";
 		let params = {
 			// 제조사만 조회하기 위한 user type (path variable)
 			"userType": userType == 0 ? 1 : null,
 			"name": $scope.company.name ? $scope.company.name : null,
-			"condition": $scope.company.condition ? $scope.company.condition : null,
-			"industryType": $scope.company.industryType ? $scope.company.industryType : null,
+			"condition": $scope.condition ? $scope.condition : null,
+			"industryType": $scope.industryType ? $scope.industryType : null,
 			"orderby": $scope.orderby.order ? $scope.orderby.order : null,
 			"desc": $scope.orderby.desc,
 			"pageNum": $scope.pagination.pageNum,

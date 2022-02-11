@@ -3,6 +3,7 @@
  */
 package kr.smartfactory.platform.web.controller.user;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +43,11 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	private ICompanyService manuService;
+	private ICompanyService companyService;
 	
 	@Autowired
-	public UserController(@Qualifier(CompanyService.BEAN_QUALIFER) ICompanyService manuService) {
-		this.manuService = manuService;
+	public UserController(@Qualifier(CompanyService.BEAN_QUALIFER) ICompanyService companyService) {
+		this.companyService = companyService;
 	}
 	
 	/**
@@ -62,6 +63,32 @@ public class UserController {
 	public ResponseEntity<Boolean> createUser(HttpServletRequest req, HttpServletResponse res, //
 			@RequestBody UserDTO user){
 		return new ResponseEntity<>(userService.createUser(user), HttpStatus.OK);		
+	}
+	
+	/**
+	 * @methodName : selectCondition
+	 * @description : 등록된 모든 사용자의 업태를 조회하여 리스트로 반환해주는 컨트롤러
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.02.11
+	 */
+	@GetMapping(value = "/condition")
+	public ResponseEntity<Result<List<CompanyInfoDTO>>> selectCondition() {
+		return ResponseEntity.ok(companyService.selectConditionList());
+	}
+	
+	/**
+	 * @methodName : selectIndustryType
+	 * @description : 등록된 모든 사용자의 업종을 조회하여 리스트로 반환해주는 컨트롤러
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.02.11
+	 */
+	@GetMapping(value = "/industry-type")
+	public ResponseEntity<Result<List<CompanyInfoDTO>>> selectIndustryType() {
+		return ResponseEntity.ok(companyService.selectIndustryTypeList());
 	}
 	
 	/**
@@ -81,14 +108,14 @@ public class UserController {
 			, @PathVariable Integer userType //
 			, @RequestParam(required = false) String name // 
 			, @RequestParam(required = false) String condition //
-			, @RequestParam(required = false) String industry //
+			, @RequestParam(required = false) String industryType //
 			, @RequestParam(required = false) Integer status//
 			, @RequestParam Integer pageNum//
 			, @RequestParam Integer pageItemPerPage//
 			, @RequestParam(required = false) String orderby//
 			, @RequestParam(required = false) Boolean desc//
 			) {
-		return ResponseEntity.ok(manuService.selectCompanyList(userType, name, condition, industry, status));
+		return ResponseEntity.ok(companyService.selectCompanyList(userType, name, condition, industryType, status));
 	}
 	
 	/**
@@ -109,7 +136,7 @@ public class UserController {
 			, @PathVariable Integer userType //
 			, @PathVariable String id // 사업자 번호
 			){
-		return ResponseEntity.ok(manuService.selectCompanyUser(userType, id));
+		return ResponseEntity.ok(companyService.selectCompanyUser(userType, id));
 	}
 
 	/**

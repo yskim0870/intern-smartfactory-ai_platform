@@ -29,6 +29,12 @@ platform.controller("BidCtrl", function($scope, Factory, $rootScope) {
 	// 검색 버튼 클릭 시 검색 조건에 맞게 조회
 	$scope.showBidView = function() {
 		selectBidList();
+		$scope.id = null;
+		$scope.bidStartDate = null;
+		$scope.bidEndDate = null;
+		$scope.bidName = null;
+		$scope.manufacturerName = null;
+		$scope.status = null;
 	}
 
 	// th(= 테이블 칼럼 제목) 클릭시 정렬 기능

@@ -10,15 +10,17 @@
       <tr>
         <th style="width:100px">업태</th>
         <td>
-          <select name="select" ng-model="company.condition"
-            ng-options="condition.value as condition.name for condition in conditions" style="width: 140px;">
+          <select name="select"
+            ng-options="condition.value as condition.name for condition in conditions" 
+            ng-model="condition" style="width: 140px;">
             	<option value="">선택</option>
             </select>
         </td>
         <th style="width:100px">종목</th>
         <td>
-          <select name="select" ng-model="company.industryType"
-            ng-options="industryType.value as industryType.name for industryType in industryTypes" style="width: 140px;">
+          <select name="select"
+            ng-options="industryType.value as industryType.name for industryType in industryTypes"
+            style="width: 140px;" ng-model="industryType">
             	<option value="">선택</option>
             </select>
         </td>
@@ -44,6 +46,13 @@
 
     <table class="table-list">
       <caption>제조사목록</caption>
+      <colgroup>
+          		<col width="160px">
+          		<col width="240px">
+          		<col width="160px">
+          		<col width="240px">
+          		<col width="280px">
+       </colgroup>
       <thead>
         <tr ng-model="orderby">
           <th ng-click="sorting('company_info.name', 'name')">업체명

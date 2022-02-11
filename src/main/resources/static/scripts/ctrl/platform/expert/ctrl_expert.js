@@ -48,6 +48,13 @@ platform.controller("ExpertController", function($scope, Factory, $rootScope) {
 
 		selectCompanyList();
 	}
+	
+	// 검색 버튼 클릭 시 검색 조건에 맞게 조회
+	$scope.getCompanyList = function() {
+		selectCompanyList();
+		$scope.company.name = null;
+		$scope.company.status = null;
+	}
 
 	// 전체 조회
 	let selectCompanyList = function() {

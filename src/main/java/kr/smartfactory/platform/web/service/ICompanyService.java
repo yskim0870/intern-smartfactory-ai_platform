@@ -3,7 +3,10 @@
  */
 package kr.smartfactory.platform.web.service;
 
+import java.util.List;
+
 import kr.smartfactory.platform.web.dto.PaginationDTO;
+import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserDTO;
 import open.commons.Result;
 
@@ -33,6 +36,26 @@ public interface ICompanyService {
 	 * @date : 2022.01.26
 	 */
 	public Result<PaginationDTO<UserDTO>> selectCompanyList(Integer userType, String name, String condition, String industry, Integer status);
+	
+	/**
+	 * @methodName : selectConditionList
+	 * @description : 등록된 사용자들의 업종을 조회하는 메소드
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.02.11
+	 */
+	public Result<List<CompanyInfoDTO>> selectConditionList();
+	
+	/**
+	 * @methodName : selectIndustryTypeList
+	 * @description : 등록된 사용자들의 업태을 조회하는 메소드
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.02.11
+	 */
+	public Result<List<CompanyInfoDTO>> selectIndustryTypeList();
 	
 	/**
 	 * @methodName : selectCompanyUser
