@@ -1,1 +1,89 @@
-tpl_content_alarm_mgmt.html
+<div class="scm-main" ng-controller="AlarmController">
+
+	<div class="main-header"></div>
+
+	<!-- Search : s -->
+	<div class="scm-card">
+		<table class="table-search">
+			<caption>알림등록 관리</caption>
+			<tr>
+				<th style="width: 100px">제조사</th>
+				<td style="width: 160px">
+					<select name="select" style="width: 160px">
+						<option selected="">전체</option>
+						<option>(주)유미테크</option>
+						<option>(주)아이리녹스</option>
+					</select>
+				</td>
+				<td style="width: 390px"></td>
+			</tr>
+			<tr>
+				<th>알람일</th>
+				<td>
+					<input name="alarm" type="date" title="알람일" style="width: 160px" ng-model="date" ng-change="dateChange()">
+				</td>
+				<td>
+					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="isChecked[0]" ng-click="dateRadioClick(0)">
+					<label for="month-1">즉시 전송</label>
+					<input type="radio" name="ck_month" id="month-3" class="dsi" ng-checked="isChecked[1]" ng-click="dateRadioClick(1)">
+					<label for="month-3">예약 전송</label>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<th>알림메시지</th>
+				<td colspan="2">
+					<textarea name="textfield" style="width: 100%"></textarea>
+				</td>
+				<td>
+					<button class="btn blue">
+						<img src="/static/images/icon_mail.png" alt="전송"><span>전송</span>
+					</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!-- Search : e -->
+
+	<!-- Table-list : s -->
+	<div class="scm-card">
+		<div class="table-header">
+			<span class="table-title">알림목록</span>
+			<div class="table-header-right">
+				<span>전체 20건</span> <select name="select" class="small" ng-model="itemCount" ng-options="item.value as item.display for item in items">
+				</select>
+			</div>
+		</div>
+
+		<table class="table-list">
+			<caption>알림목록</caption>
+			<thead>
+				<tr>
+					<th>알림일자</th>
+					<th>제조사</th>
+					<th>알람 메시지</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>2021.02.01</td>
+					<td>(주)유미테크</td>
+					<td>현재 신청한 입찰공고가 00일까지 마무리됩니다. 공고내용을 확인하시기 바랍니다.</td>
+				</tr>
+				<tr>
+					<td>2021.02.01</td>
+					<td>(주)유미테크</td>
+					<td>현재 신청한 입찰공고가 00일까지 마무리됩니다. 공고내용을 확인하시기 바랍니다.</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="paginate">
+		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
+			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount" ng-change="getEdges()"
+		></ul>
+	</div>
+	<!-- Table-list : e -->
+
+</div>

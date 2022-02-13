@@ -12,7 +12,7 @@ import open.commons.spring.jdbc.dao.AbstractSingleDataSourceDao;
 
 import kr.smartfactory.platform.web.config.DataSourceConfig;
 
-public class DBGenericDaoImpl extends AbstractSingleDataSourceDao {
+public class DBGenericDao extends AbstractSingleDataSourceDao {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
