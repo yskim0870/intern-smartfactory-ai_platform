@@ -45,7 +45,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import kr.smartfactory.platform.web.dao.model.UserGrade;
+import kr.smartfactory.platform.web.dao.entity.UserGrade;
 import kr.smartfactory.platform.web.security.GrantedAuthorityDetail;
 
 /**
@@ -154,8 +154,8 @@ public class HomeController {
 
 				switch (userGrade.getGradeID()) {
 					case UserGrade.SUPER_ADMIN:
-					case UserGrade.ADMIN:
-					case UserGrade.USER:
+					case UserGrade.MANUFACTURER:
+					case UserGrade.EXPERT:
 						String userJSON = new ObjectMapper().writeValueAsString(authDetail.getUser());
 						JSONObject obj = new JSONObject(userJSON);
 						view.addObject(VO_AUTHENTICATION, obj);

@@ -9,14 +9,15 @@ logging:
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    jdbc-url: jdbc:mysql://mariadb:3306/pimsdb?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf8
-    username: pimsuser
-    password: pimspassword
+    jdbc-url: jdbc:mysql://39.119.118.204:10041/sf_ai_platform?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf8
+    username: sfuser
+    password: "!sfpassword!@#"
   messagesource:
     basename: classpath:querySource
     defaultEncording: UTF-8  
   servlet:
     multipart:
+      location: C:\\Users\\yyh77\\Downloads
       max-file-size: 21474836480 # 2GB
       max-request-size: 1099511627776 # 1TB
   mvc:
@@ -26,4 +27,5 @@ spring:
     suffix: .html
     check-template-location: true
     mode: HTML
-    cache: false  
+    cache: false
+  

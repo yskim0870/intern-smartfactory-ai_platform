@@ -1,1 +1,202 @@
-tpl_content_billing_mgmt.html
+<div class="scm-main" ng-controller="BillingController">
+	<div class="main-header"></div>
+
+	<!-- Search : s -->
+	<div class="scm-card" ng-model="grade" ng-init="checkGrade()">
+		<table class="table-search">
+			<caption>과금관리 조회</caption>
+			<tr>
+				<th>과금기간</th>
+				<td class="date-select">
+					<input name="date01" type="date" title="날짜선택" style="width: 150px;" ng-model="startDate" ng-change="dateChange" max="9999-12-31">
+					~
+					<input name="date02" type="date" title="날짜선택" style="width: 150px;" ng-model="endDate" ng-change="dateChange" max="9999-12-31">
+				</td>
+				<td class="date-recent" colspan="3">
+					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="isChecked[0]" ng-click="dateRadioClick(1)">
+					<label for="month-1">최근 1개월</label>
+					<input type="radio" name="ck_month" id="month-3" class="dsi" ng-checked="isChecked[1]" ng-click="dateRadioClick(3)">
+					<label for="month-3">최근 3개월</label>
+					<input type="radio" name="ck_month" id="month-6" class="dsi" ng-checked="isChecked[2]" ng-click="dateRadioClick(6)">
+					<label for="month-6">최근 6개월</label>
+				</td>
+				<td>
+					<div class="right" ng-if="grade">
+						<button class="btn black big" ng-click="createModal()">
+							<img src="/static/images/icon_confirm_white.png" alt="분석환경 신청"><span>분석환경 신청</span>
+						</button>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th style="width: 100px">사용자 분류</th>
+				<td>
+					<select style="width: 150px" name="select" ng-model="companyClass" ng-options="item.value as item.display for item in companyClassItems">
+						<option value="">전체</option>
+					</select>
+				</td>
+				<th style="width: 100px">분석환경등급</th>
+				<td colspan="2">
+					<select name="select" ng-model="envGrade" ng-options="item.value for item in envGradeItems">
+						<option value="">전체</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th style="width: 100px">납부상태</th>
+				<td>
+					<select name="select" ng-model="payStatus" ng-options="item.value as item.display for item in payStatusItems">
+						<option value="">전체</option>
+					</select>
+				</td>
+				<th style="width: 100px">승인여부</th>
+				<td>
+					<select name="select" ng-model="approvalStatus" ng-options="item.value as item.display for item in approvalStatusItems">
+						<option value="">전체</option>
+					</select>
+				</td>
+				<td>
+
+					<button class="btn blue" ng-click="test()">
+						<img src="/static/images/icon_search.png" alt="검색"><span>검색</span>
+					</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!-- Search : e -->
+
+	<!-- Table-list : s -->
+	<div class="scm-card">
+		<div class="table-header">
+			<span class="table-title">과금 목록</span>
+			<div class="table-header-right">
+				<span>전체 {{Billings.data.totalCount}}개</span> <select name="select" class="small" ng-model="itemCount"
+					ng-options="item.value as item.display for item in items"
+				>
+
+				</select>
+			</div>
+		</div>
+
+		<table class="table-list">
+			<col style="width: 15%">
+			<col style="width: 15%">
+			<col style="width: 10%">
+			<col style="width: 5%">
+			<col style="width: 10%">
+			<col style="width: 5%">
+			<col style="width: 8%">
+			<caption>과금 목록</caption>
+			<thead>
+				<tr>
+					<th ng-click="sortData('chargeDate')">과금일자</th>
+					<th ng-click="sortData('industryType')">사용자 분류</th>
+					<th ng-click="sortData('name')">업체</th>
+					<th ng-click="sortData('price')">과금</th>
+					<th ng-click="sortData('name')">분석환경 등급</th>
+					<th ng-click="sortData('status')">상태</th>
+					<th ng-click="sortData()">승인여부</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat-start="billingInfo in Billings.data.items" ng-click="detailBilling(billingInfo)">
+					<td>
+						<span>{{billingInfo.chargeDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</span>
+					</td>
+					<td>
+						<span>{{billingInfo.company.industryType}}</span>
+					</td>
+					<td>
+						<span>{{billingInfo.company.name}}</span>
+					</td>
+					<td>
+						<span>월 {{billingInfo.gradeEnv.price | number:0}}</span>
+					</td>
+					<td>
+						<span>{{billingInfo.gradeEnv.name}}</span>
+					</td>
+					<td>
+						<span>{{billingInfo.approvalStatus}}</span>
+					</td>
+					<td ng-click="$event.stopPropagation();">
+						<button class="btn whiteblue small" ng-click="approvalBilling(billingInfo.id)">
+							<img src="static/images/icon_wait.png" alt="승인대기"><span>승인대기</span>
+						</button>
+					</td>
+				</tr>
+
+				<tr ng-repeat-end ng-if="billingInfo.show">
+					<td colspan="7">
+						<div>
+							<div class="table-header read mt_30">
+								<span class="table-title">과금정보</span>
+							</div>
+							<table class="table-read">
+								<caption>제조사정보</caption>
+								<tr>
+									<th style="width: 150px">사용자 분류</th>
+									<td>{{billingInfo.company.industryType}}</td>
+								</tr>
+								<tr>
+									<th>담당자</th>
+									<td class="td-bold">{{billingInfo.company.name}}</td>
+								</tr>
+								<tr>
+									<th>과금</th>
+									<td>월 {{billingInfo.gradeEnv.price | number : 0}}원</td>
+								</tr>
+								<tr>
+									<th>납부 방법</th>
+									<td>{{billingInfo.payMethod}}</td>
+								</tr>
+								<tr>
+									<th>세금계산서</th>
+									<td>{{billingInfo.taxBillPublished}}</td>
+								</tr>
+								<tr>
+									<th>등록일</th>
+									<td>{{billingInfo.useStartDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</td>
+								</tr>
+								<tr>
+									<th>사용기간</th>
+									<td>{{billingInfo.useStartDate | date: 'yyyy년 MM월 dd일'}} ~ {{billingInfo.useEndDate | date: 'yyyy년 MM월 dd일'}}</td>
+								</tr>
+							</table>
+							<div class="table-header read mt_30">
+								<span class="table-title">분석환경 정보</span>
+							</div>
+							<table class="table-read">
+								<caption>분석환경 정보</caption>
+								<tr>
+									<th style="width: 150px">분석환경 등급</th>
+									<td>Standard</td>
+								</tr>
+								<tr>
+									<th>CPU</th>
+									<td>{{billingInfo.gradeEnv.cpu}}개</td>
+								</tr>
+								<tr>
+									<th>Memory</th>
+									<td>{{billingInfo.gradeEnv.Ememory | number:0}}MB</td>
+								</tr>
+								<tr>
+									<th>디스크</th>
+									<td>{{billingInfo.gradeEnv.storage | number:0}}GB</td>
+								</tr>
+							</table>
+				</tr>
+				<!--  상세보기 -->
+			</tbody>
+		</table>
+	</div>
+	<div class="paginate">
+		<ul uib-pagination boundary-links="true" total-items="Billings.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
+			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount" ng-change="selectBillings"
+		></ul>
+		<!-- Table-list : e -->
+	</div>
+</div>
+<!-- Table-list : e -->
+
+</div>

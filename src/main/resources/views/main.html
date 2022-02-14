@@ -19,15 +19,30 @@
 	/* ]]> */
 
 	var APP_NAME = "platform";
-	var platform = angular.module(APP_NAME, [ "ui.bootstrap", "ngRoute", "ngResource", "ngAnimate", "ngSanitize" ]);
+	var platform = angular.module(APP_NAME, [ "ui.bootstrap", "ngRoute", "ngResource", "ngAnimate", "ngSanitize", "ngFileUpload"]);
 	// 	var platform = angular.module(APP_NAME, [ "ui.bootstrap", "ngRoute", "ngResource", "ngAnimate", "ngSanitize", "chieffancypants.loadingBar" ]);
 </script>
 
 <script type="text/javascript" th:src="@{/static/scripts/ctrl/ng-support.js}"></script>
 <script type="text/javascript" th:src="@{/static/scripts/ctrl/contents_menu_config.js}"></script>
 <script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/ctrl_content_menu_container.js}"></script>
-
 <script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/ctrl_platform.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/edgegw/ctrl_edgegw.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/edgegw/ctrl_edgegw_modal.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/billing/ctrl_billing.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/billing/ctrl_billing_modal.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/alarm/ctrl_alarm.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/libs/angularjs/ng-file-upload-shim.min.js}"></script> <!-- for no html5 browsers support -->
+<script type="text/javascript" th:src="@{/static/scripts/libs/angularjs/ng-file-upload.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/factory.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/bid/ctrl_bid_list.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/bid/ctrl_bid_mgmt.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/bid/modal/ctrl_create_bid.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/bid/modal/ctrl_contract_update_bid.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/dashboard/ctrl_dashboard.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/manufacturer/ctrl_manufacturer.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/dashboard/bid_detail_modal.js}"></script>
+<script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/expert/ctrl_expert.js}"></script>
 
 </head>
 

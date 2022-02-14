@@ -1,1 +1,174 @@
-tpl_content_edgegw_mgmt.html
+<div ng-controller="EdgeController">
+	<div class="main-header"></div>
+
+	<!-- Search : s -->
+	<div class="scm-card">
+		<table class="table-search">
+			<caption>EdgeGW 관리 조회</caption>
+			<tr>
+				<th style="width: 100px">업체명</th>
+				<td colspan="3">
+					<input name="name" type="text" title="업체명" ng-model="name" style="width: 150px;" ng-disabled="checkGrade">
+				</td>
+				<td>
+					<div class="right">
+						<button class="btn black big" ng-click="createModal()">
+							<img src="/static/images/icon_confirm_white.png" alt="신규 데이터 등록"><span>Edge 신규 등록</span>
+						</button>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>연동기간</th>
+				<td class="date-select">
+					<input name="date01" type="date" title="날짜선택" ng-model="startDate" style="width: 150px;" ng-change="dateChange" max="9999-12-31">
+					~
+					<input name="date02" type="date" title="날짜선택" ng-model="endDate" style="width: 150px;" ng-change="dateChange" max="9999-12-31">
+				</td>
+				<td class="date-recent" style="padding: 8px 0px 0px 0px;">
+					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="isChecked[0]" ng-click="dateRadioClick(1)">
+					<label for="month-1">최근 1개월</label>
+					<input type="radio" name="ck_month" id="month-3" class="dsi" ng-checked="isChecked[1]" ng-click="dateRadioClick(3)">
+					<label for="month-3">최근 3개월</label>
+					<input type="radio" name="ck_month" id="month-6" class="dsi" ng-checked="isChecked[2]" ng-click="dateRadioClick(6)">
+					<label for="month-6">최근 6개월</label>
+				</td>
+				<td>
+					<button class="btn blue" ng-click="getEdges(order)">
+						<img src="/static/images/icon_search.png" alt="검색"><span>검색</span>
+					</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!-- Search : e -->
+
+	<!-- Table-list : s -->
+	<div class="scm-card">
+		<div class="table-header">
+			<span class="table-title">EdgeGateway 목록</span>
+			<div class="table-header-right">
+				<span>전체 {{edgeGWs.data.totalCount}}건</span> <select name="select" class="small" ng-model="itemCount"
+					ng-options="item.value as item.display for item in items" ng-change="getEdges()"
+				>
+				</select>
+			</div>
+		</div>
+
+		<table class="table-list">
+			<colgroup>
+				<col style="width: 15%">
+				<col style="width: 15%">
+				<col style="width: 5%">
+				<col style="width: 30%">
+				<col style="width: 10%">
+			</colgroup>
+			<caption>EdgeGateway 목록</caption>
+			<thead>
+				<tr>
+					<th ng-click="sortData('id')">ID</th>
+					<th ng-click="sortData('manager_id')">제조사</th>
+					<th ng-click="sortData('status')">작동여부</th>
+					<th ng-click="sortData('update_date')">최종 연동 일시</th>
+					<th>비고</th>
+				</tr>
+			</thead>
+			<tr class ng-repeat-start="edgeInfo in edgeGWs.data.items" ng-click="getEdge(edgeInfo)">
+
+				<td>
+					<span>{{edgeInfo.id}}</span>
+				</td>
+				<td>
+					<span>{{edgeInfo.managerId}}</span>
+				</td>
+				<td>
+					<span>{{boolStatus(edgeInfo.status)}}</span>
+				</td>
+				<td>
+					<span>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</span>
+				</td>
+				<td ng-click="$event.stopPropagation();">
+					<button class="btn white small" ng-click="updateModal(edgeInfo.id)">
+						<img src="/static/images/icon_modify.png" alt="수정"><span>수정</span>
+					</button>
+					<button class="btn red small" ng-click="deleteConfirm(edgeInfo.id)">
+						<img src="/static/images/icon_del.png" alt="삭제"><span>삭제</span>
+					</button>
+				</td>
+			</tr>
+
+			<!-- 상세보기 :s -->
+			<tr ng-repeat-end ng-if="edgeInfo.show">
+				<td colspan="5">
+					<div class="scm-card">
+						<div class="table-header read">
+							<span class="table-title"><strong>EdgeGateway 정보</strong></span>
+						</div>
+						<table class="table-read">
+							<caption>EdgeGateway 정보</caption>
+							<tr>
+								<th style="width: 150px">ID</th>
+								<td>{{edgeInfo.id}}</td>
+							</tr>
+							<tr>
+								<th>연동 기간</th>
+								<!-- LONG TO DATE !!!!!! -->
+								<td>{{edgeInfo.startDate | date: 'yyyy.MM.dd'}} ~ {{edgeInfo.endDate | date: 'yyyy. MM.dd'}}</td>
+
+							</tr>
+
+							<tr>
+								<th>작동 여부</th>
+								<td>{{boolStatus(edgeInfo.status)}}</td>
+							</tr>
+							<tr>
+								<th>최종연동일시</th>
+								<td>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</td>
+							</tr>
+							<tr>
+								<th>IP</th>
+								<td>{{edgeInfo.host}}</td>
+							</tr>
+							<tr>
+								<th>Port</th>
+								<td>{{edgeInfo.port}}</td>
+							</tr>
+						</table>
+
+
+						<div class="table-header read mt_30">
+							<span class="table-title">제조사 정보</span>
+						</div>
+						<table class="table-read">
+							<caption>제조사 정보</caption>
+							<tr>
+								<th style="width: 150px">제조사명</th>
+								<td>{{edgeGW.name}}</td>
+
+							</tr>
+							<tr>
+								<th>주소</th>
+								<td>{{edgeGW.address}}</td>
+							</tr>
+							<tr>
+								<th>대표번호</th>
+								<td>{{edgeGW.telNumber}}</td>
+							</tr>
+							<tr>
+								<th style="width: 150px">대표자</th>
+								<td>{{edgeGW.ceoName}}</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="paginate">
+		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
+			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount" ng-change="getEdges()"
+		></ul>
+
+		<!-- Table-list : e -->
+	</div>
+</div>

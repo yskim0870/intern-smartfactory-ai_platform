@@ -2,8 +2,8 @@ package kr.smartfactory.platform.web.security;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import kr.smartfactory.platform.web.dao.model.User;
-import kr.smartfactory.platform.web.dao.model.UserGrade;
+import kr.smartfactory.platform.web.dao.entity.User;
+import kr.smartfactory.platform.web.dao.entity.UserGrade;
 
 public class GrantedAuthorityDetail implements GrantedAuthority  {
 

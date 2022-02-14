@@ -10,10 +10,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
-import open.commons.Result;
-
-import kr.smartfactory.platform.web.dao.model.User;
-import kr.smartfactory.platform.web.dao.model.UserGrade;
+import kr.smartfactory.platform.web.dao.entity.User;
+import kr.smartfactory.platform.web.dao.entity.UserGrade;
 import kr.smartfactory.platform.web.service.IUserService;
 import kr.smartfactory.platform.web.service.impl.UserService;
 
@@ -58,10 +56,10 @@ public class UserLoginAuthenticationProvider implements AuthenticationProvider {
 //		}
 		
 		User user = new User();
-		user.setGrade(UserGrade.ADMIN);
+		user.setGrade(UserGrade.SUPER_ADMIN);
 		user.setName("관리자");
 		user.setUserID("admin");
-		user.setGradeObj(new UserGrade(UserGrade.ADMIN, "ROLE_ADMIN", "관리자"));
+		user.setGradeObj(new UserGrade(UserGrade.MANUFACTURER, "ROLE_ADMIN", "관리자"));
 
 		// 사용자의 권한 및 정보 추가
 		// TODO: UserGrade 조회

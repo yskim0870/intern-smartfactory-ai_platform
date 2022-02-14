@@ -1,24 +1,25 @@
+<div ng-controller="DashboardCtrl" ng-model="dash">
 <!-- dash-total : s -->
-<div class="dash-total">
-  <div class="scm-card ml_0">
+<div class="dash-total" ng-model="dashboard" ng-init="selectCount()">
+  <div class="scm-card ml_0" style="height: 185px;">
     <img src="/static/images/icon_total_fac.png" alt="제조사">
     <p>전체제조사</p>
-    <b>3</b>
+    <b >{{dashboard.manufacturerCount}}</b>
   </div>
-  <div class="scm-card">
+  <div class="scm-card" ng-model="dashboard.bidNotice" style="height: 185px;">
     <img src="/static/images/icon_total_bid.png" alt="입찰공고">
     <p>입찰공고</p>
-    <b>4</b>
+    <b >{{dashboard.bidCount}}</b>
   </div>
-  <div class="scm-card">
+  <div class="scm-card" ng-model="dashboard.edgeGW" style="height: 185px;">
     <img src="/static/images/icon_total_gw.png" alt="게이트웨이">
     <p>EdgeGW</p>
-    <b>3</b>
+    <b >{{dashboard.edgeGWCount.totalCount}}</b>
   </div>
-  <div class="scm-card mr_0">
+  <div class="scm-card mr_0" ng-model="dashboard.expert" style="height: 185px;">
     <img src="/static/images/icon_total_it.png" alt="IT 도메인 전문가">
     <p>IT 도메인전문가</p>
-    <b>2</b>
+    <b >{{dashboard.expertCount}}</b>
   </div>
 </div>
 <!-- dash-total : e -->
@@ -27,20 +28,20 @@
 <div class="scm-card">
   <div class="scm-tabs">
     <input id="bid-notice" type="radio" name="tab-item" checked>
-    <label class="tab-item" for="bid-notice">입찰공고</label>
+    <label class="tab-item" for="bid-notice" ng-click="changeDashList('공고')">입찰공고</label>
     <input id="bid-result" type="radio" name="tab-item">
-    <label class="tab-item" for="bid-result">입찰결과</label>
+    <label class="tab-item" for="bid-result" ng-click="changeDashList('결과')">입찰결과</label>
     <div class="tab-content" id="notice-content">
-      <a href="bidView">
+      <a href="/#/bid/list">
         <span class="more-box">
           <button class="btn-more">+ more</button>
         </span>
       </a>
-      <table class="table-list-none">
+      <table class="table-list-none-dash">
         <colgroup>
-          <col width="10%">
-          <col width="10%">
-          <col width="80%">
+          <col width="175px">
+          <col width="70px">
+          <col width="800px">
         </colgroup>
         <caption>입찰목록</caption>
         <!--thead>
@@ -51,56 +52,33 @@
                             </tr>
                           </thead-->
         <tbody>
-
-          <tr>
-            <td>2021.01.20</td>
-            <td>아이리녹스</td>
-            <td class="left">화장지의 생물촉진 재순환 발효소멸 생성 장치의 환경 기준치 미달에 따른 영향에 미치는 자료수집 2차</td>
+          <tr class="dash-list" ng-repeat="item in items" ng-if="item.bidInfo.status != 2" ng-click="moveDetailPage(item.bidInfo.id)">
+            <td>{{item.bidInfo.bidStartDate}} ~ {{item.bidInfo.bidEndDate}}</td>
+            <td>{{item.company.name}}</td>
+            <td>{{item.bidInfo.bidName}}</td>
           </tr>
-          <tr>
-            <td>2020.12.02</td>
-            <td>A 제조사</td>
-            <td class="left">ICT 투자전략과 R&D 우선순위 선정을 위한 전문가그룹 운용 및 심층 조사</td>
-          </tr>
-          <tr>
-            <td>2020.11.16</td>
-            <td>(주)유미테크</td>
-            <td class="left">국가지능화 확산을 위한 공공 및 산업 분야 이슈 도출과 대응을 위한 전문가 조사</td>
-          </tr>
-          <tr>
-            <td>2020.11.11</td>
-            <td>(주)유미테크</td>
-            <td class="left">3차원 정밀측위 119활용을 위한 정밀측위 위치정보처리 Web Service 및 Mobile App 개발</td>
-          </tr>
-
         </tbody>
       </table>
     </div>
     <div class="tab-content" id="result-content">
-      <a href="bidMana">
+      <a href="#/bid/list">
         <span class="more-box">
           <button class="btn-more">+ more</button>
         </span>
       </a>
-      <table class="table-list-none">
+      <table class="table-list-none-dash">
         <colgroup>
-          <col width="10%">
-          <col width="10%">
-          <col width="80%">
+          <col width="175px">
+          <col width="70px">
+          <col width="800px">
         </colgroup>
         <caption>입찰결과</caption>
         <tbody>
-          <tr>
-            <td>2021.02.10</td>
-            <td>A 제조사</td>
-            <td class="left">슈퍼컴 CPU의 칩 개발을 위한 주파수 합성기 IP(Programable Fractional PLL)</td>
+          <tr class="dash-list" ng-repeat="item in items" ng-if="item.bidInfo.status == 2"  ng-click="moveDetailPage(item.bidInfo.id)">
+            <td>{{item.bidInfo.bidStartDate}} ~ {{item.bidInfo.bidEndDate}}</td>
+            <td>{{item.company.name}}</td>
+            <td>{{item.bidInfo.bidName}}</td>
           </tr>
-          <tr>
-            <td style="width: 80px">2020.12.20</td>
-            <td style="width: 100px">(주)유미테크</td>
-            <td class="left">영상 모니터링 시스템과 원격 통합관제 시스템의 기능 및 구조 분석</td>
-          </tr>
-
         </tbody>
       </table>
     </div>
@@ -109,30 +87,26 @@
 </div>
 <!-- scm-main : e -->
 <!-- dash-bottom : s -->
-<div class="scm-card dash-left">
-  <div class="table-header">
+<div class="scm-card dash-left" ng-if="userGrade != 2">
+  <div class="table-header-yyh">
     <span class="table-title">EdgeGW 상태</span>
     <div class="table-header-right">
-      <span id="current-date">2021.06.21 현재</span>
+      <span id="current-date"> {{currentTime | date : 'yyyy-MM-dd'}} 현재</span>
     </div>
   </div>
-  <div class="dash-stat">
-    <div class="dash-stat-divide">
-      <img src="/static/images/img-dsahedgegw-2.png" alt="파이챠트">
-    </div>
-    <div class="dash-stat-divide">
-      <span class="dash-stat-span-1">전체 </span>
-      <span class="dash-stat-span-2">3</span>
-      <BR>
-      <span class="dash-stat-span-1">정상 </span>
-      <span class="dash-stat-span-2">2</span>
-      <BR>
-      <span class="dash-stat-span-1">비정상 </span>
-      <span class="dash-stat-span-2">1</span>
-      <BR>
+  
+  <div class="dash-stat" ng-model="comapny" ng-init="dashLoad()">
+    <div class="dash-stat-divide" ng-model="edgeGW" ng-init="selectEdgeCount(comapny.name)">
+       <!-- pie chart s   -->
+      <div id="chart">
+      	<canvas id="pieChart"></canvas>
+      </div>
+      <div id="legend"></div>
+    <!--    pie chart e    -->
     </div>
   </div>
 </div>
+
 <div class="scm-card dash-right">
   <a href="">
     <div class="dash-banner">
@@ -168,3 +142,4 @@
   </a>
 </div>
 <!-- dash-bottom : e -->
+</div>
