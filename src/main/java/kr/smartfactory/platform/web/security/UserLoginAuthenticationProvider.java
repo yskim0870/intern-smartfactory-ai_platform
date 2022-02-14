@@ -10,10 +10,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
-import open.commons.Result;
-
-import kr.smartfactory.platform.web.dao.model.User;
-import kr.smartfactory.platform.web.dao.model.UserGrade;
+import kr.smartfactory.platform.web.dao.entity.User;
+import kr.smartfactory.platform.web.dao.entity.UserGrade;
 import kr.smartfactory.platform.web.service.IUserService;
 import kr.smartfactory.platform.web.service.impl.UserService;
 

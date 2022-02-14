@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import open.commons.spring.jdbc.dao.AbstractSingleDataSourceDao;
 
@@ -29,5 +30,8 @@ public class DBGenericDao extends AbstractSingleDataSourceDao {
 	public void setQuerySource(ReloadableResourceBundleMessageSource querySource) {
 		this.querySource = querySource;
 	}
+	
+	@Autowired
+	public JdbcTemplate jdbcTemplate;
 	
 }

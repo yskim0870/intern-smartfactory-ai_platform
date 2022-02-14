@@ -1,1 +1,163 @@
-tpl_content_manufacturer_mgmt.html
+<div ng-controller="manuController">
+  <!-- Search : s -->
+  <div class="scm-card" ng-model="company">
+    <table class="table-search">
+      <caption>제조사조회</caption>
+      <tr>
+        <th style="width:100px">업체명</th>
+        <td colspan="4"><input name="name" type="text" ng-model="company.name" title="업체명" style="width: 140px;"></td>
+      </tr>
+      <tr>
+        <th style="width:100px">업태</th>
+        <td>
+          <select name="select"
+            ng-options="condition.value as condition.name for condition in conditions" 
+            ng-model="condition" style="width: 140px;">
+            	<option value="">선택</option>
+            </select>
+        </td>
+        <th style="width:100px">종목</th>
+        <td>
+          <select name="select"
+            ng-options="industryType.value as industryType.name for industryType in industryTypes"
+            style="width: 140px;" ng-model="industryType">
+            	<option value="">선택</option>
+            </select>
+        </td>
+        <td>
+          <button class="btn blue" ng-click="getCompanyList()"><img src="/static/images/icon_search.png"
+              alt="검색"><span>검색</span></button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <!-- Search : e -->
+
+  <!-- Table-list : s -->
+  <div class="scm-card">
+    <div class="table-header">
+      <span class="table-title">제조사명</span>
+      <div class="table-header-right">
+        <span>전체 {{pagination.totalCount}}건</span>
+        <select name="select" ng-model="pagination.pageItemPerPage" class="small"
+          ng-options="option.value as option.name for option in pageOptions" ng-change="changePageOption()"></select>
+      </div>
+    </div>
+
+    <table class="table-list">
+      <caption>제조사목록</caption>
+      <colgroup>
+          		<col width="160px">
+          		<col width="240px">
+          		<col width="160px">
+          		<col width="240px">
+          		<col width="280px">
+       </colgroup>
+      <thead>
+        <tr ng-model="orderby">
+          <th ng-click="sorting('company_info.name', 'name')">업체명
+          	<span ng-if="sort[0]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+          </th>
+          <th ng-click="sorting('company_info.business_number', 'businessNumber')">사업자번호
+	          <span ng-if="sort[1]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+          </th>
+          <th ng-click="sorting('company_info.ceo_name', 'ceoName')">대표자
+	          <span ng-if="sort[2]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+          </th>
+          <th ng-click="sorting('company_info.tel_number', 'telNumber')">대표번호
+	          <span ng-if="sort[3]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+          </th>
+          <th ng-click="sorting('company_info.address', 'address')">사업장소재지
+			  <span ng-if="sort[4]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat-start="item in items" ng-click="selectDetail(item)">
+          <td>{{item.companyInfo.name}}</td>
+          <td>{{item.companyInfo.businessNumber}}</td>
+          <td>{{item.companyInfo.ceoName}}</td>
+          <td>{{item.companyInfo.telNumber}}</td>
+          <td class="al_left">{{item.companyInfo.address}}</td>
+        </tr>
+
+
+        <tr ng-repeat-end ng-if="item.detailStatus">
+          <!-- 상세보기 -->
+          <td colspan=5>
+            <!-- 제조사 정보 : s -->
+            <div ng-model="manu" class="scm-card">
+              <table class="table-read">
+                <caption>제조사정보</caption>
+                <tr>
+                  <th style="width:150px">제조사</th>
+                  <td class="td-bold">{{manu.companyInfo.name}}</td>
+                </tr>
+                <tr>
+                  <th>사업자번호</th>
+                  <td>{{manu.companyInfo.businessNumber}}</td>
+                </tr>
+                <tr>
+                  <th>대표자</th>
+                  <td>{{manu.companyInfo.ceoName}}</td>
+                </tr>
+                <tr>
+                  <th>대표번호</th>
+                  <td>{{manu.companyInfo.telNumber}}</td>
+                </tr>
+                <tr>
+                  <th>사업장소재지</th>
+                  <td>{{manu.companyInfo.address}}</td>
+                </tr>
+                <tr>
+                  <th>업태/종목</th>
+                  <td>{{manu.companyInfo.condition}}, {{manu.companyInfo.industryType}}</td>
+                </tr>
+              </table>
+
+              <table class="table-read">
+                <caption>담당자정보</caption>
+                <tr>
+                  <th style="width:150px">담당자</th>
+                  <td>{{manu.userInfo.name}}</td>
+                </tr>
+                <tr>
+                  <th>부서</th>
+                  <td>{{manu.userInfo.department}}</td>
+                </tr>
+                <tr>
+                  <th>직책</th>
+                  <td>{{manu.userInfo.rank}}</td>
+                </tr>
+                <tr>
+                  <th>연락처</th>
+                  <td>{{manu.userInfo.telNumber}}</td>
+                </tr>
+                <tr>
+                  <th>이메일</th>
+                  <td>{{manu.userInfo.email}}</td>
+                </tr>
+                <tr>
+                  <th>가입일</th>
+                  <td>{{manu.userInfo.regDate}}</td>
+                </tr>
+              </table>
+              <div class="table-text ">
+                ※ 제조사정보는 위와 같습니다.
+              </div>
+            </div>
+            <!-- 제조사 정보: e -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="paginate">
+    <ul uib-pagination total-items="pagination.totalCount" ng-model="pagination.pageNum"
+      items-per-page="pagination.pageItemPerPage" max-size="pagination.maxSize" class="pagination-sm" previous-text="<"
+      next-text=">" first-text="<<" last-text=">>" boundary-links="true" num-pages="numPages" ng-click="getCompanyList()">
+    </ul>
+  </div>
+  <!-- Table-list : e -->
+</div>

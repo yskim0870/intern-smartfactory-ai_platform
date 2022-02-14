@@ -1,1 +1,209 @@
-tpl_content_bid_list.html
+<div ng-controller="BidCtrl" ng-init="showBidView()" ng-model="dash">
+	<!-- Search : s -->
+	<div class="scm-card">
+		<table class="table-search">
+			<caption>입찰조회</caption>
+			<tr>
+				<th>공고번호</th>
+				<td style="display: inline-block; height: auto;"><input class="td-bidNum-list" ng-model="id" name="num" type="text" title="공고번호"></td>
+				<th style="display: inline-block; height: auto;">업체명</th>
+				<td style="display: inline-block; height: auto;"><input class="td-bidNum-list" type="text" ng-model="manufacturerName" title="업체명"></td>
+			</tr>
+			<tr>
+				<th>공고기간</th>
+				<td>
+					<input style="margin-right: 31px;" name="date01" ng-model="bidStartDate" type="date" title="날짜선택" class="td-date" ng-change="dateChange()"> ~
+					<input style="margin-left: 31px;" name="date02" ng-model="bidEndDate" type="date" title="날짜선택" class="td-date" ng-change="dateChange()">
+				</td>
+				<td colspan="3">
+					<input type="radio" ng-model="dateRadio.value" value=1 ng-click="dateRadioClick(dateRadio.value)"
+						name="ck_month" id="month-1" class="dsi" ng-checked="dateRadio.isChecked[0]">
+					<label for="month-1">최근1개월</label>
+
+					<input type="radio" ng-model="dateRadio.value" value=3 ng-click="dateRadioClick(dateRadio.value)"
+						name="ck_month" id="month-3" class="dsi" ng-checked="dateRadio.isChecked[1]">
+					<label for="month-3">최근3개월</label>
+
+					<input type="radio" ng-model="dateRadio.value" value=6 ng-click="dateRadioClick(dateRadio.value)"
+						name="ck_month" id="month-6" class="dsi" ng-checked="dateRadio.isChecked[2]">
+					<label for="month-6">최근6개월</label>
+				</td>
+			</tr>
+			<tr>
+				<th>공고명</th>
+				<td><input name="name" ng-model="bidName" type="text" title="공고명" style="width: 335.5px;"></td>
+				<th style="display: inline-block; margin: 2px 0 0 7px;">계약상태</th>
+				<td>
+					<input type="radio" name="bid-ing" ng-model="status" value=1 id="bid-01" class="dsi"
+						checked=""><label for="bid-01">입찰중</label>
+					<input type="radio" name="bid-end" ng-model="status" value=2 id="bid-02" class="dsi"><label
+						for="bid-02">계약완료</label>
+				</td>
+				<td>
+					<button class="btn blue" ng-click="showBidView()">
+						<img src="/static/images/icon_search.png" alt="검색"><span>검색</span>
+					</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!-- Search : e -->
+
+	<!-- Table-list : s -->
+	<div class="scm-card">
+		<div class="table-header">
+			<span class="table-title">입찰목록</span>
+			<div class="table-header-right">
+				<span>전체 {{pagination.totalCount}}건</span>
+				<select name="select" ng-model="pagination.pageItemPerPage" class="small"
+					ng-options="option.value as option.name for option in pageOptions"
+					ng-change="changePageOption()"></select>
+			</div>
+		</div>
+
+		<table class="table-list">
+			<caption>입찰목록</caption>
+			<colgroup>
+          		<col width="150px">
+          		<col width="320px">
+          		<col width="250px">
+          		<col width="250px">
+          		<col width="250px">
+        	</colgroup>
+			<thead>
+				<tr ng-model="orderby">
+					<th ng-click="sorting('bid_info.id', 'id')">공고번호
+						<span ng-if="sort[0]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+					</th>
+					<th ng-click="sorting('bid_info.bid_name', 'name')">공고명
+						<span ng-if="sort[1]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+					</th>
+					<th ng-click="sorting('bid_info.bid_start_date', 'bidStartDate')">공고시작일자
+						<span ng-if="sort[2]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+					</th>
+					<th ng-click="sorting('bid_info.bid_end_date', 'bidEndDate')">공고종료일자
+						<span ng-if="sort[3]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+					</th>
+					<th ng-click="sorting('company_info.name', 'companyName')">업체명
+						<span ng-if="sort[4]" class="sort-span"><span ng-if="!orderby.desc">▲</span><span ng-if="orderby.desc">▼</span></span>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- 목록 조회: s -->
+				<tr ng-repeat-start="item in items" ng-click="selectDetail(item, item.bidInfo.id)">
+					<td>{{item.bidInfo.id}}</td>
+					<td class="al_left">{{item.bidInfo.bidName}}</td>
+					<td>{{item.bidInfo.bidStartDate}}</td>
+					<td>{{item.bidInfo.bidEndDate}}</td>
+					<td>{{item.company.name}}</td>
+				</tr>
+				<!-- 목록 조회: e -->
+
+				<!-- 상세보기: s -->
+				<tr ng-repeat-end ng-if="item.detailStatus">
+					<td colspan="5">
+						<!-- 입찰정보: s -->
+						<div class="scm-card">
+							<div class="table-header read">
+								<span class="table-title"><strong>입찰정보</strong></span>
+							</div>
+							<table class="table-read" ng-model="bid">
+								<caption>입찰정보</caption>
+								<tr>
+									<th style="width:150px">제조사</th>
+									<td class="td-bold">{{bid.company.name}}</td>
+								</tr>
+								<tr>
+									<th>공고일자</th>
+									<td>{{bid.bidInfo.bidStartDate}} ~ {{bid.bidInfo.bidEndDate}}</td>
+								</tr>
+								<tr>
+									<th>공고명</th>
+									<td>{{bid.bidInfo.bidName}}</td>
+								</tr>
+								<tr>
+									<th>예비가격</th>
+									<td class="td-bold">{{bid.bidInfo.prePrice}}</td>
+								</tr>
+
+								<tr ng-repeat="file in bidFiles track by $index">
+									<th rowspan="{{bidFileLength}}" ng-if="$first">입찰공고문</th>
+									<td>
+										<a href="{{'/bids/download/' + bid.bidInfo.id + '?fileID=' + file.fileID}}" id="bidFileDownload" download>{{file.fileName}}</a>
+									</td>
+								</tr>
+								<tr ng-repeat="file in sampleFiles track by $index">
+									<th rowspan="{{sampleFileLength}}" ng-if="$first">샘플테이터</th>
+									<td>
+										<a href="{{'/bids/download/' + bid.bidInfo.id + '?fileID=' + file.fileID}}" id="sampleFileDownload" download>{{file.fileName}}</a>
+									</td>
+								</tr>
+
+							</table>
+
+							<div class="table-header read mt_30">
+								<span class="table-title"><strong>담당자정보</strong></span>
+							</div>
+							<table class="table-read">
+								<caption>담당자정보</caption>
+								<tr>
+									<th style="width:150px">담당자</th>
+									<td>{{bid.manager.name}}</td>
+								</tr>
+								<tr>
+									<th>직책</th>
+									<td>{{bid.manager.rank}}</td>
+								</tr>
+								<tr>
+									<th>연락처</th>
+									<td>{{bid.manager.telNumber}}</td>
+								</tr>
+								<tr>
+									<th>이메일</th>
+									<td>{{bid.manager.email}}</td>
+								</tr>
+							</table>
+							
+							<!-- 계약완료건에 대한 상세보기 -->
+							<div class="table-header read mt_30" ng-if="bid.bidInfo.status==2">
+								<span class="table-title"><strong>입찰계약정보</strong></span>
+							</div>
+							<table class="table-read" ng-if="bid.bidInfo.status==2">
+								<caption>입찰계약정보</caption>
+								<tr>
+									<th style="width:150px">도메인IT전문업체</th>
+									<td>{{bid.contractor.name}}</td>
+								</tr>
+								<tr>
+									<th>대표자</th>
+									<td>{{bid.contractor.companyInfo.name}}</td>
+								</tr>
+								<tr>
+									<th>계약기간</th>
+									<td>{{bid.bidInfo.workStartDate}} ~ {{bid.bidInfo.workStartDate}}</td>
+								</tr>
+								<tr>
+									<th>계약금액</th>
+									<td>{{bid.bidInfo.contractPrice}}</td>
+								</tr>
+							</table>
+
+							<div class="table-text ">
+								※ 공고문의 내용은 위와 같습니다.
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="paginate">
+		<ul uib-pagination total-items="pagination.totalCount" ng-model="pagination.pageNum"
+			items-per-page="pagination.pageItemPerPage" max-size="pagination.maxSize" class="pagination-sm"
+			previous-text="<" next-text=">" first-text="<<" last-text=">>" boundary-links="true"
+			num-pages="numPages" ng-click="showBidView()"></ul>
+	</div>
+	<!-- Table-list : e -->
+</div>

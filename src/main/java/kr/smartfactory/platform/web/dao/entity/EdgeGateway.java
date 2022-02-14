@@ -1,4 +1,4 @@
-package kr.smartfactory.platform.web.dao.model;
+package kr.smartfactory.platform.web.dao.entity;
 
 /**
  * Edge Gateway 1:1 테이블 모델 

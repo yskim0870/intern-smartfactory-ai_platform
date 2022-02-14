@@ -1,0 +1,93 @@
+  <p class="popup-title">입찰계약 등록
+    <button ng-click="cancel()" class="close_btn">닫기</button>
+  </p>
+  <!-- popup-cont : s -->
+  <div class="scm-popup" ng-model="bid">
+    <div class="popup-cont">
+
+      <!-- 공고정보 : s -->
+      <div class="scm-card" ng-model="bidDetail">
+        <div class="table-header read">
+          <span class="table-title">공고정보</span>
+        </div>
+        <table class="table-read">
+          <caption>공고정보</caption>
+          <tbody>
+            <tr>
+              <th style="width:100px">제조사</th>
+              <td class="td-bold">{{bidDetail.manufacturer}}</td>
+            </tr>
+            <tr>
+              <th>공고일자</th>
+              <td>{{bidDetail.bidStartDate}} ~ {{bidDetail.bidEndDate}}</td>
+            </tr>
+            <tr>
+              <th>공고명</th>
+              <td>{{bidDetail.bidName}}</td>
+            </tr>
+            <tr>
+              <th>담당자</th>
+              <td>{{bidDetail.manager}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- 공고정보 : e -->
+
+      <!-- 계약정보: s -->
+      <div class="scm-card" ng-model="bid">
+        <div class="table-header read">
+          <span class="table-title">계약정보</span>
+        </div>
+        <table class="table-read">
+          <caption>계약정보</caption>
+          <tbody>
+            <tr>
+              <th style="width:125px">도메인 IT 전문가</th>
+              <td>
+                <select name="select" ng-options="expert as expert for expert in experts"
+                 ng-model="bid.company.name" ng-change="changeExpert()" style="width: 150px;"></select>
+              </td>
+            </tr>
+            <tr>
+              <th>담당자</th>
+              <td>{{bid.bidInfo.contractor.name}}</td>
+            </tr>
+            <tr>
+              <th>연락처</th>
+              <td>{{bid.bidInfo.contractor.telNumber}}</td>
+            </tr>
+            <tr>
+              <th>이메일</th>
+              <td>{{bid.bidInfo.contractor.email}}</td>
+            </tr>
+            <tr>
+              <th>수행기간</th>
+              <td>
+                <input name="date01" type="date" ng-model="bid.bidInfo.workStartDate" title="날짜선택"> ~ 
+        		<input name="date02" type="date" ng-model="bid.bidInfo.workEndDate" title="날짜선택">
+              </td>
+            </tr>
+            <tr>
+              <th>계약일자</th>
+              <td>
+              	<input type="date" ng-model="bid.bidInfo.contractDate" title="날짜선택">
+              </td>
+            </tr>
+            <tr>
+              <th>계약금액</th>
+              <td><input name="money" type="text" ng-model="bid.bidInfo.contractPrice" title="계약금액" style="width: 150px;"> 원</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="btn-box">
+        <button ng-click="ok()" class="btn whiteblue mr_5"><img src="/static/images/icon_confirm.png"
+            alt="계약등록"><span>계약등록</span></button>
+        <button ng-click="cancel()" class="btn gray"><img src="/static/images/icon_cancel.png"
+            alt="취소하기"><span>취소하기</span></button>
+      </p>
+      <!-- 계약정보: e -->
+    </div>
+    <!-- popup-cont : e -->
+  </div>

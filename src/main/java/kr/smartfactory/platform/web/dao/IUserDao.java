@@ -25,7 +25,12 @@
 */
 package kr.smartfactory.platform.web.dao;
 
-import kr.smartfactory.platform.web.dto.UserDTO;
+import java.util.List;
+
+import kr.smartfactory.platform.web.dao.entity.Company;
+import kr.smartfactory.platform.web.dao.entity.User;
+import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
+import kr.smartfactory.platform.web.dto.common.UserDTO;
 
 /**
  *
@@ -35,6 +40,17 @@ import kr.smartfactory.platform.web.dto.UserDTO;
  *
  */
 public interface IUserDao {
+	
+	/**
+	 * @methodName : createUser
+	 * @description : 
+	 * @param user
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.12.26
+	 */
+	public Integer createUser(UserDTO user);
 
     /**
      * 
@@ -48,4 +64,47 @@ public interface IUserDao {
      *
      */
     public UserDTO detailUser(String id);
+	/**
+	 * @methodName : selectUser
+	 * @description : 
+	 * @param company
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2021.12.24
+	 */
+	public List<Company> selectUser(Company company);
+	
+	/**
+	 * @methodName : selectUserDetail
+	 * @description : 
+	 * @param id
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2021.12.24
+	 */
+	public UserDTO selectUserDetail(String id);
+	
+	/**
+	 * @methodName : updateUser
+	 * @description : 
+	 * @param user
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2021.12.24
+	 */
+	public Integer updateUser(User user);
+	
+	/**
+	 * @methodName : selectCompany
+	 * @description : 
+	 * @param businessNumber
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2021.12.24
+	 */
+	public CompanyInfoDTO selectCompany(String businessNumber);
 }

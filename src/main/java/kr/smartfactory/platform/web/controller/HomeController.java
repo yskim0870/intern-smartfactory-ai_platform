@@ -45,7 +45,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import kr.smartfactory.platform.web.dao.model.UserGrade;
+import kr.smartfactory.platform.web.dao.entity.UserGrade;
 import kr.smartfactory.platform.web.security.GrantedAuthorityDetail;
 
 /**

@@ -1,4 +1,4 @@
-package kr.smartfactory.platform.web.dao.model;
+package kr.smartfactory.platform.web.dao.entity;
 
 /**
  * 
@@ -299,13 +299,13 @@ public class Billing {
     }
 
     /**
-     * approvalMsg 을(를) 지정합니다.
-     *
-     * @since 2022. 1. 24. 오전 10:57:37
-     * @author "KyungHun Park"
-     *
-     * @param approvalMsg
-     */
+	 * approvalMsg 을(를) 지정합니다.
+	 *
+	 * @since 2022. 1. 24. 오전 10:57:37
+	 * @author "KyungHun Park"
+	 *
+	 * @param approvalMsg
+	 */
     public void setApprovalMsg(String approvalMsg) {
         this.approvalMsg = approvalMsg;
     }

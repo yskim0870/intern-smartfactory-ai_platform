@@ -17,6 +17,7 @@ spring:
     defaultEncording: UTF-8  
   servlet:
     multipart:
+      location: C:\\Users\\yyh77\\Downloads
       max-file-size: 21474836480 # 2GB
       max-request-size: 1099511627776 # 1TB
   mvc:
@@ -27,3 +28,4 @@ spring:
     check-template-location: true
     mode: HTML
     cache: false
+  
