@@ -25,6 +25,7 @@ package kr.smartfactory.platform.web.dao.entity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import open.commons.annotation.ColumnDef;
 
 /**
@@ -35,7 +36,7 @@ import open.commons.annotation.ColumnDef;
  *
  */
 public class User {
-	
+
 	// 사용자 ID
 	private String userID;
 
@@ -47,10 +48,10 @@ public class User {
 
 	// 권한 정보 관리를 위한 인스턴스
 	private UserGrade gradeObj;
-	
+
 	// 이름
 	private String name;
-	
+
 	// 연락처
 	private String telNumber;
 
@@ -64,8 +65,8 @@ public class User {
 	private String rank;
 
 	// 가입일자
-	private long regDate;
-	
+	private Long regDate;
+
 	// 기타 정보 (국가연구자번호)
 	private String etcInfo;
 
@@ -74,9 +75,10 @@ public class User {
 	 */
 	public User() {
 	}
-	
+
 	/**
 	 * 상세보기를 위한 생성자
+	 * 
 	 * @param rs
 	 */
 	public User(ResultSet rs) {
@@ -89,40 +91,12 @@ public class User {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * @return the userID
-	 */
-	public String getUserID() {
-		return userID;
-	}
 
 	/**
-	 * @return the passwrord
+	 * @return the department
 	 */
-	public String getPasswrord() {
-		return password;
-	}
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @return the grade
-	 */
-	public Integer getGrade() {
-		return grade;
-	}
-
-	/**
-	 * @return the telNumber
-	 */
-	public String getTelNumber() {
-		return telNumber;
+	public String getDepartment() {
+		return department;
 	}
 
 	/**
@@ -133,10 +107,38 @@ public class User {
 	}
 
 	/**
-	 * @return the department
+	 * @return the etcInfo
 	 */
-	public String getDepartment() {
-		return department;
+	public String getEtcInfo() {
+		return etcInfo;
+	}
+
+	/**
+	 * @return the grade
+	 */
+	public Integer getGrade() {
+		return grade;
+	}
+
+	/**
+	 * @return the gradeObj
+	 */
+	public UserGrade getGradeObj() {
+		return gradeObj;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @return the passwrord
+	 */
+	public String getPasswrord() {
+		return password;
 	}
 
 	/**
@@ -149,90 +151,71 @@ public class User {
 	/**
 	 * @return the regDate
 	 */
-	public long getRegDate() {
+	public Long getRegDate() {
 		return regDate;
 	}
 
 	/**
-	 * @param passwrord the passwrord to set
+	 * @return the telNumber
 	 */
-	public void setPassword(String password) {
-		this.password = password;
+	public String getTelNumber() {
+		return telNumber;
 	}
 
 	/**
-	 * @return the gradeObj
+	 * @return the userID
 	 */
-	public UserGrade getGradeObj() {
-		return gradeObj;
+	public String getUserID() {
+		return userID;
 	}
 
 	/**
-	 * @param telNumber the telNumber to set
+	 * @param department
+	 *            the department to set
 	 */
-	public void setTelNumber(String telNumber) {
-		this.telNumber = telNumber;
-	}
-
-	/**
-	 * @param email the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	/**
-	 * @param department the department to set
-	 */
+	@ColumnDef(name = "department", type = String.class, required = false)
 	public void setDepartment(String department) {
 		this.department = department;
 	}
 
 	/**
-	 * @param rank the rank to set
+	 * @param email
+	 *            the email to set
 	 */
-	public void setRank(String rank) {
-		this.rank = rank;
+	@ColumnDef(name = "email", type = String.class, required = false)
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/**
-	 * @param regDate the regDate to set
+	 * @param etcInfo
+	 *            the etcInfo to set
 	 */
-	public void setRegDate(long regDate) {
-		this.regDate = regDate;
-	}
-	
-	/**
-	 * @return the etcInfo
-	 */
-	public String getEtcInfo() {
-		return etcInfo;
-	}
-
-	/**
-	 * @param etcInfo the etcInfo to set
-	 */
+	@ColumnDef(name = "etc_info", type = String.class, required = false)
 	public void setEtcInfo(String etcInfo) {
 		this.etcInfo = etcInfo;
 	}
 
 	/**
-	 * @param grade the grade to set
+	 * @param grade
+	 *            the grade to set
 	 */
-	@ColumnDef(name = "grade", type = Integer.class, required = false)
+	@ColumnDef(name = "user_type", type = Integer.class, required = false)
 	public void setGrade(Integer grade) {
 		this.grade = grade;
 	}
 
 	/**
-	 * @param gradeObj the gradeObj to set
+	 * @param gradeObj
+	 *            the gradeObj to set
 	 */
 	public void setGradeObj(UserGrade gradeObj) {
 		this.gradeObj = gradeObj;
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	@ColumnDef(name = "name", type = String.class, required = false)
 	public void setName(String name) {
@@ -240,9 +223,45 @@ public class User {
 	}
 
 	/**
-	 * @param userID the userID to set
+	 * @param passwrord
+	 *            the passwrord to set
 	 */
-	@ColumnDef(name = "user_id", type = String.class, required = false)
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/**
+	 * @param rank
+	 *            the rank to set
+	 */
+	@ColumnDef(name = "rank", type = String.class, required = false)
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
+
+	/**
+	 * @param regDate
+	 *            the regDate to set
+	 */
+	@ColumnDef(name = "reg_date", type = Long.class, required = false)
+	public void setRegDate(Long regDate) {
+		this.regDate = regDate;
+	}
+
+	/**
+	 * @param telNumber
+	 *            the telNumber to set
+	 */
+	@ColumnDef(name = "tel_number", type = String.class, required = false)
+	public void setTelNumber(String telNumber) {
+		this.telNumber = telNumber;
+	}
+
+	/**
+	 * @param userID
+	 *            the userID to set
+	 */
+	@ColumnDef(name = "id", type = String.class, required = false)
 	public void setUserID(String userID) {
 		this.userID = userID;
 	}

@@ -27,6 +27,8 @@ package kr.smartfactory.platform.web.dao;
 
 import java.util.List;
 
+import open.commons.Result;
+
 import kr.smartfactory.platform.web.dao.entity.Company;
 import kr.smartfactory.platform.web.dao.entity.User;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
@@ -107,4 +109,21 @@ public interface IUserDao {
 	 * @date : 2021.12.24
 	 */
 	public CompanyInfoDTO selectCompany(String businessNumber);
+
+	/**
+	 * ID, Password로 사용자 조회
+	 * <br>
+	 *
+	 * <pre> 
+	 * [개정이력]
+	 *      날짜      | 작성자 |       내용 
+	 * ------------------------------------------
+	 * Feb 14, 2022    yskim   최초작성
+	 * </pre>
+	 *
+	 * @param id
+	 * @param password
+	 * @return
+	 */
+	public Result<User> selectUserByIdAndPassword(String id, String password);
 }

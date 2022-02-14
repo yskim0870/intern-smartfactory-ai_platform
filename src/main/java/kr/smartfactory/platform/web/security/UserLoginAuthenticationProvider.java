@@ -10,6 +10,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
+import open.commons.Result;
+
 import kr.smartfactory.platform.web.dao.entity.User;
 import kr.smartfactory.platform.web.dao.entity.UserGrade;
 import kr.smartfactory.platform.web.service.IUserService;
@@ -44,22 +46,21 @@ public class UserLoginAuthenticationProvider implements AuthenticationProvider {
 			return new UsernamePasswordAuthenticationToken(principal, password, authorities);
 		}
 
-//		Result<User> resultUser = userService.getUserAndGrade(principal.toString(), password.toString());
-//		User user = resultUser.getData();
-//
-//		// ID / PW에 해당하는 사용자가 없을 경우
-//		if (!resultUser.getResult() || resultUser.getData() == null) {
-//			msg = "존재하지 않는 사용자 정보";
-//			grant = new GrantedAuthorityDetail(UserGrade.getUserGrade(UserGrade.UNKNOWN_USER, null, msg));
-//			authorities.add(grant);
-//			return new UsernamePasswordAuthenticationToken(principal, password, authorities);
-//		}
+		Result<User> resultUser = userService.getUserByIdAndPassword(principal.toString(), password.toString());
+		// ID / PW에 해당하는 사용자가 없을 경우
+		if (!resultUser.getResult() || resultUser.getData() == null) {
+			msg = "존재하지 않는 사용자 정보";
+			grant = new GrantedAuthorityDetail(UserGrade.getUserGrade(UserGrade.UNKNOWN_USER, null, msg));
+			authorities.add(grant);
+			return new UsernamePasswordAuthenticationToken(principal, password, authorities);
+		}
+		User user = resultUser.getData();
 		
-		User user = new User();
-		user.setGrade(UserGrade.SUPER_ADMIN);
-		user.setName("관리자");
-		user.setUserID("admin");
-		user.setGradeObj(new UserGrade(UserGrade.MANUFACTURER, "ROLE_ADMIN", "관리자"));
+//		User user = new User();
+//		user.setGrade(UserGrade.SUPER_ADMIN);
+//		user.setName("관리자");
+//		user.setUserID("admin");
+//		user.setGradeObj(new UserGrade(UserGrade.MANUFACTURER, "ROLE_ADMIN", "관리자"));
 
 		// 사용자의 권한 및 정보 추가
 		// TODO: UserGrade 조회

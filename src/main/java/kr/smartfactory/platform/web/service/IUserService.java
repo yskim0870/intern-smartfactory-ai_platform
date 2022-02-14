@@ -5,6 +5,7 @@ package kr.smartfactory.platform.web.service;
 
 import open.commons.Result;
 
+import kr.smartfactory.platform.web.dao.entity.User;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserDTO;
@@ -90,4 +91,21 @@ public interface IUserService {
 	 * @date : 2021.12.24
 	 */
 	public CompanyInfoDTO selectCompany(String businessNumber);
+
+	/**
+	 * ID, Password로 사용자 조회
+	 * <br>
+	 *
+	 * <pre> 
+	 * [개정이력]
+	 *      날짜      | 작성자 |       내용 
+	 * ------------------------------------------
+	 * Feb 14, 2022    yskim   최초작성
+	 * </pre>
+	 *
+	 * @param id
+	 * @param password
+	 * @return
+	 */
+	public Result<User> getUserByIdAndPassword(String id, String password);
 }

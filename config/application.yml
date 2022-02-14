@@ -13,7 +13,7 @@ spring:
     username: sfuser
     password: "!sfpassword!@#"
   messagesource:
-    basename: classpath:querySource
+    basename: classpath:sfQuerySource
     defaultEncording: UTF-8  
   servlet:
     multipart:

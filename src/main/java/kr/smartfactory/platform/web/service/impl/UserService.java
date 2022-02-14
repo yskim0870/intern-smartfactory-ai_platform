@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import open.commons.Result;
 
 import kr.smartfactory.platform.web.dao.IUserDao;
+import kr.smartfactory.platform.web.dao.entity.User;
 import kr.smartfactory.platform.web.dao.impl.UserDao;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
@@ -121,5 +122,14 @@ public class UserService implements IUserService {
 	public CompanyInfoDTO selectCompany(String businessNumber) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	/**
+	 * (non-Javadoc)
+	 * @see kr.smartfactory.platform.web.service.IUserService#getUserByIdAndPassword(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public Result<User> getUserByIdAndPassword(String id, String password) {
+		return userDao.selectUserByIdAndPassword(id, password);
 	}
 }
