@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import kr.smartfactory.platform.web.dao.IEdgeGatewayDao;
+import kr.smartfactory.platform.web.dao.entity.EdgeGateway;
 import kr.smartfactory.platform.web.dao.impl.EdgeGatewayDao;
-import kr.smartfactory.platform.web.dao.model.EdgeGateway;
 import kr.smartfactory.platform.web.dto.EdgeGWDTO;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.service.IEdgeGatewayService;

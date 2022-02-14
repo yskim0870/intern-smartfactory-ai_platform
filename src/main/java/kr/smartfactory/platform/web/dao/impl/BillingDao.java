@@ -16,12 +16,11 @@ import kr.smartfactory.platform.web.dao.IBillingDao;
 @Repository(BillingDao.BEAN_QUALIFIER)
 public class BillingDao implements IBillingDao {
 
-    private JdbcTemplate jdbcTemplate;
-    public static final String BEAN_QUALIFIER = "kr.smartfactory.platform.web.dao.impl.BillingDao";
+	private JdbcTemplate jdbcTemplate;
+	public static final String BEAN_QUALIFIER = "kr.smartfactory.platform.web.dao.impl.BillingDao";
 
-    public BillingDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-    
-    
+	public BillingDao(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
 }

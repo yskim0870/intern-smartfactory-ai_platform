@@ -10,63 +10,53 @@ import kr.smartfactory.platform.web.dao.entity.User;
 
 /**
  * @packageName : kr.smartfactory.platform.web.dto
- * @description : 
+ * @description :
  * @author : Younghun Yu
- * @date : 2021.12.23
- * ===========================================================
- *     DATE      AUTHOR      NOTE
- * -----------------------------------------------------------
- * 2021.12.23  Younghun Yu  최초 생성
+ * @date : 2021.12.23 =========================================================== DATE AUTHOR NOTE ----------------------------------------------------------- 2021.12.23 Younghun Yu 최초 생성
  */
 public class UserInfoDTO {
 
 	// 사용자 ID
 	private String id;
-	
+
 	// password
 	private String password;
-		
+
 	// 이름
 	private String name;
-	
+
 	// email
 	private String email;
-	
+
 	// 연락처
 	private String telNumber;
-	
+
 	// 부서
 	private String department;
-	
+
 	// 직급
 	private String rank;
-	
+
 	// 가입일자
 	private long regDate;
-	
+
 	// 도메인IT전문업체 상태 0: 승인대기, 1: 승인완료, 2:입찰계약 제한
 	private int status;
-	
+
 	// 기타 정보(도메인전문업체 : 국가연구자번호)
 	private String etcInfo;
-	
+
 	// 해당 사용자의 회사 정보
 	private CompanyInfoDTO companyInfo;
-	
+
+	private int userType;
+
+	private String businessNumber;
+
 	/**
 	 * Default Constructor
 	 */
 	public UserInfoDTO() {
-	}
-
-	/**
-	 * @param data
-	 */
-	public UserInfoDTO(User data) {
-		this.setId(data.getUserID());
-		this.setName(data.getName());
-		this.setTelNumber(data.getTelNumber());
-		this.setEmail(data.getEmail());
 	}
 
 	/**
@@ -89,17 +79,55 @@ public class UserInfoDTO {
 	}
 
 	/**
+	 * @param data
+	 */
+	public UserInfoDTO(User data) {
+		this.setId(data.getUserID());
+		this.setName(data.getName());
+		this.setTelNumber(data.getTelNumber());
+		this.setEmail(data.getEmail());
+	}
+
+	/**
+	 * @return the businessNumber
+	 */
+	public String getBusinessNumber() {
+		return businessNumber;
+	}
+
+	/**
+	 * @return the companyInfo
+	 */
+	public CompanyInfoDTO getCompanyInfo() {
+		return companyInfo;
+	}
+
+	/**
+	 * @return the department
+	 */
+	public String getDepartment() {
+		return department;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @return the etcInfo
+	 */
+	public String getEtcInfo() {
+		return etcInfo;
+	}
+
+	/**
 	 * @return the id
 	 */
 	public String getId() {
 		return id;
-	}
-	
-	/**
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
 	}
 
 	/**
@@ -110,17 +138,10 @@ public class UserInfoDTO {
 	}
 
 	/**
-	 * @return the telNumber
+	 * @return the password
 	 */
-	public String getTelNumber() {
-		return telNumber;
-	}
-
-	/**
-	 * @return the department
-	 */
-	public String getDepartment() {
-		return department;
+	public String getPassword() {
+		return password;
 	}
 
 	/**
@@ -145,100 +166,120 @@ public class UserInfoDTO {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @return the telNumber
 	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	/**
-	 * @param password the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
+	public String getTelNumber() {
+		return telNumber;
 	}
 
 	/**
-	 * @param name the name to set
+	 * @return the userType
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public int getUserType() {
+		return userType;
 	}
 
 	/**
-	 * @param telNumber the telNumber to set
+	 * @param businessNumber
+	 *            the businessNumber to set
 	 */
-	public void setTelNumber(String telNumber) {
-		this.telNumber = telNumber;
+	public void setBusinessNumber(String businessNumber) {
+		this.businessNumber = businessNumber;
 	}
 
 	/**
-	 * @return the email
+	 * @param companyInfo
+	 *            the companyInfo to set
 	 */
-	public String getEmail() {
-		return email;
+	public void setCompanyInfo(CompanyInfoDTO companyInfo) {
+		this.companyInfo = companyInfo;
 	}
 
 	/**
-	 * @param email the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	/**
-	 * @param department the department to set
+	 * @param department
+	 *            the department to set
 	 */
 	public void setDepartment(String department) {
 		this.department = department;
 	}
 
 	/**
-	 * @param rank the rank to set
+	 * @param email
+	 *            the email to set
 	 */
-	public void setRank(String rank) {
-		this.rank = rank;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/**
-	 * @param regDate the regDate to set
-	 */
-	public void setRegDate(long regDate) {
-		this.regDate = regDate;
-	}
-	
-	/**
-	 * @return the etcInfo
-	 */
-	public String getEtcInfo() {
-		return etcInfo;
-	}
-
-	/**
-	 * @param etcInfo the etcInfo to set
+	 * @param etcInfo
+	 *            the etcInfo to set
 	 */
 	public void setEtcInfo(String etcInfo) {
 		this.etcInfo = etcInfo;
 	}
 
 	/**
-	 * @param status the status to set
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @param password
+	 *            the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/**
+	 * @param rank
+	 *            the rank to set
+	 */
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
+
+	/**
+	 * @param regDate
+	 *            the regDate to set
+	 */
+	public void setRegDate(long regDate) {
+		this.regDate = regDate;
+	}
+
+	/**
+	 * @param status
+	 *            the status to set
 	 */
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
+
 	/**
-	 * @return the companyInfo
+	 * @param telNumber
+	 *            the telNumber to set
 	 */
-	public CompanyInfoDTO getCompanyInfo() {
-		return companyInfo;
+	public void setTelNumber(String telNumber) {
+		this.telNumber = telNumber;
 	}
 
 	/**
-	 * @param companyInfo the companyInfo to set
+	 * @param userType
+	 *            the userType to set
 	 */
-	public void setCompanyInfo(CompanyInfoDTO companyInfo) {
-		this.companyInfo = companyInfo;
+	public void setUserType(int userType) {
+		this.userType = userType;
 	}
 }

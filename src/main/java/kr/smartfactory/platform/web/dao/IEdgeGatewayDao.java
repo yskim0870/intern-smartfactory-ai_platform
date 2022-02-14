@@ -1,6 +1,6 @@
 package kr.smartfactory.platform.web.dao;
 
-import kr.smartfactory.platform.web.dao.model.EdgeGateway;
+import kr.smartfactory.platform.web.dao.entity.EdgeGateway;
 import kr.smartfactory.platform.web.dto.EdgeGWDTO;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 

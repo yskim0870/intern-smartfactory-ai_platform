@@ -11,11 +11,7 @@ import kr.smartfactory.platform.web.dao.entity.User;
  * @packageName : kr.smartfactory.platform.web.dto
  * @description :
  * @author : Younghun Yu
- * @date : 2021.12.23
- * =========================================================== 
- *     DATE      AUTHOR      NOTE
- * -----------------------------------------------------------
- * 2021.12.23 Younghun Yu 최초 생성
+ * @date : 2021.12.23 =========================================================== DATE AUTHOR NOTE ----------------------------------------------------------- 2021.12.23 Younghun Yu 최초 생성
  */
 public class UserDTO {
 
@@ -24,12 +20,29 @@ public class UserDTO {
 
 	// 회사 정보 관리
 	private CompanyInfoDTO companyInfo;
-	
+
 	// 자격증 정보 관리
 	private List<CertificateDTO> certificateInfo;
-	
+
 	// 전문업체 승인상태 관리
 	private ExpertStatusDTO expertInfo;
+
+	private UserGradeDTO userGrade;
+
+	/**
+	 * @return the userGrade
+	 */
+	public UserGradeDTO getUserGrade() {
+		return userGrade;
+	}
+
+	/**
+	 * @param userGrade
+	 *            the userGrade to set
+	 */
+	public void setUserGrade(UserGradeDTO userGrade) {
+		this.userGrade = userGrade;
+	}
 
 	/**
 	 * Default Constructor
@@ -44,6 +57,11 @@ public class UserDTO {
 		this.userInfo.setName(data.getName());
 		this.userInfo.setTelNumber(data.getTelNumber());
 		this.userInfo.setEmail(data.getEmail());
+	}
+
+	public UserDTO(CompanyInfoDTO company, UserInfoDTO userInfo) {
+		this.companyInfo = company;
+		this.userInfo = userInfo;
 	}
 
 	/**
@@ -72,14 +90,16 @@ public class UserDTO {
 	}
 
 	/**
-	 * @param userInfo the userInfo to set
+	 * @param userInfo
+	 *            the userInfo to set
 	 */
 	public void setUserInfo(UserInfoDTO userInfo) {
 		this.userInfo = userInfo;
 	}
 
 	/**
-	 * @param companyInfo the companyInfo to set
+	 * @param companyInfo
+	 *            the companyInfo to set
 	 */
 	public void setCompanyInfo(CompanyInfoDTO companyInfo) {
 		this.companyInfo = companyInfo;
@@ -93,12 +113,13 @@ public class UserDTO {
 	}
 
 	/**
-	 * @param certificateInfo the certificateInfo to set
+	 * @param certificateInfo
+	 *            the certificateInfo to set
 	 */
 	public void setCertificateInfo(List<CertificateDTO> certificateInfo) {
 		this.certificateInfo = certificateInfo;
 	}
-	
+
 	/**
 	 * @return the expertInfo
 	 */
@@ -107,7 +128,8 @@ public class UserDTO {
 	}
 
 	/**
-	 * @param expertInfo the expertInfo to set
+	 * @param expertInfo
+	 *            the expertInfo to set
 	 */
 	public void setExpertInfo(ExpertStatusDTO expertInfo) {
 		this.expertInfo = expertInfo;

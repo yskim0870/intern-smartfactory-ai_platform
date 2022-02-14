@@ -7,8 +7,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
+
+import open.commons.Result;
+
 import kr.smartfactory.platform.web.dao.IBidDao;
 import kr.smartfactory.platform.web.dao.entity.Company;
 import kr.smartfactory.platform.web.dao.entity.User;
@@ -19,7 +23,6 @@ import kr.smartfactory.platform.web.dto.bid.BidDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
 import kr.smartfactory.platform.web.sql.bid.BidQuery;
-import open.commons.Result;
 
 /**
  * @packageName : kr.smartfactory.platform.web.dao.impl

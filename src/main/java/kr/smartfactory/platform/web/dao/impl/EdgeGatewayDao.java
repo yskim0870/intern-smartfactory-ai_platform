@@ -14,10 +14,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import kr.smartfactory.platform.web.dao.IEdgeGatewayDao;
-import kr.smartfactory.platform.web.dao.model.EdgeGateway;
-import kr.smartfactory.platform.web.dto.CompanyInfoDTO;
+import kr.smartfactory.platform.web.dao.entity.EdgeGateway;
 import kr.smartfactory.platform.web.dto.EdgeGWDTO;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
+import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.query.Query;
 
 /**

@@ -1,5 +1,7 @@
 package kr.smartfactory.platform.web.dto;
 
+import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
+
 /**
  * EdgwGateway DTO 
  *

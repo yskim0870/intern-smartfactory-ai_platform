@@ -1,7 +1,7 @@
 package kr.smartfactory.platform.web.dao;
 
-import kr.smartfactory.platform.web.dto.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.PaginationDTO;
+import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 
 /**
  * 
