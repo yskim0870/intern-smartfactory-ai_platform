@@ -5,8 +5,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +19,7 @@ import open.commons.Result;
 
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
+import kr.smartfactory.platform.web.service.ICompanyService;
 import kr.smartfactory.platform.web.service.impl.CompanyService;
 
 /**
@@ -30,7 +34,12 @@ import kr.smartfactory.platform.web.service.impl.CompanyService;
 public class CompanyController {
 
 	@Autowired
-	private CompanyService companyService;
+	private ICompanyService companyService;
+
+	@Autowired
+	public CompanyController(@Qualifier(CompanyService.BEAN_QUALIFIER) ICompanyService companyService) {
+		this.companyService = companyService;
+	}
 
 	/**
 	 * 
@@ -66,6 +75,20 @@ public class CompanyController {
 			, @RequestParam(value = "", required = false) boolean desc//
 	) {
 		return new ResponseEntity<>(companyService.selectCompany(name, industryType, condition, status, pageNum, pageItemPerPage, order, desc), HttpStatus.OK);
+	}
+
+	/**
+	 * @methodName : selectCompany
+	 * @description : 사업자 번호로 업체정보를 조회하기 위한 컨트롤러
+	 * @param businessNumber
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2021.12.24
+	 */
+	@GetMapping(value = "/companies/{businessNumber}")
+	public ResponseEntity<CompanyInfoDTO> selectCompany(@PathVariable String businessNumber) {
+		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
 
 }

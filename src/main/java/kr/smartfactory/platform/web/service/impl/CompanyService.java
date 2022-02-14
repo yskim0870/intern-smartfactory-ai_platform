@@ -30,14 +30,13 @@ import kr.smartfactory.platform.web.service.ICompanyService;
  * @modified 2022. 1. 12. 오전 9:58:05 || Kyunghun Park || 최초 생성
  *
  */
-@Service(CompanyService.BEAN_QUALIFER)
+@Service(CompanyService.BEAN_QUALIFIER)
 public class CompanyService implements ICompanyService {
 
-	public final static String BEAN_QUALIFER = "kr.smartfactory.platform.web.service.impl.ManuService";
-
+	public static final String BEAN_QUALIFIER = "kr.smartfactory.platform.web.service.impl.CompanyService";
+	
 	private ICompanyDao companyDao;
 
-	public static final String BEAN_QUALIFIER = "kr.smartfactory.platform.web.service.impl.CompanyService";
 
 	// Dao 생성자 주입
 	@Autowired
