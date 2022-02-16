@@ -38,20 +38,6 @@ public class UserService implements IUserService {
 	public UserService(@Qualifier(UserDao.BEAN_QUALIFIER) IUserDao userDao) {
 	    this.userDao = userDao;
 	}
-
-    /**
-     * @see kr.smartfactory.platform.web.service.IUserService#detailUser(java.lang.String)
-     */
-    @Override
-    public Result<UserDTO> detailUser(String id) {
-
-        UserDTO daoRes = new UserDTO();
-        
-        daoRes = userDao.detailUser(id);
-        
-        
-        return new Result<>(daoRes);
-    }
 	
 	/**
 	 * @see kr.smartfactory.platform.web.service.IUserService#createUser(kr.smartfactory.platform.web.dto.common.UserDTO)

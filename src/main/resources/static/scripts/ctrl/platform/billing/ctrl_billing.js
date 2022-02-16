@@ -1,4 +1,7 @@
-platform.controller('BillingController', function($scope, $resource, $uibModal) {
+platform.controller('BillingController', function($scope, $resource, $uibModal, Factory) {
+
+	let dateFactory = Factory.dateHandling;
+	let commonFactory = Factory.common;
 
 	let res = $resource(
 		"billings/:val",
@@ -6,33 +9,19 @@ platform.controller('BillingController', function($scope, $resource, $uibModal) 
 		{
 			selectBillings: {
 				method: 'GET',
-				params: {
-					startDate: "",
-					endDate: "",
-					name: "",
-					gradeName: "",
-					payStatus: "",
-					approvalStatus: "",
-					itemCount: "",
-					pageNum: "",
-					pageItemPerPage: "",
-					order: ""
-				}
 			},
 
 			detailBilling: {
 				method: `GET`,
-				params: { val: "" }
 			},
 
 			approvalBilling: {
 				method: 'POST',
-				params: { val: "" }
 			}
 		}
 	);
 
-	// Scope ---------------------------------------------------------------- 
+	// ------------------------------- Scope ------------------------------- 
 	$scope.order = "";
 	$scope.companyClass = "";
 	$scope.envGrade = "";
@@ -48,24 +37,19 @@ platform.controller('BillingController', function($scope, $resource, $uibModal) 
 	$scope.endDate = 0;
 	$scope.itemCount = 15;
 	$scope.pageNum = 1;
-	$scope.maxSize = 5;
-	$scope.bigTotalItems = 175;
-	$scope.bigCurrentPage = 1;
 	$scope.isChecked = false;
 	$scope.reverseSort = false;
 	$scope.desc = false;
-	// ---------------------------------------------------------------- Scope
 
 
-	// CRUD ----------------------------------------------------------------
-
+	// ------------------------------- CRUD -------------------------------
 	// 과금 목록 조회
 	$scope.selectBillings = function() {
 		res.selectBillings(
 			{}
 			, {
-				startDate: dateToLong($scope.startDate),
-				endDate: dateToLong($scope.endDate),
+				startDate: dateFactory.dateToLong($scope.startDate),
+				endDate: dateFactory.dateToLong($scope.endDate),
 				name: $scope.companyClass,
 				gradeName: $scope.envGrade,
 				payStatus: $scope.payStatus,
@@ -121,45 +105,23 @@ platform.controller('BillingController', function($scope, $resource, $uibModal) 
 		)
 	};
 
-	// ---------------------------------------------------------------- CRUD
 
-
-	// Recent Date ---------------------------------------------------------------- 
-	// 최근 개월 수 선택 후 bind
+	// ------------------------------- Date -------------------------------
 	$scope.dateRadioClick = function(num) {
-		if (num == 1) {
-			$scope.isChecked[0] = true;
-		} else if (num == 3) {
-			$scope.isChecked[1] = true;
-		} else if (num == 6) {
-			$scope.isChecked[2] = true;
-		}
-
-		$scope.startDate = recentMonth(num);
-
-		$scope.endDate = new Date();
+		dateFactory.dateRadioClick($scope, num);
 	};
 
-	// 현재 개월 수 - 최근 개월
-	let recentMonth = function(num) {
-		let month = new Date();
-		month.setMonth(month.getMonth() - num);
-
-		return month;
+	$scope.dateRadio = {
+		isChecked: [false, false, false]
 	};
-
 
 	// 날짜 변경
 	$scope.dateChange = function() {
-		for (let check = 0; check < $scope.dateRadio.isChecked.length; check++) {
-			$scope.dateRadio.isChecked[check] = false;
-		}
+		dateFactory.dateChange($scope);
 	};
 
-	// ---------------------------------------------------------------- Recent Date
 
-
-	// Option ----------------------------------------------------------------
+	// ------------------------------- Options -------------------------------
 	// 데이터 건수 option
 	$scope.items = [
 		{ value: 15, display: "15개 보기" },
@@ -192,10 +154,30 @@ platform.controller('BillingController', function($scope, $resource, $uibModal) 
 		{ value: 1, display: "승인 완료" },
 		{ value: 2, display: "승인 거절" }
 	]
-	// ---------------------------------------------------------------- Option
 
-	// Modal ---------------------------------------------------------------- 
-	
+	// ------------------------------- Method -------------------------------
+	// 상세 보기
+	$scope.clickHandler = function(billingInfo) {
+		commonFactory.lookDetail(billingInfo);
+	};
+
+	// 데이터 정렬
+	$scope.sortData = function(order) {
+		commonFactory.sortData($scope, order);
+		$scope.selectBillings();
+	}
+
+	// 권한 확인 -> 분석환경 신청 버튼
+	$scope.checkGrade = function() {
+		if (AUTHENTICATION.grade == 1) { // 수정!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			$scope.grade = false;
+		} else {
+			$scope.grade = true;
+		}
+	}
+
+
+	// ------------------------------- Modal ------------------------------- 
 	// 분석환경 신청 Modal
 	$scope.createModal = function() {
 
@@ -215,63 +197,4 @@ platform.controller('BillingController', function($scope, $resource, $uibModal) 
 				// 여기가 dismiss
 			});
 	};
-
-	$scope.updateModal = function() {
-
-		let modifyInstance = $uibModal.open({
-			templateUrl: '/static/templates/platform/billing/modal_billing_modify.html',
-			controller: 'BillingModalCtrl',
-			size: "md",
-			resolve: {
-
-			}
-		})
-
-		modifyInstance.result.then(
-			function() {
-				// 모달창 종료 close
-			}, function() {
-				// 모달 dismiss
-			});
-	};
-
-	// ---------------------------------------------------------------- Modal
-
-
-	// Method ----------------------------------------------------------------
-	// 상세 보기
-	$scope.clickHandler = function(billingInfo) {
-		billingInfo.show = !billingInfo.show;
-	};
-
-	//	pagination
-	$scope.setPage = function(pageNum) {
-		$scope.pageNum = pageNum;
-	};
-
-	// Date To UnixTimestamp
-	function dateToLong(date) {
-		if (date != null) {
-			console.log(new Date(date).valueOf());
-			return new Date(date).valueOf();
-		}
-	};
-
-	// 데이터 정렬
-	$scope.sortData = function(order) {
-		$scope.reverseSort = !$scope.reverseSort;
-		$scope.order = order;
-		$scope.desc = $scope.reverseSort
-		$scope.selectBillings();
-	}
-
-	// 권한 확인
-	$scope.checkGrade = function() {
-		if (AUTHENTICATION.grade == 1) { // 수정해야됌!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			$scope.grade = false;
-		} else {
-			$scope.grade = true;
-		}
-	}
-	// ---------------------------------------------------------------- Method 
 });

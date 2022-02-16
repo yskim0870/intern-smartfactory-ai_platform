@@ -4,7 +4,7 @@
 </div>
 
 <div class="scm-popup">
-	<div class="popup-cont" style="margin-top: 30px; padding: 20px 20px 0px 20px;">
+	<div class="popup-cont">
 
 		<!--EdgeGW 등록하기: s -->
 
@@ -24,7 +24,6 @@
 					<th>연동기간</th>
 					<td>
 						<input style="width: 48%;" name="date01" type="date" title="날짜선택" ng-model="startDate">
-
 						~
 						<input style="width: 48%;" name="date02" type="date" title="날짜선택" ng-model="endDate">
 
@@ -56,7 +55,7 @@
 
 		<div class="scm-card" style="width: 99.7%" ng-if="gradeAdmin">
 
-			<div class="table-header read  mt_30">
+			<div class="table-header read">
 				<span class="table-title">제조사 정보</span>
 			</div>
 
@@ -66,7 +65,7 @@
 				<tr>
 					<th style="width: 100px">제조사</th>
 					<td>
-						<select name="select" ng-model="companyInfo" ng-options="company as company.name for company in companies"
+						<select name="select" ng-model="companyInfo" ng-options="company.companyInfo as company.companyInfo.name for company in companies"
 							ng-change="getUser(companyInfo.businessNumber)"
 						>
 							<option value="">선택</option>
@@ -94,6 +93,10 @@
 
 		<div class="scm-card" style="width: 99.7%" ng-if="gradeCompany">
 			<!-- 제조사 화면 -->
+			<div class="table-header read">
+				<span class="table-title">제조사 정보</span>
+			</div>
+
 			<table class="table-read" ng-model="gradeCompany">
 				<caption>제조사 정보</caption>
 				<tr>

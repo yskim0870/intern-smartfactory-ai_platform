@@ -36,8 +36,8 @@ public class BillingController {
     /**
      * (제조사, 도메인 IT 전문가) -> 과금 관리 -> 서비스 신청
      * 
-     * @param request
-     * @param response
+     * @param request  : request 정보를 서블렛에 전달
+     * @param response : HTTP 응답 코드를 서블렛에 전달
      * @param billing  : 사용 시작 및 종료 일자, 분석환경 등급
      * 
      * @return : Result( 성공/실패 여부, 실패 시 메시지 )
@@ -60,8 +60,8 @@ public class BillingController {
     /**
      * 과금 목록 조회
      * 
-     * @param request
-     * @param response
+     * @param request         : request 정보를 서블렛에 전달
+     * @param response        : HTTP 응답 코드를 서블렛에 전달
      * @param startDate       : 과금 신청 검색 시작 일자
      * @param endDate         : 과금 신청 검색 종료 일자
      * @param name            : 기업명
@@ -104,8 +104,8 @@ public class BillingController {
     /**
      * 과금 상세보기
      * 
-     * @param request
-     * @param response
+     * @param request  : request 정보를 서블렛에 전달
+     * @param response : HTTP 응답 코드를 서블렛에 전달
      * @param id       : 자세히 볼 과금 ID
      * 
      * @return : Result( 성공/실패 여부, 실패 시 메시지, 과금 정보, 분석환경 정보)
@@ -128,8 +128,8 @@ public class BillingController {
     /**
      * 과금(분석환경) 승인
      * 
-     * @param request
-     * @param response
+     * @param request  : request 정보를 서블렛에 전달
+     * @param response : HTTP 응답 코드를 서블렛에 전달
      * @param id       : 승인할 과금 ID
      * 
      * @return : Result( 성공/실패 여부, 실패 시 오류 메시지 )
@@ -148,5 +148,5 @@ public class BillingController {
     ) {
         return null;
     }
-    
+
 }
