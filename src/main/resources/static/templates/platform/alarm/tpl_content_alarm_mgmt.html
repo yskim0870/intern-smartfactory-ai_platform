@@ -1,15 +1,18 @@
-<div class="scm-main" ng-controller="AlarmController">
-
-	<div class="main-header"></div>
+<div ng-controller="AlarmController">
 
 	<!-- Search : s -->
 	<div class="scm-card">
+		<div style="float: right" class="right">
+			<button class="btn black big" ng-click="createModal()">
+				<img src="/static/images/icon_confirm_white.png" alt="알람 등록"><span>알람 등록</span>
+			</button>
+		</div>
 		<table class="table-search">
 			<caption>알림등록 관리</caption>
 			<tr>
 				<th style="width: 100px">제조사</th>
-				<td style="width: 160px">
-					<select name="select" style="width: 160px">
+				<td>
+					<select name="select" style="width: 150px">
 						<option selected="">전체</option>
 						<option>(주)유미테크</option>
 						<option>(주)아이리녹스</option>
@@ -19,14 +22,18 @@
 			</tr>
 			<tr>
 				<th>알람일</th>
-				<td>
-					<input name="alarm" type="date" title="알람일" style="width: 160px" ng-model="date" ng-change="dateChange()">
+				<td style="width: 350px">
+					<input name="date01" type="date" title="날짜선택" ng-model="startDate" style="width: 150px;" ng-change="dateChange()" max="9999-12-31">
+					~
+					<input name="date02" type="date" title="날짜선택" ng-model="endDate" style="width: 150px;" ng-change="dateChange()" max="9999-12-31">
 				</td>
-				<td>
-					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="isChecked[0]" ng-click="dateRadioClick(0)">
-					<label for="month-1">즉시 전송</label>
-					<input type="radio" name="ck_month" id="month-3" class="dsi" ng-checked="isChecked[1]" ng-click="dateRadioClick(1)">
-					<label for="month-3">예약 전송</label>
+				<td class="date-recent" style="padding: 8px 0px 0px 0px;">
+					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="dateRadio.isChecked[0]" ng-click="dateRadioClick(1)">
+					<label for="month-1">최근 1개월</label>
+					<input type="radio" name="ck_month" id="month-3" class="dsi" ng-checked="dateRadio.isChecked[1]" ng-click="dateRadioClick(3)">
+					<label for="month-3">최근 3개월</label>
+					<input type="radio" name="ck_month" id="month-6" class="dsi" ng-checked="dateRadio.isChecked[2]" ng-click="dateRadioClick(6)">
+					<label for="month-6">최근 6개월</label>
 				</td>
 				<td></td>
 			</tr>
@@ -37,7 +44,7 @@
 				</td>
 				<td>
 					<button class="btn blue">
-						<img src="/static/images/icon_mail.png" alt="전송"><span>전송</span>
+						<img src="/static/images/icon_search.png" alt="검색"><span>검색</span>
 					</button>
 				</td>
 			</tr>

@@ -1,43 +1,31 @@
 platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstance, id) {
 
-	// RESOURCE  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 
+	// ------------------------------- Resource -------------------------------
 	let res = $resource(
 		"edge-gws/:val",
 		null,
 		{
 			createEdge: {
-				method: 'PUT',
-				params: {
-					id: "",
-					managerId: "",
-					startDate: "",
-					endDate: "",
-					updateDate: "",
-					host: "",
-					port: "",
-					status: ""
-				}
+				method: 'PUT'
 			},
 			updateEdge: {
-				method: 'PATCH',
-				params: { val: "" }
+				method: 'PATCH'
 			}
 		}
 	);
 
 	let userRes = $resource(
-		"users/:val",
+		"users/:param1/:param2",
 		null,
 		{
 			getUser: {
-				method: 'GET',
-				params: { val: "" }
+				method: 'GET'
 			}
 		}
 	);
 
-	let company = $resource(
-		"company/:val",
+	let companyRes = $resource(
+		"users/:val",
 		null,
 		{
 			getCompany: {
@@ -45,22 +33,27 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 			}
 		}
 	);
-	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ RESOURCE 
+
+
+	// ------------------------------- Scope -------------------------------
 	$scope.id = id;
 	$scope.startDate = 0;
 	$scope.endDate = 0;
 
 
-	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  SCOPE
-
-	// CRUD ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	// ------------------------------- CRUD -------------------------------
 	// 회사 목록 조회
 	$scope.getCompany = function() {
-		company.getCompany(
-			{}
-			, {}
-			, function(company) {
-				$scope.companies = company.data.items;
+		companyRes.getCompany(
+			{
+				val: 1
+			}
+			, {
+				pageNum: null,
+				pageItemPerPage: null
+			}
+			, function(companyRes) {
+				$scope.companies = companyRes.data.items;
 			}, function() {
 
 			}
@@ -73,7 +66,8 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 	$scope.getUser = function(id) {
 		userRes.getUser(
 			{
-				val: id
+				param1: 1,
+				param2: id
 			}
 			, {}
 			, function(userRes) {
@@ -132,10 +126,8 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 		)
 	};
 
-	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ CRUD 
 
-	//  close and dismiss ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
+	// ------------------------------- Close / Dismiss -------------------------------
 	$scope.ok = function() {
 		$uibModalInstance.close();
 	}
@@ -157,8 +149,8 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 			$scope.updateEdge(managerId);
 		}
 	}
-	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ close and dismiss
 
+	// ------------------------------- Method -------------------------------
 	// date to long 형변환
 	function dateToLong(date) {
 		if (date != null) {
@@ -167,7 +159,7 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 		}
 	};
 
-	// 사용자 권한확인
+	// 사용자 권한확인 -- 제조사 정보
 	$scope.gradeCheck = function(grade) {
 		if (grade == 0) {
 			$scope.gradeAdmin = true;

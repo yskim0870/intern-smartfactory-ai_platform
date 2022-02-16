@@ -1,6 +1,61 @@
 platform.factory("Factory", function($resource) {
 
+	// 최근 개월 수
+	let recentMonth = function(num) {
+
+		let month = new Date();
+		month.setMonth(month.getMonth() - num);
+
+		return month
+	}
+
 	return {
+		// --------------------------- Date Method ---------------------------
+		dateHandling: {
+			dateRadioClick: function($scope, num) {
+				if (num == 1) {
+					$scope.dateRadio.isChecked[0] = true;
+				} else if (num == 3) {
+					$scope.dateRadio.isChecked[1] = true;
+				} else if (num == 6) {
+					$scope.dateRadio.isChecked[2] = true;
+				}
+
+				$scope.startDate = recentMonth(num);
+
+				$scope.endDate = new Date();
+			},
+
+			// 날짜 변경
+			dateChange: function($scope) {
+				for (let i = 0; i < $scope.dateRadio.isChecked.length; i++) {
+					$scope.dateRadio.isChecked[i] = false;
+				}
+			},
+
+			dateToLong: function(date) {
+				if (date != null) {
+					console.log(new Date(date).valueOf());
+					return new Date(date).valueOf();
+				}
+			},
+		},
+		// --------------------------- Common Method ---------------------------
+		common: {
+			// 상세 보기 접기 / 펼치기
+			lookDetail: function(info) {
+				info.show = !info.show;
+			},
+
+			// 데이터 정렬
+			sortData: function($scope, order) {
+				$scope.reverseSort = !$scope.reverseSort;
+				$scope.order = order;
+				$scope.desc = $scope.reverseSort
+			}
+		},
+
+
 		bidResource: $resource(
 			'/bids/:param1/:param2',
 			null,
@@ -72,15 +127,15 @@ platform.factory("Factory", function($resource) {
 					"param1": null,
 					"param2": null
 				},
-				
+
 				// 업태 조회
-				"getCondition":{
+				"getCondition": {
 					"method": "GET",
 					"param1": null
 				},
-				
+
 				// 업종 조회
-				"getIndustryType":{
+				"getIndustryType": {
 					"method": "GET",
 					"param1": null
 				},

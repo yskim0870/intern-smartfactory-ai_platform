@@ -1,8 +1,12 @@
 <div ng-controller="EdgeController">
-	<div class="main-header"></div>
 
 	<!-- Search : s -->
 	<div class="scm-card">
+		<div style="float: right" class="right">
+			<button class="btn black big" ng-click="createModal()">
+				<img src="/static/images/icon_confirm_white.png" alt="신규 데이터 등록"><span>Edge 신규 등록</span>
+			</button>
+		</div>
 		<table class="table-search">
 			<caption>EdgeGW 관리 조회</caption>
 			<tr>
@@ -10,27 +14,20 @@
 				<td colspan="3">
 					<input name="name" type="text" title="업체명" ng-model="name" style="width: 150px;" ng-disabled="checkGrade">
 				</td>
-				<td>
-					<div class="right">
-						<button class="btn black big" ng-click="createModal()">
-							<img src="/static/images/icon_confirm_white.png" alt="신규 데이터 등록"><span>Edge 신규 등록</span>
-						</button>
-					</div>
-				</td>
 			</tr>
 			<tr>
 				<th>연동기간</th>
 				<td class="date-select">
-					<input name="date01" type="date" title="날짜선택" ng-model="startDate" style="width: 150px;" ng-change="dateChange" max="9999-12-31">
+					<input name="date01" type="date" title="날짜선택" ng-model="startDate" style="width: 150px;" ng-change="dateChange()" max="9999-12-31">
 					~
-					<input name="date02" type="date" title="날짜선택" ng-model="endDate" style="width: 150px;" ng-change="dateChange" max="9999-12-31">
+					<input name="date02" type="date" title="날짜선택" ng-model="endDate" style="width: 150px;" ng-change="dateChange()" max="9999-12-31">
 				</td>
 				<td class="date-recent" style="padding: 8px 0px 0px 0px;">
-					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="isChecked[0]" ng-click="dateRadioClick(1)">
+					<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="dateRadio.isChecked[0]" ng-click="dateRadioClick(1)">
 					<label for="month-1">최근 1개월</label>
-					<input type="radio" name="ck_month" id="month-3" class="dsi" ng-checked="isChecked[1]" ng-click="dateRadioClick(3)">
+					<input type="radio" name="ck_month" id="month-3" class="dsi" ng-checked="dateRadio.isChecked[1]" ng-click="dateRadioClick(3)">
 					<label for="month-3">최근 3개월</label>
-					<input type="radio" name="ck_month" id="month-6" class="dsi" ng-checked="isChecked[2]" ng-click="dateRadioClick(6)">
+					<input type="radio" name="ck_month" id="month-6" class="dsi" ng-checked="dateRadio.isChecked[2]" ng-click="dateRadioClick(6)">
 					<label for="month-6">최근 6개월</label>
 				</td>
 				<td>
@@ -59,9 +56,9 @@
 			<colgroup>
 				<col style="width: 15%">
 				<col style="width: 15%">
-				<col style="width: 5%">
+				<col style="width: 5%; min-width: 75px">
 				<col style="width: 30%">
-				<col style="width: 10%">
+				<col style="width: 10%; min-width: 170px">
 			</colgroup>
 			<caption>EdgeGateway 목록</caption>
 			<thead>

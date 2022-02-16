@@ -1,50 +1,39 @@
-platform.controller('EdgeController', function($scope, $resource, $uibModal) {
+platform.controller('EdgeController', function($scope, $resource, $uibModal, Factory) {
 
-	// Resource ----------------------------------------------------------------
+	let dateFactory = Factory.dateHandling;
+	let commonFactory = Factory.common;
+
+
+	// ------------------------------- Resource -------------------------------
 	let res = $resource(
 		"edge-gws/:val",
 		null,
 		{
 			getEdges: {
-				method: 'GET',
-				params: {
-					managerId: "",
-					startDate: "",
-					endDate: "",
-					itemCount: "",
-					pageNum: "",
-					pageItemPerPage: "",
-					order: "",
-					desc: ""
-
-				}
+				method: 'GET'
 			},
 
 			getEdge: {
-				method: 'GET',
-				params: { val: "" }
+				method: 'GET'
 			},
 			deleteEdge: {
-				method: 'DELETE',
-				params: { val: "" }
+				method: 'DELETE'
 			}
 		}
 	);
 
 	let userRes = $resource(
-		"users/:val",
+		"users/:param1/:param2",
 		null,
 		{
 			getUser: {
-				method: 'GET',
-				params: { val: "" }
+				method: 'GET'
 			}
 		}
 	);
-	// ---------------------------------------------------------------- Resource
 
-	// Scope ----------------------------------------------------------------
 
+	// ------------------------------- Scope -------------------------------
 	$scope.name = "";
 	$scope.order = "id";
 	$scope.startDate = 0;
@@ -52,27 +41,19 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 	$scope.pageNum = 1;
 	$scope.pageItemPerPage = 1;
 	$scope.itemCount = 15;
-	$scope.pageNum = 1;
-	$scope.maxSize = 5;
-	$scope.bigTotalItems = 175;
-	$scope.bigCurrentPage = 1;
 	$scope.desc = false;
 	$scope.isChecked = false;
 	$scope.reverseSort = false;
 
 
-	// ---------------------------------------------------------------- Scope
-
-
-	// DB 기능 ----------------------------------------------------------------
-
+	// ------------------------------- DB -------------------------------
 	// EdgeGateway 목록 조회
 	$scope.getEdges = function() {
 		res.getEdges(
 			{
 				managerId: $scope.name,
-				startDate: dateToLong($scope.startDate),
-				endDate: dateToLong($scope.endDate),
+				startDate: dateFactory.dateToLong($scope.startDate),
+				endDate: dateFactory.dateToLong($scope.endDate),
 				itemCount: $scope.itemCount,
 				pageNum: $scope.pageNum,
 				pageItemPerPage: $scope.pageItemPerPage,
@@ -136,72 +117,39 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 			}
 		)
 	}
-	// ---------------------------------------------------------------- DB 기능 
 
-	// Recent Date ----------------------------------------------------------------
+
+	// ------------------------------- Date -------------------------------
 	$scope.dateRadioClick = function(num) {
-		if (num == 1) {
-			$scope.isChecked[0] = true;
-		} else if (num == 3) {
-			$scope.isChecked[1] = true;
-		} else if (num == 6) {
-			$scope.isChecked[2] = true;
-		}
-
-		$scope.startDate = recentMonth(num);
-
-		$scope.endDate = new Date();
+		dateFactory.dateRadioClick($scope, num);
 	};
 
-	// 현재 개월 수 - 최근 개월
-	let recentMonth = function(num) {
-		let month = new Date();
-		month.setMonth(month.getMonth() - num);
-
-		return month;
+	$scope.dateRadio = {
+		isChecked: [false, false, false]
 	};
 
 	// 날짜 변경
 	$scope.dateChange = function() {
-		for (let check = 0; check < $scope.dateRadio.isChecked.length; check++) {
-			$scope.dateRadio.isChecked[check] = false;
-		}
-	};
-	// ---------------------------------------------------------------- Recent Date
-
-
-	// Method ----------------------------------------------------------------
-
-	// Date To UnixTimestamp
-	function dateToLong(date) {
-		if (date != null) {
-			console.log(new Date(date).valueOf());
-			return new Date(date).valueOf();
-		}
+		dateFactory.dateChange($scope);
 	};
 
+
+	// ------------------------------- Method -------------------------------
 	// 데이터 건수 option
 	$scope.items = [
 		{ value: 15, display: "15개 보기" },
 		{ value: 30, display: "30개 보기" },
 	];
-	
+
 
 	// 상세 보기 접기 / 펼치기
 	$scope.clickHandler = function(edgeInfo) {
-		edgeInfo.show = !edgeInfo.show;
-	};
-
-	//	pagination
-	$scope.setPage = function(pageNum) {
-		$scope.pageNum = pageNum;
+		commonFactory.lookDetail(edgeInfo);
 	};
 
 	// 데이터 정렬
 	$scope.sortData = function(order) {
-		$scope.reverseSort = !$scope.reverseSort;
-		$scope.order = order;
-		$scope.desc = $scope.reverseSort
+		commonFactory.sortData($scope, order);
 		$scope.getEdges();
 	}
 
@@ -235,11 +183,8 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 
 	$scope.getEdges();
 
-	// ---------------------------------------------------------------- Method
 
-
-	// Modal ----------------------------------------------------------------
-
+	// ------------------------------- Modal -------------------------------
 	// EdgeGateway 등록 Modal
 	$scope.createModal = function(id) {
 
@@ -279,12 +224,11 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal) {
 
 		modifyInstance.result.then(
 			function() {
-				$scope.getEdges($scope.itemCount, $scope.pageNum);
+				$scope.getEdges();
 			}, function() {
 				// 모달 dismiss
 			});
 	};
-	// ---------------------------------------------------------------- Modal
 });
 
 
