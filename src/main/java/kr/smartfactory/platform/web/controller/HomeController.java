@@ -47,6 +47,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.smartfactory.platform.web.dao.entity.UserGrade;
 import kr.smartfactory.platform.web.security.GrantedAuthorityDetail;
+import kr.smartfactory.platform.web.utils.SecurityUtil;
 
 /**
  *
@@ -138,7 +139,7 @@ public class HomeController {
 
 			view.setViewName("login");
 			view.addObject("message", "환영합니다.");
-
+			SecurityUtil.clearSession(request);
 			return false;
 		}
 		// end - 등록되지 않은 사용자 처리
@@ -164,17 +165,20 @@ public class HomeController {
 					case UserGrade.UNKNOWN_USER:
 						view.setViewName("login");
 						view.addObject("message", "사용자 계정이 존재하지 않습니다.");
+						SecurityUtil.clearSession(request);
 						return false;
 
 					case UserGrade.INVALID_UNKNOWN_AND_ERROR:
 						view.setViewName("login");
 						view.addObject("message", userGrade.getDesc() == null ? "로그인 정보(ID, Password)를 정확히 입력해 주시기 바랍니다." : userGrade.getDesc());
+						SecurityUtil.clearSession(request);
 						break;
 
 					case UserGrade.NOT_ENTERED_ID_OR_PASSWORD:
 					default:
 						view.setViewName("login");
 						view.addObject("message", "로그인 정보(ID, Password)를 정확히 입력해 주시기 바랍니다.");
+						SecurityUtil.clearSession(request);
 						break;
 				}
 			}
@@ -183,6 +187,7 @@ public class HomeController {
 			logger.warn("(Invalid Authentication)", e);
 			view.setViewName("login");
 			view.addObject("message", "로그인 도중 오류가 발생하였습니다.\n관리자에게 문의하시기 바랍니다.");
+			SecurityUtil.clearSession(request);
 			intended = false;
 		}
 

@@ -14,9 +14,23 @@
 	var APP_NAME = "platform";
 	var platform = angular.module(APP_NAME, [ "ui.bootstrap", "ngRoute", "ngResource", "ngAnimate", "ngSanitize", "chieffancypants.loadingBar" ]);
 </script>
-
 <script type="text/javascript" th:src="@{/static/scripts/ctrl/platform/ctrl_platform.js}"></script>
 
+<style>
+#scm-login-box .login-area {
+	height: unset !important;
+}
+
+#scm-login-box .login-area .logoin-cont {
+	padding-bottom: 28px;
+}
+#scm-login-box .login-area .logoin-cont ul li{
+    margin-bottom: 10px;
+}
+#scm-login-box .login-area .logoin-cont .pw{
+  border-top: 1px solid #cbcbcc;
+}
+</style>
 </head>
 
 <body ng-controller="PlatformCtrl">
@@ -53,40 +67,46 @@
           <!--     			</div> -->
           <!-- 시스템 운영자 선택시 로그인 -->
           <div class="logoin-cont">
-            <p>
-              <label>
-                <input type="radio" ng-model="memberType" value="member-1">
-                제조사관리자
-              </label>
-              <label>
-                <input type="radio" ng-model="memberType" value="member-2">
-                도메인 IT 전문가
-              </label>
-              <label>
-                <input type="radio" ng-model="memberType" value="member-3">
-                시스템운영자
-              </label>
-            </p>
+            <!--             <p> -->
+            <!--               <label> -->
+            <!--                 <input type="radio" ng-model="memberType" value="member-1"> -->
+            <!--                 제조사관리자 -->
+            <!--               </label> -->
+            <!--               <label> -->
+            <!--                 <input type="radio" ng-model="memberType" value="member-2"> -->
+            <!--                 도메인 IT 전문가 -->
+            <!--               </label> -->
+            <!--               <label> -->
+            <!--                 <input type="radio" ng-model="memberType" value="member-3"> -->
+            <!--                 시스템운영자 -->
+            <!--               </label> -->
+            <!--             </p> -->
             <ul>
+              <li>
+                <p th:text="${message}" style="margin-bottom: 20px;"></p>
+              </li>
               <li>
                 <input name="username" class="id" type="text" placeholder="아이디를 입력하세요.">
               </li>
               <li>
                 <input name="password" class="pw" type="password" placeholder="패스워드를 입력하세요.">
               </li>
-              <li>
-                <button type="submit" class="btn-login">로그인</button>
+              <li >
+              <div style="padding-top:15px;width: 80%;margin: auto;">
+                <button type="submit" class="btn-login" style="width: 49%;">로그인</button>
+                <button type="submit" class="btn-login" style="width: 49%;">회원가입</button>
+                </div>
               </li>
-              <li class="login_check">
-                <span>
-                  <input type="checkbox" name="group01_son" id="group01_s01" class="dsi">
-                  <label for="group01_s01"> 아이디 저장</label>
-                </span>
-                <div style="display: inline-block; color: #CCC; margin-right: 4px;">|</div>
-                <a href="/static/html/registerUser.html">
-                  <span>회원가입</span>
-                </a>
-              </li>
+              <!--               <li class="login_check"> -->
+              <!--                 <span> -->
+              <!--                   <input type="checkbox" name="group01_son" id="group01_s01" class="dsi"> -->
+              <!--                   <label for="group01_s01"> 아이디 저장</label> -->
+              <!--                 </span> -->
+              <!--                 <div style="display: inline-block; color: #CCC; margin-right: 4px;">|</div> -->
+              <!--                 <a href="/static/html/registerUser.html"> -->
+              <!--                   <span>회원가입</span> -->
+              <!--                 </a> -->
+              <!--               </li> -->
             </ul>
           </div>
         </div>
