@@ -70,37 +70,6 @@ public class UserDao extends DBGenericDao implements IUserDao {
 	}
 
 	/**
-	 * @see kr.smartfactory.platform.web.dao.IUserDao#detailUser(java.lang.String)
-	 */
-	@Override
-	public UserDTO detailUser(String id) {
-
-		CompanyInfoDTO company = new CompanyInfoDTO();
-		UserInfoDTO userInfo = new UserInfoDTO();
-
-		// 사업자 번호인지 확인
-		String pattern = "^\\d{3}-\\d{2}-\\d{5}$";
-
-		// 사업자 번호인 경우
-		if (Pattern.matches(pattern, id) == true) {
-
-			company = jdbcTemplate.queryForObject(Query.COMPANY_SELECT_DETAIL_BUSNIESS, BeanPropertyRowMapper.newInstance(CompanyInfoDTO.class), id);
-
-			userInfo = jdbcTemplate.queryForObject(Query.USER_SELECT_DETAIL_BUSNIESS, BeanPropertyRowMapper.newInstance(UserInfoDTO.class), id);
-
-			return new UserDTO(company, userInfo);
-		}
-		// ID인 경우
-		else {
-			userInfo = jdbcTemplate.queryForObject(Query.USER_SELECT_DETAIL_ID, BeanPropertyRowMapper.newInstance(UserInfoDTO.class), id);
-
-			company = jdbcTemplate.queryForObject(Query.COMPANY_SELECT_DETAIL_BUSNIESS, BeanPropertyRowMapper.newInstance(CompanyInfoDTO.class), userInfo.getBusinessNumber());
-
-			return new UserDTO(company, userInfo);
-		}
-	}
-
-	/**
 	 * @see kr.smartfactory.platform.web.dao.IUserDao#selectCompany(java.lang.String)
 	 */
 	@Override

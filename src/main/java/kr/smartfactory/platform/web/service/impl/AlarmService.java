@@ -47,16 +47,26 @@ public class AlarmService implements IAlarmService {
 
         PaginationDTO<AlarmHistoryDTO> daoRes = new PaginationDTO<>();
         
-        AlarmHistoryDTO alarmHistory = new AlarmHistoryDTO();
+        AlarmHistoryDTO alarmHistory1 = new AlarmHistoryDTO();
+        AlarmHistoryDTO alarmHistory2 = new AlarmHistoryDTO();
         
-        alarmHistory.setId("메시지UUID");
-        alarmHistory.setReceiveId("수신자 ID");
-        alarmHistory.setContents("현재 신청한 입찰공고가 28일까지 마무리됩니다. 공고내용을 확인하시기 바랍니다.");
-        alarmHistory.setReceiveDate(1644557990);
-        alarmHistory.setChecked(0);
+        alarmHistory1.setId("메시지UUID");
+        alarmHistory1.setReceiveId("수신자 ID");
+        alarmHistory1.setContents("현재 신청한 입찰공고가 28일까지 마무리됩니다. 공고내용을 확인하시기 바랍니다.");
+        alarmHistory1.setReceiveDate(1644557990);
+        alarmHistory1.setChecked(0);
+
+        alarmHistory2.setId("메시지UUID");
+        alarmHistory2.setReceiveId("수신 ID");
+        alarmHistory2.setContents("현재 신청한 입찰공고가 28일까지 마무리됩니다. 공고내용을 확인하시기 바랍니다.");
+        alarmHistory2.setReceiveDate(970603);
+        alarmHistory2.setChecked(0);
+        
+        
         
         List<AlarmHistoryDTO> list = new ArrayList<>();
-        list.add(0, alarmHistory);
+        list.add(0, alarmHistory1);
+        list.add(1, alarmHistory2);
         
         daoRes.setItems(list);
         daoRes.setTotalCount(1);

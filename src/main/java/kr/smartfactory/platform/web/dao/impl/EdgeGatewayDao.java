@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import kr.smartfactory.platform.web.dao.IEdgeGatewayDao;
 import kr.smartfactory.platform.web.dao.entity.EdgeGateway;
 import kr.smartfactory.platform.web.dto.EdgeGWDTO;
-import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.query.Query;
 
@@ -43,10 +42,10 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
     }
 
     /**
-     * @see kr.smartfactory.platform.web.dao.IEdgeGatewayDao#createEdgeGW(kr.smartfactory.platform.web.dto.EdgeGWDTO)
+     * @see kr.smartfactory.platform.web.dao.IEdgeGatewayDao#insert(kr.smartfactory.platform.web.dto.EdgeGWDTO)
      */
     @Override
-    public int createEdgeGW(EdgeGateway edgeGW) {
+    public int insert(EdgeGateway edgeGW) {
         try {
             // EdgeGateway ID, 기업 ID, 연동 시작 일자, 연동 종료 일자
             return jdbcTemplate.update(Query.EDGE_INSERT, edgeGW.getId(), edgeGW.getManagerId(), edgeGW.getStartDate(), edgeGW.getEndDate(), edgeGW.getUpdateDate(), edgeGW.getHost(), edgeGW.getPort(), edgeGW.getStatus());
@@ -64,10 +63,7 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
      *      long, long, int, int, int, java.lang.String, boolean)
      */
     @Override
-    public PaginationDTO<EdgeGWDTO> selectEdgeGW(String managerId, long startDate, long endDate, int itemCount, int pageNum, String order, boolean desc) {
-
-        // 조회 결과 list와 총 데이터 건수를 담을 객체
-        PaginationDTO<EdgeGWDTO> res = new PaginationDTO<>();
+    public List<EdgeGWDTO> select(String managerId, long startDate, long endDate, int itemCount, int pageNum, String order, boolean desc) {
 
         // wild card에 입력될 값들의 list
         List<Object> params = new ArrayList<>();
@@ -77,9 +73,6 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
 
         // default 'SLELECT' Query
         String query = Query.EDGE_SELECT_ALL;
-
-        // 데이터 건수 조회 Query
-        String countQuery = Query.EDGE_COUNT;
 
         // Parameter의 값이 전달 되면 Query에 추가
 
@@ -106,17 +99,11 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
         if (order != null) {
             sb.append(" order by ");
             sb.append(order);
-        } 
+        }
         // 내림차순 여부
         if (desc != false) {
             sb.append(" desc");
-        } 
-
-        // 총 데이터 건수를 위한 query
-        countQuery = sb != null ? countQuery.replace("{where_clause}", sb.toString()) : countQuery;
-
-        // 총 데이터 건수
-        int allCount = jdbcTemplate.queryForObject(countQuery, Integer.class, params.toArray());
+        }
 
         // 한 페이지에 보일 데이터 건수
         params.add(itemCount);
@@ -129,20 +116,58 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
         // 조회 결과를 list에 저장
         List<EdgeGWDTO> list = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(EdgeGWDTO.class), params.toArray());
 
-        // PaginationDTO에 조회 결과 list 입력
-        res.setItems(list);
-
-        // PaginationDTO에 총 데이터 건수 입력
-        res.setTotalCount(allCount);
-
-        return res;
+        return list;
     }
 
     /**
-     * @see kr.smartfactory.platform.web.dao.IEdgeGatewayDao#selectDetailEdgeGW(java.lang.String)
+     * @see kr.smartfactory.platform.web.dao.IEdgeGatewayDao#allCount(java.lang.String,
+     *      long, long)
+     */
+    public int allCount(String managerId, long startDate, long endDate) {
+
+        // wild card에 입력될 값들의 list
+        List<Object> params = new ArrayList<>();
+
+        // 추가할 쿼리
+        StringBuilder sb = new StringBuilder();
+
+        // 데이터 건수 조회 Query
+        String countQuery = Query.EDGE_COUNT;
+
+        // 기업명
+        if (managerId != null) {
+            params.add("%" + managerId + "%");
+            sb.append("AND manager_id LIKE ?");
+        }
+
+        // 검색할 연동 시작 일자 및 종료 일자
+        if (startDate != 0 && endDate == 0) {
+            params.add(startDate);
+            sb.append("AND ? <= end_date");
+        } else if (startDate == 0 && endDate != 0) {
+            params.add(endDate);
+            sb.append("AND ? >= start_date");
+        } else if (startDate != 0 && endDate != 0) {
+            params.add(startDate);
+            params.add(endDate);
+            sb.append("AND ? <= end_date AND ? >= start_date ");
+        }
+
+        // 총 데이터 건수를 위한 query
+        countQuery = sb != null ? countQuery.replace("{where_clause}", sb.toString()) : countQuery;
+
+        // 총 데이터 건수
+        int allCount = jdbcTemplate.queryForObject(countQuery, Integer.class, params.toArray());
+
+        return allCount;
+
+    }
+
+    /**
+     * @see kr.smartfactory.platform.web.dao.IEdgeGatewayDao#detail(java.lang.String)
      */
     @Override
-    public EdgeGWDTO selectDetailEdgeGW(String id) {
+    public EdgeGWDTO detail(String id) {
 
         // DTO의 DTO에 조회 결과 값을 입력
         try {
@@ -150,7 +175,7 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
                 public EdgeGWDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 
                     EdgeGWDTO edge = new EdgeGWDTO();
-                    
+
                     edge.setId(rs.getString("id"));
                     edge.setHost(rs.getString("host"));
                     edge.setPort(rs.getInt("port"));
@@ -184,7 +209,7 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
      *      kr.smartfactory.platform.web.dto.EdgeGWDTO)
      */
     @Override
-    public int updateEdgeGW(EdgeGateway edgeGW) {
+    public int update(EdgeGateway edgeGW) {
 
         // TODO 예외처리 질문
         // 업데이트할 Edge Gateway ID, 변경할 기업 ID, 연동 시작 일자, 연동 종료 일자
@@ -192,10 +217,10 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
     }
 
     /**
-     * @see kr.smartfactory.platform.web.dao.IEdgeGatewayDao#deleteEdgeGW(java.lang.String)
+     * @see kr.smartfactory.platform.web.dao.IEdgeGatewayDao#delete(java.lang.String)
      */
     @Override
-    public int deleteEdgeGW(String id) {
+    public int delete(String id) {
 
         // TODO 예외처리 질문
         // 삭제할 Edge Gateway ID

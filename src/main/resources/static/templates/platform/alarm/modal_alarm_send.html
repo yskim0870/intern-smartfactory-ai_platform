@@ -14,33 +14,28 @@
 			<table class="table-read">
 				<caption>알람 정보</caption>
 				<tr>
-					<th style="width: 150px">업체</th>
-					<td>
-						<select name="select" ng-model="envGrade" ng-options="item.Value as item.Display for item in envGrades">
+					<th style="width: 75px">업체</th>
+					<td style="width: 150px">
+						<select name="select" ng-model="company">
+						<option>(주)유미테크</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
 					<th>알람일</th>
 					<td>
-						<input name="date02" type="date" title="날짜선택" ng-model="endDate" style="width: 150px;" ng-change="dateChange()" max="9999-12-31">
+						<input name="date" type="date" title="날짜선택" ng-model="date" style="width: 150px;" ng-change="dateChange()" min="minDate()" max="9999-12-31">
 					</td>
-					<td class="date-recent" style="padding: 8px 0px 0px 0px;">
-						<input type="radio" name="ck_month" id="month-1" class="dsi" ng-checked="dateRadio.isChecked[0]" ng-click="dateRadioClick(1)">
-						<label for="month-1">최근 1개월</label>
-						<input type="radio" name="ck_month" id="month-3" class="dsi" ng-checked="dateRadio.isChecked[1]" ng-click="dateRadioClick(3)">
-						<label for="month-3">최근 3개월</label>
+					<td colspan="2" class="date-recent" style="padding: 8px 0px 0px 0px;">
+						<input type="radio" name="direct_send" id="direct_send" class="dsi" ng-checked="dateRadio.isChecked[0]" ng-click="dateRadioClick(0)">
+						<label for="direct_send">즉시 전송</label>
 					</td>
 				</tr>
 				<tr>
 					<th>내용</th>
-					<td>
-						<textarea name="textfield" style="width: 250px;"></textarea>
-					</td>
-					<td>
-						<button class="btn blue">
-							<img src="static/images/icon_search.png" alt="검색"><span>검색</span>
-						</button>
+					<td colspan="2">
+						<textarea name="textfield" style="width: 400
+						px;"></textarea>
 					</td>
 				</tr>
 			</table>
@@ -51,9 +46,9 @@
 
 <p class="btn-box">
 	<button class="btn whiteblue mr_10" ng-click="applyConfirm()">
-		<img src="/static/images/icon_confirm.png" alt="분석환경 신청"><span>알람 등록</span>
+		<img src="static/images/icon_confirm.png" alt="알람 등록"><span>알람 등록</span>
 	</button>
 	<button class="btn gray" ng-click="cancel()">
-		<img src="/static/images/icon_cancel.png" alt="취소"><span>취소하기</span>
+		<img src="static/images/icon_cancel.png" alt="취소"><span>취소</span>
 	</button>
 </p>

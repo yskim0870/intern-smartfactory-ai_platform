@@ -1,7 +1,7 @@
 platform.controller('AlarmController', function($scope, $resource, $uibModal, Factory) {
 
 	let dateFactory = Factory.dateHandling;
-
+	let commonFactory = Factory.common;
 
 	let alarmRes = $resource(
 		"alarms/",
@@ -12,13 +12,22 @@ platform.controller('AlarmController', function($scope, $resource, $uibModal, Fa
 			}
 		}
 	)
+
+
+	// ------------------------------- Scope -------------------------------
+	$scope.receiveId = "";
+	$scope.order = "receiveDate";
+	$scope.startDate = 0;
+	$scope.endDate = 0;
 	$scope.itemCount = 15;
+	$scope.desc = "fasle";
 
 
 	$scope.select = function() {
 		alarmRes.select(
-			{
-				receiveId: "",
+			{}
+			, {
+				receiveId: $scope.receiveId,
 				startDate: dateFactory.dateToLong($scope.startDate),
 				endDate: dateFactory.dateToLong($scope.endDate),
 				itemCount: $scope.itemCount,
@@ -27,7 +36,20 @@ platform.controller('AlarmController', function($scope, $resource, $uibModal, Fa
 				order: $scope.order,
 				desc: $scope.desc
 			}
+			, function(alarmRes) {
+				$scope.alarms = alarmRes.data;
+			}
+			, function() {
+
+			}
 		)
+	}
+	$scope.select();
+
+	// 데이터 정렬
+	$scope.sortData = function(order) {
+		commonFactory.sortData($scope, order);
+		$scope.select();
 	}
 
 

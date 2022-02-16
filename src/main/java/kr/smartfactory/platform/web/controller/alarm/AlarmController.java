@@ -82,12 +82,12 @@ public class AlarmController {
             HttpServletRequest request//
             , HttpServletResponse response//
             , @RequestParam(value = "receiveId", required = false) @Size(max = 36) String receiveId//
-            , @RequestParam(value = "endDate", defaultValue = "0", required = false) long startDate//
+            , @RequestParam(value = "startDate", defaultValue = "0", required = false) long startDate//
             , @RequestParam(value = "endDate", defaultValue = "0", required = false) long endDate//
-            , @RequestParam(value = "endDate", defaultValue = "0", required = false) int itemCount//
-            , @RequestParam(value = "endDate", defaultValue = "0", required = false) int pageNum//
-            , @RequestParam(value = "endDate", defaultValue = "0", required = false) int pageItemPerPage//
-            , @RequestParam(value = "name", required = false) @Size(max = 36) String order//
+            , @RequestParam(value = "itemCount", defaultValue = "0", required = false) int itemCount//
+            , @RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum//
+            , @RequestParam(value = "endpageItemPerPage", defaultValue = "0", required = false) int pageItemPerPage//
+            , @RequestParam(value = "order", required = false) @Size(max = 36) String order//
             , @RequestParam(value = "desc", required = false) boolean desc//
 
     ) {

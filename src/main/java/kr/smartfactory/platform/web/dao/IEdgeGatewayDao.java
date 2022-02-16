@@ -1,8 +1,9 @@
 package kr.smartfactory.platform.web.dao;
 
+import java.util.List;
+
 import kr.smartfactory.platform.web.dao.entity.EdgeGateway;
 import kr.smartfactory.platform.web.dto.EdgeGWDTO;
-import kr.smartfactory.platform.web.dto.PaginationDTO;
 
 /**
  * Edge Gateway Dao Interface
@@ -28,7 +29,7 @@ public interface IEdgeGatewayDao {
      * @modified 2021. 12. 28. 오후 5:57:59 || Kyunghun Park || 최초 생성
      *
      */
-    public int createEdgeGW(EdgeGateway edgeGW);
+    public int insert(EdgeGateway edgeGW);
 
     /**
      * EdgeGateway 목록 조회
@@ -50,7 +51,23 @@ public interface IEdgeGatewayDao {
      * @modified 2021. 12. 28. 오후 5:59:08 || Kyunghun Park || 최초 생성
      *
      */
-    public PaginationDTO<EdgeGWDTO> selectEdgeGW(String name, long startDate, long endDate, int itemCount, int pageNum, String order, boolean desc);
+    public List<EdgeGWDTO> select(String name, long startDate, long endDate, int itemCount, int pageNum, String order, boolean desc);
+
+    /**
+     * EdgeGateway 조회 데이터 건수
+     * 
+     * @param managaerId : 회사명
+     * @param startDate  : 연동 시작 일자
+     * @param endDate    : 연동 종료 일자
+     * @return : 데이터 건수
+     *
+     * @since 2022. 2. 16. 오후 1:08:49
+     * @author "KyungHun Park"
+     * 
+     * @modified 2022. 2. 16. 오후 1:08:49 || Kyunghun Park || 최초 생성
+     *
+     */
+    public int allCount(String managaerId, long startDate, long endDate);
 
     /**
      * EdgeGateway 상세보기
@@ -66,7 +83,7 @@ public interface IEdgeGatewayDao {
      * @modified 2021. 12. 28. 오후 6:00:51 || Kyunghun Park || 최초 생성
      *
      */
-    public EdgeGWDTO selectDetailEdgeGW(String id);
+    public EdgeGWDTO detail(String id);
 
     /**
      * 
@@ -82,7 +99,7 @@ public interface IEdgeGatewayDao {
      * @modified 2021. 12. 28. 오후 6:02:36 || Kyunghun Park || 최초 생성
      *
      */
-    public int updateEdgeGW(EdgeGateway edgeGW);
+    public int update(EdgeGateway edgeGW);
 
     /**
      * 
@@ -97,6 +114,6 @@ public interface IEdgeGatewayDao {
      * @modified 2021. 12. 28. 오후 6:04:16 || Kyunghun Park || 최초 생성
      *
      */
-    public int deleteEdgeGW(String id);
+    public int delete(String id);
 
 }

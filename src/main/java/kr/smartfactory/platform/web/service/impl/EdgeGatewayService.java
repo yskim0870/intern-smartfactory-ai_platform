@@ -34,10 +34,10 @@ public class EdgeGatewayService implements IEdgeGatewayService {
     }
 
     /**
-     * @see kr.smartfactory.platform.web.service.IEdgeGatewayService#createEdgeGW(kr.smartfactory.platform.web.dto.EdgeGWDTO)
+     * @see kr.smartfactory.platform.web.service.IEdgeGatewayService#insert(kr.smartfactory.platform.web.dto.EdgeGWDTO)
      */
     @Override
-    public Result<Boolean> createEdgeGW(EdgeGWDTO edgeGWDTO) {
+    public Result<Boolean> insert(EdgeGWDTO edgeGWDTO) {
 
         // 결과, 메시지를 담을 객체
         Result<Boolean> result = new Result<>();
@@ -45,7 +45,7 @@ public class EdgeGatewayService implements IEdgeGatewayService {
         EdgeGateway edgeGW = new EdgeGateway(edgeGWDTO.getId(), edgeGWDTO.getManagerId(), edgeGWDTO.getStartDate(), edgeGWDTO.getEndDate(), edgeGWDTO.getUpdateDate(), edgeGWDTO.getHost(), edgeGWDTO.getPort(), edgeGWDTO.getStatus());
 
         // POST 성공할 경우
-        if (this.edgeGWDao.createEdgeGW(edgeGW) != 0) {
+        if (this.edgeGWDao.insert(edgeGW) != 0) {
             result.setResult(true);
             result.setMessage("create success");
 
@@ -63,38 +63,39 @@ public class EdgeGatewayService implements IEdgeGatewayService {
      *      long, long, int, int, int, String, boolean)
      */
     @Override
-    public Result<PaginationDTO<EdgeGWDTO>> selectEdgeGW(String managerId, long startDate, long endDate, int itemCount, int pageNum, String order, boolean desc) {
+    public Result<PaginationDTO<EdgeGWDTO>> select(String managerId, long startDate, long endDate, int itemCount, int pageNum, String order, boolean desc) {
 
         // 결과, 메시지, 데이터를 담을 객체
         Result<PaginationDTO<EdgeGWDTO>> result = new Result<>();
 
-        // EdgeGWDTO와 총 데이터 건수를 담은 객체
         PaginationDTO<EdgeGWDTO> daoRes = new PaginationDTO<>();
+        // EdgeGWDTO와 총 데이터 건수를 담은 객체
 
-        // SELECT 실행
-            daoRes = edgeGWDao.selectEdgeGW(managerId, startDate, endDate, itemCount, pageNum, order, desc);
+        daoRes.setItems(edgeGWDao.select(managerId, startDate, endDate, itemCount, pageNum, order, desc));
+        daoRes.setTotalCount(edgeGWDao.allCount(managerId, startDate, endDate));
 
         // SELECT 결과가 null이 아닌 경우
-        if (daoRes != null) {
+        if (!daoRes.getItems().isEmpty()) {
             result.setResult(true);
             result.setMessage("select success");
             result.setData(daoRes);
 
             return result;
-        } else { // SELECT 결과가 null인 경우
+        } else {
             result.setResult(false);
-            result.setMessage("select fail");
+            result.setMessage("EdgeGateway Select Failed");
             result.setData(null);
 
             return result;
         }
+
     }
 
     /**
-     * @see kr.smartfactory.platform.web.service.IEdgeGatewayService#selectDetailEdgeGW(java.lang.String)
+     * @see kr.smartfactory.platform.web.service.IEdgeGatewayService#detail(java.lang.String)
      */
     @Override
-    public Result<EdgeGWDTO> selectDetailEdgeGW(String id) {
+    public Result<EdgeGWDTO> detail(String id) {
 
         // 결과, 메시지, 데이터를 담을 객체
         Result<EdgeGWDTO> result = new Result<>();
@@ -104,7 +105,7 @@ public class EdgeGatewayService implements IEdgeGatewayService {
         EdgeGWDTO daoRes = new EdgeGWDTO();
 
         // SELECT 실행
-        daoRes = edgeGWDao.selectDetailEdgeGW(id);
+        daoRes = edgeGWDao.detail(id);
 
         // SELECT 결과가 null이 아닌 경우
         if (daoRes != null) {
@@ -122,13 +123,13 @@ public class EdgeGatewayService implements IEdgeGatewayService {
         }
 
     }
-    
+
     /**
-     * @see kr.smartfactory.platform.web.service.IEdgeGatewayService#updateEdgeGW(java.lang.String,
+     * @see kr.smartfactory.platform.web.service.IEdgeGatewayService#update(java.lang.String,
      *      kr.smartfactory.platform.web.dto.EdgeGWDTO)
      */
     @Override
-    public Result<Boolean> updateEdgeGW(String id, EdgeGWDTO edgeGWDTO) {
+    public Result<Boolean> update(String id, EdgeGWDTO edgeGWDTO) {
 
         EdgeGateway edgeGW = new EdgeGateway(id, edgeGWDTO.getManagerId(), edgeGWDTO.getStartDate(), edgeGWDTO.getEndDate(), edgeGWDTO.getUpdateDate());
 
@@ -136,7 +137,7 @@ public class EdgeGatewayService implements IEdgeGatewayService {
         Result<Boolean> result = new Result<>();
 
         // PATCH된 row가 있을 경우
-        if (edgeGWDao.updateEdgeGW(edgeGW) != 0) {
+        if (edgeGWDao.update(edgeGW) != 0) {
             result.setResult(true);
             result.setMessage("update success");
 
@@ -150,16 +151,16 @@ public class EdgeGatewayService implements IEdgeGatewayService {
     }
 
     /**
-     * @see kr.smartfactory.platform.web.service.IEdgeGatewayService#deleteEdgeGW(java.lang.String)
+     * @see kr.smartfactory.platform.web.service.IEdgeGatewayService#delete(java.lang.String)
      */
     @Override
-    public Result<Boolean> deleteEdgeGW(String id) {
+    public Result<Boolean> delete(String id) {
 
         // 결과, 메시지를 담을 객체
         Result<Boolean> result = new Result<>();
 
         // DELETE에 성공한 경우
-        if (edgeGWDao.deleteEdgeGW(id) != 0) {
+        if (edgeGWDao.delete(id) != 0) {
             result.setResult(true);
             result.setMessage("delete success");
 

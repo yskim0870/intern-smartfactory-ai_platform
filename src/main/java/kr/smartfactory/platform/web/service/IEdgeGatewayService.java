@@ -27,7 +27,7 @@ public interface IEdgeGatewayService {
      * @modified 2021. 12. 24. 오후 1:14:48 || Kyunghun Park || 최초 생성
      *
      */
-    public Result<Boolean> createEdgeGW(EdgeGWDTO edgeGW);
+    public Result<Boolean> insert(EdgeGWDTO edgeGW);
 
     /**
      * 
@@ -48,7 +48,7 @@ public interface IEdgeGatewayService {
      * @modified 2021. 12. 24. 오후 1:15:02 || Kyunghun Park || 최초 생성
      *
      */
-    public Result<PaginationDTO<EdgeGWDTO>> selectEdgeGW(String managerId, long startDate, long endDate, int itemCount, int pageNum, String order, boolean desc);
+    public Result<PaginationDTO<EdgeGWDTO>> select(String managerId, long startDate, long endDate, int itemCount, int pageNum, String order, boolean desc);
 
     /**
      * 
@@ -62,7 +62,7 @@ public interface IEdgeGatewayService {
      * @modified 2021. 12. 24. 오후 1:15:06 || Kyunghun Park || 최초 생성
      *
      */
-    public Result<EdgeGWDTO> selectDetailEdgeGW(String id);
+    public Result<EdgeGWDTO> detail(String id);
 
     /**
      *
@@ -77,7 +77,7 @@ public interface IEdgeGatewayService {
      * @modified 2021. 12. 24. 오후 1:15:09 || Kyunghun Park || 최초 생성
      *
      */
-    public Result<Boolean> updateEdgeGW(String id, EdgeGWDTO edgeGW);
+    public Result<Boolean> update(String id, EdgeGWDTO edgeGW);
 
     /**
      *
@@ -91,5 +91,5 @@ public interface IEdgeGatewayService {
      * @modified 2021. 12. 24. 오후 1:15:11 || Kyunghun Park || 최초 생성
      *
      */
-    public Result<Boolean> deleteEdgeGW(String id);
+    public Result<Boolean> delete(String id);
 }

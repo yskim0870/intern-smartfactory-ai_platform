@@ -50,12 +50,12 @@ public class EdgeGatewayController {
      * @modified 2021. 12. 30. 오전 11:10:11 || Kyunghun Park || Servlet 추가
      */
     @RequestMapping(value = "/edge-gws", method = RequestMethod.PUT)
-    public ResponseEntity<Result<Boolean>> createEdgeGW(//
+    public ResponseEntity<Result<Boolean>> insert(//
             HttpServletRequest request//
             , HttpServletResponse response//
             , @RequestBody EdgeGWDTO edgeGW) {
 
-        return new ResponseEntity<>(edgeGWService.createEdgeGW(edgeGW), HttpStatus.CREATED);
+        return new ResponseEntity<>(edgeGWService.insert(edgeGW), HttpStatus.CREATED);
     }
 
     /**
@@ -77,7 +77,7 @@ public class EdgeGatewayController {
      *
      */
     @RequestMapping(value = "/edge-gws", method = RequestMethod.GET)
-    public ResponseEntity<Result<PaginationDTO<EdgeGWDTO>>> selectEdgeGW(//
+    public ResponseEntity<Result<PaginationDTO<EdgeGWDTO>>> select(//
             HttpServletRequest request//
             , HttpServletResponse response//
             , @RequestParam(value = "managerId", required = false) @Size(max = 36) String managerId//
@@ -88,7 +88,7 @@ public class EdgeGatewayController {
             , @RequestParam(value = "pageItemPerPage", defaultValue = "0", required = false) int pageItemPerPage//
             , @RequestParam(value = "order", required = false) String order//
             , @RequestParam(value = "desc", required = false) boolean desc) {
-        return new ResponseEntity<>(edgeGWService.selectEdgeGW(managerId, startDate, endDate, itemCount, pageNum, order, desc), HttpStatus.OK);
+        return new ResponseEntity<>(edgeGWService.select(managerId, startDate, endDate, itemCount, pageNum, order, desc), HttpStatus.OK);
     }
 
     /**
@@ -105,12 +105,12 @@ public class EdgeGatewayController {
      * @modified 2021. 12. 24. 오전 11:20:58 || Kyunghun Park || 최초 생성
      */
     @RequestMapping(value = "/edge-gws/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Result<EdgeGWDTO>> selectDetailEdgeGW(//
+    public ResponseEntity<Result<EdgeGWDTO>> detail(//
             HttpServletRequest request//
             , HttpServletResponse response//
             , @PathVariable("id") String id) {
 
-        return new ResponseEntity<>(edgeGWService.selectDetailEdgeGW(id), HttpStatus.OK);
+        return new ResponseEntity<>(edgeGWService.detail(id), HttpStatus.OK);
     }
 
     /**
@@ -128,13 +128,13 @@ public class EdgeGatewayController {
      * @modified 2021. 12. 24. 오전 11:21:10 || Kyunghun Park || 최초 생성
      */
     @RequestMapping(value = "/edge-gws/{id}", method = RequestMethod.PATCH)
-    public ResponseEntity<Result<Boolean>> updateEdgeGW(//
+    public ResponseEntity<Result<Boolean>> update(//
             HttpServletRequest request//
             , HttpServletResponse response//
             , @PathVariable("id") String id//
             , @RequestBody EdgeGWDTO edgeGW) {
 
-        return new ResponseEntity<>(edgeGWService.updateEdgeGW(id, edgeGW), HttpStatus.OK);
+        return new ResponseEntity<>(edgeGWService.update(id, edgeGW), HttpStatus.OK);
     }
 
     /**
@@ -151,11 +151,11 @@ public class EdgeGatewayController {
      * @modified 2021. 12. 24. 오전 11:21:18 || Kyunghun Park || 최초 생성
      */
     @RequestMapping(value = "/edge-gws/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Result<Boolean>> deleteEdgeGW(//
+    public ResponseEntity<Result<Boolean>> delete(//
             HttpServletRequest request//
             , HttpServletResponse response//
             , @PathVariable("id") String id) {
 
-        return new ResponseEntity<>(edgeGWService.deleteEdgeGW(id), HttpStatus.OK);
+        return new ResponseEntity<>(edgeGWService.delete(id), HttpStatus.OK);
     }
 }
