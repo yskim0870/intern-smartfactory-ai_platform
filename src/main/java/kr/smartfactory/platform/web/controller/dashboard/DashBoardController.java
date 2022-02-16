@@ -1,7 +1,7 @@
 /**
  * 
  */
-package kr.smartfactory.platform.web.controller;
+package kr.smartfactory.platform.web.controller.dashboard;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

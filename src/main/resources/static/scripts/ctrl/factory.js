@@ -370,6 +370,7 @@ platform.factory("Factory", function($resource) {
 						$scope.pagination.totalCount = res.data.totalCount;
 					}
 					$scope.items = res.data.items;
+					console.log($scope.items);
 
 					for (let i = 0; i < $scope.items.length; i++) {
 						$scope.items[i].bidInfo.isContracted = true;
