@@ -2,7 +2,6 @@ package kr.smartfactory.platform.web.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -63,7 +62,6 @@ public class UserLoginAuthenticationProvider implements AuthenticationProvider {
 //		user.setGradeObj(new UserGrade(UserGrade.MANUFACTURER, "ROLE_ADMIN", "관리자"));
 
 		// 사용자의 권한 및 정보 추가
-		// TODO: UserGrade 조회
 		grant = new GrantedAuthorityDetail(UserGrade.getUserGrade(user.getGrade(), null, null));
 		grant.setUser(user);
 

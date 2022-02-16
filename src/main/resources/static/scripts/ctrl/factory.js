@@ -5,10 +5,6 @@ platform.factory("Factory", function($resource) {
 			'/bids/:param1/:param2',
 			null,
 			{
-				"createBidNotice": {
-					"method": "POST",
-					"headers": { enctype: 'multipart/form-data' }
-				},
 				"getBidList": {
 					"method": "GET",
 					"param1": null,

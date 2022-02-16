@@ -17,7 +17,7 @@ platform.controller("ExpertController", function($scope, Factory, $rootScope) {
 
 	// th(= 테이블 칼럼 제목) 클릭시 정렬 기능
 	$scope.orderby = {
-		"order": "",
+		"order": null,
 		"desc": false
 	}
 	$scope.sorting = function(order, sort) {
