@@ -34,6 +34,14 @@
 
     <table class="table-list">
       <caption>도메인 IT 전문가목록</caption>
+      <colgroup>
+          		<col width="160px">
+          		<col width="160px">
+          		<col width="270px">
+          		<col width="270px">
+          		<col width="200px">
+      	<col width="160px">
+      </colgroup>
       <thead>
         <tr>
           <th ng-click="sorting('user_info.name', 'expertManager')">전문가명
@@ -119,16 +127,16 @@
                 <caption>자격증정보</caption>
                 <thead>
                   <tr>
-                    <th style="width:22%">종류</th>
-                    <th style="width:14%">자격증번호</th>
-                    <th style="width:14%">취득일</th>
+                    <th style="width:360px">종류</th>
+                    <th style="width:360px">자격증번호</th>
+                    <th style="width:320px">취득일</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr ng-repeat="item in expert.certificateInfo">
                     <td>{{item.certificateType}}</td>
                     <td>{{item.certificateID}}</td>
-                    <td>{{item.acquisitionDate}}</td>
+                    <td>{{item.acquisitionDate | date:'yyyy-MM-dd'}}</td>
                   </tr>
                 </tbody>
               </table>

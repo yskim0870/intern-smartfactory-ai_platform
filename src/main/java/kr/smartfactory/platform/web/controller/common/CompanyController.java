@@ -76,19 +76,4 @@ public class CompanyController {
 	) {
 		return new ResponseEntity<>(companyService.selectCompany(name, industryType, condition, status, pageNum, pageItemPerPage, order, desc), HttpStatus.OK);
 	}
-
-	/**
-	 * @methodName : selectCompany
-	 * @description : 사업자 번호로 업체정보를 조회하기 위한 컨트롤러
-	 * @param businessNumber
-	 * @return
-	 *
-	 * @author : Younghun Yu
-	 * @date : 2021.12.24
-	 */
-	@GetMapping(value = "/companies/{businessNumber}")
-	public ResponseEntity<CompanyInfoDTO> selectCompany(@PathVariable String businessNumber) {
-		return new ResponseEntity<>(null, HttpStatus.OK);
-	}
-
 }

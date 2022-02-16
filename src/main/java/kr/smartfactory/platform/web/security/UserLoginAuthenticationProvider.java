@@ -2,14 +2,12 @@ package kr.smartfactory.platform.web.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-
 import kr.smartfactory.platform.web.dao.entity.User;
 import kr.smartfactory.platform.web.dao.entity.UserGrade;
 import kr.smartfactory.platform.web.service.IUserService;
@@ -59,10 +57,9 @@ public class UserLoginAuthenticationProvider implements AuthenticationProvider {
 		user.setGrade(UserGrade.SUPER_ADMIN);
 		user.setName("관리자");
 		user.setUserID("admin");
-		user.setGradeObj(new UserGrade(UserGrade.MANUFACTURER, "ROLE_ADMIN", "관리자"));
+		user.setGradeObj(new UserGrade(UserGrade.SUPER_ADMIN, "ROLE_ADMIN", "관리자"));
 
 		// 사용자의 권한 및 정보 추가
-		// TODO: UserGrade 조회
 		grant = new GrantedAuthorityDetail(UserGrade.getUserGrade(user.getGrade(), null, null));
 		grant.setUser(user);
 

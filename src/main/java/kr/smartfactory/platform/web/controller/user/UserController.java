@@ -1,11 +1,8 @@
 package kr.smartfactory.platform.web.controller.user;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.Size;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -16,12 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import open.commons.Result;
-
 import kr.smartfactory.platform.web.dto.PaginationDTO;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserDTO;
@@ -41,30 +35,6 @@ public class UserController {
 	@Autowired
 	public UserController(@Qualifier(CompanyService.BEAN_QUALIFIER) ICompanyService companyService) {
 		this.companyService = companyService;
-	}
-
-	/**
-	 * 기업 정보 사용자 정보 조회
-	 * 
-	 * @param request
-	 * @param response
-	 * @param businessNumber
-	 *            : 조회할 Busniess Number 또는 사용자 ID
-	 * @return :
-	 *
-	 * @since 2022. 1. 11. 오후 3:51:03
-	 * @author "KyungHun Park"
-	 * 
-	 * @modified 2022. 1. 11. 오후 3:51:03 || Kyunghun Park || 최초 생성
-	 *
-	 */
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Object> selectUserdetail(//
-			HttpServletRequest request//
-			, HttpServletResponse response//
-			, @PathVariable(value = "id", required = false) @Size(max = 36) String id//
-	) {
-		return new ResponseEntity<Object>(userService.detailUser(id), HttpStatus.OK);
 	}
 
 	/**
