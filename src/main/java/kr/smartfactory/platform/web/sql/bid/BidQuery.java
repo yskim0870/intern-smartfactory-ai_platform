@@ -51,8 +51,7 @@ public class BidQuery {
 	 */
 	public final static String INSERT_BID_MANAGER_QUERY = String.join(" " //
 			, "insert into" //
-			, "bid_manager_info(" //
-			, "bid_manager_info.bid_id, bid_manager_info.manager_id, bid_manager_info.name, bid_manager_info.department," //
+			, "bid_manager_info(bid_manager_info.bid_id, bid_manager_info.manager_id, bid_manager_info.name, bid_manager_info.department," //
 			, "bid_manager_info.rank, bid_manager_info.tel_number, bid_manager_info.email)" //
 			, "values(?, ?, ?, ?, ?, ?, ?)");
 	

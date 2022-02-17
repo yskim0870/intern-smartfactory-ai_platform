@@ -24,23 +24,16 @@
 package kr.smartfactory.platform.web.dao.impl;
 
 import java.util.List;
-import java.util.regex.Pattern;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import open.commons.Result;
 import open.commons.function.SQLConsumer;
-
 import kr.smartfactory.platform.web.dao.IUserDao;
 import kr.smartfactory.platform.web.dao.entity.Company;
 import kr.smartfactory.platform.web.dao.entity.User;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserDTO;
-import kr.smartfactory.platform.web.dto.common.UserInfoDTO;
-import kr.smartfactory.platform.web.query.Query;
 
 /**
  *
@@ -53,8 +46,6 @@ import kr.smartfactory.platform.web.query.Query;
 public class UserDao extends DBGenericDao implements IUserDao {
 
 	public static final String BEAN_QUALIFIER = "kr.smartfactory.platform.web.dao.impl.UserDao";
-
-	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
 	public UserDao(JdbcTemplate jdbcTemplate) {

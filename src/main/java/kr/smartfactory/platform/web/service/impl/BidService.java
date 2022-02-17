@@ -103,8 +103,9 @@ public class BidService implements IBidService {
 
 		// auto increment로 만들어진 공고번호 설정
 		Integer bidID = bidDao.selectAllCount() + 1;
+		bidInfo.setId(bidID);
+		managerInfo.setBidID(bidID);
 		bid.getBidInfo().setId(bidID);
-		bid.getManager().setBidID(bidID);
 
 		Result<Integer> createResult = bidDao.createBid(bidInfo, managerInfo);
 
@@ -140,7 +141,11 @@ public class BidService implements IBidService {
 			}
 		}
 
-		if (createResult.getResult() && uploadFileCount == (bid.getBidFiles().length + bid.getSampleFiles().length)) {
+		// null exception을 방지하기 위한 변수
+		int bidLength = bid.getBidFiles() == null ? 0 : bid.getBidFiles().length;
+		int sampleLength = bid.getSampleFiles() == null ? 0 : bid.getSampleFiles().length;
+		
+		if (createResult.getResult() && uploadFileCount	== (bidLength + sampleLength)) {
 			return true;
 		} else {
 			return false;
@@ -196,8 +201,8 @@ public class BidService implements IBidService {
 		Result<PaginationDTO<BidDTO>> res = null;
 
 		if (url == "bid") {
-			Result<List<BidDTO>> bidList = bidDao.selectBidList(url, userID, id, bidStartDate, bidEndDate, bidName, manufacturerName,
-					status, pageNum, pageItemPerPage, orderby, desc);
+			Result<List<BidDTO>> bidList = bidDao.selectBidList(url, userID, id, bidStartDate, bidEndDate, bidName,
+					manufacturerName, status, pageNum, pageItemPerPage, orderby, desc);
 
 			res = new Result<PaginationDTO<BidDTO>>();
 			Integer count = bidDao.selectAllCount();
@@ -211,8 +216,8 @@ public class BidService implements IBidService {
 			}
 		} //
 		else if (url == "expert") {
-			Result<List<BidDTO>> bidList = bidDao.selectBidList(url, userID, id, bidStartDate, bidEndDate, bidName, manufacturerName,
-					status, pageNum, pageItemPerPage, orderby, desc);
+			Result<List<BidDTO>> bidList = bidDao.selectBidList(url, userID, id, bidStartDate, bidEndDate, bidName,
+					manufacturerName, status, pageNum, pageItemPerPage, orderby, desc);
 
 			res = new Result<PaginationDTO<BidDTO>>();
 			Integer count = bidDao.selectAllCount();

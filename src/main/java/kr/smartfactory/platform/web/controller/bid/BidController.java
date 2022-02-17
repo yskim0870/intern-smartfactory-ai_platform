@@ -1,4 +1,4 @@
-package kr.smartfactory.platform.web.controller;
+package kr.smartfactory.platform.web.controller.bid;
 
 import java.io.File;
 import java.io.IOException;
