@@ -20,6 +20,7 @@ import kr.smartfactory.platform.web.service.impl.AlarmService;
 import open.commons.Result;
 
 /**
+ * 알람 관리 컨트롤러
  * 
  * @since 2022. 2. 14. 오후 4:10:59
  * @author "KyungHun Park"

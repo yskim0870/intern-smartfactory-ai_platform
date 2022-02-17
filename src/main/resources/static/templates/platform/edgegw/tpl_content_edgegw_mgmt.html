@@ -12,7 +12,7 @@
 			<tr>
 				<th style="width: 100px">업체명</th>
 				<td colspan="3">
-					<input name="name" type="text" title="업체명" ng-model="name" style="width: 150px;" ng-disabled="checkGrade">
+					<input name="name" type="text" title="업체명" ng-model="name" style="width: 150px;" ng-disabled="checkGrade()">
 				</td>
 			</tr>
 			<tr>
@@ -63,10 +63,12 @@
 			<caption>EdgeGateway 목록</caption>
 			<thead>
 				<tr>
-					<th ng-click="sortData('id')">ID</th>
-					<th ng-click="sortData('manager_id')">제조사</th>
-					<th ng-click="sortData('status')">작동여부</th>
-					<th ng-click="sortData('update_date')">최종 연동 일시</th>
+					<th ng-click="sortData('id')">ID <span ng-if="sort[0]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('manager_id')">제조사<span ng-if="sort[1]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('status')">작동여부<span ng-if="sort[2]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('update_date')">최종 연동 일시<span ng-if="sort[3]" class="sort-span"> <span ng-if="!desc">▲</span><span
+							ng-if="desc"
+						>▼</span></span></th>
 					<th>비고</th>
 				</tr>
 			</thead>
@@ -111,7 +113,6 @@
 								<th>연동 기간</th>
 								<!-- LONG TO DATE !!!!!! -->
 								<td>{{edgeInfo.startDate | date: 'yyyy.MM.dd'}} ~ {{edgeInfo.endDate | date: 'yyyy. MM.dd'}}</td>
-
 							</tr>
 
 							<tr>
@@ -162,8 +163,8 @@
 		</table>
 	</div>
 	<div class="paginate">
-		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
-			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount" ng-change="getEdges()"
+		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="<"
+			next-text=">" first-text="<<" last-text=">>" items-per-page="itemCount" ng-change="getEdges()"
 		></ul>
 
 		<!-- Table-list : e -->

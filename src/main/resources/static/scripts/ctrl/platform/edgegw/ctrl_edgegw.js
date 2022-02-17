@@ -149,7 +149,23 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal, Fac
 
 	// 데이터 정렬
 	$scope.sortData = function(order) {
-		commonFactory.sortData($scope, order);
+		$scope.reverseSort = !$scope.reverseSort;
+		$scope.order = order;
+		$scope.desc = $scope.reverseSort
+		$scope.sort = [false, false, false, false];
+		if (order == 'id') {
+			$scope.sort[0] = true;
+		}
+		else if (order == 'manager_id') {
+			$scope.sort[1] = true;
+		}
+		else if (order == 'status') {
+			$scope.sort[2] = true;
+		}
+		else if (order == 'update_date') {
+			$scope.sort[3] = true;
+		}
+		//		commonFactory.sortData($scope, order);
 		$scope.getEdges();
 	}
 
@@ -174,7 +190,6 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal, Fac
 		if (AUTHENTICATION.grade == 0) {
 			return false;
 		} else if (AUTHENTICATION.grade == 1) {
-			$scope.getUser(AUTHENTICATION.userID);
 			$scope.name = AUTHENTICATION.userID;
 			return true;
 		}

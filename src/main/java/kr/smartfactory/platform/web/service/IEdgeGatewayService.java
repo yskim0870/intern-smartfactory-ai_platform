@@ -5,7 +5,7 @@ import kr.smartfactory.platform.web.dto.PaginationDTO;
 import open.commons.Result;
 
 /**
- * 
+ * EdgeGateway 서비스 인터페이스
  *
  * @since 2021. 12. 23. 오후 5:42:24
  * @author "KyungHun Park"

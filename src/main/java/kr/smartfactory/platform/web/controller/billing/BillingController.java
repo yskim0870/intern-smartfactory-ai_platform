@@ -20,6 +20,7 @@ import kr.smartfactory.platform.web.service.impl.BillingService;
 import open.commons.Result;
 
 /**
+ * 과금 관리 컨트롤러
  * 
  * @since 2022. 1. 13. 오후 4:43:31
  * @author "KyungHun Park"
@@ -83,7 +84,7 @@ public class BillingController {
      *
      */
     @RequestMapping(value = "/billings", method = RequestMethod.GET)
-    public ResponseEntity<Result<PaginationDTO<BillingDTO>>> selectBilling(//
+    public ResponseEntity<Result<PaginationDTO<BillingDTO>>> select(//
             HttpServletRequest request//
             , HttpServletResponse response//
             , @RequestParam(value = "startDate", defaultValue = "0", required = false) long startDate//
@@ -98,7 +99,7 @@ public class BillingController {
             , @RequestParam(value = "order", required = false) String order//
             , @RequestParam(value = "desc", required = false) boolean desc//
     ) {
-        return new ResponseEntity<>(billingService.selectBilling(startDate, endDate, name, gradeName, payStatus, approvalStatus, itemCount, pageNum, pageItemPerPage, order, desc), HttpStatus.OK);
+        return new ResponseEntity<>(billingService.select(startDate, endDate, name, gradeName, payStatus, approvalStatus, itemCount, pageNum, pageItemPerPage, order, desc), HttpStatus.OK);
     }
 
     /**
@@ -117,7 +118,7 @@ public class BillingController {
      *
      */
     @RequestMapping(value = "/billings/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Result<BillingDTO>> detailBilling(//
+    public ResponseEntity<Result<BillingDTO>> detail(//
             HttpServletRequest request//
             , HttpServletResponse response//
             , @PathVariable String id//
@@ -141,7 +142,7 @@ public class BillingController {
      *
      */
     @RequestMapping(value = "/billings/{id}", method = RequestMethod.POST)
-    public ResponseEntity<Result<Boolean>> approvalBilling(//
+    public ResponseEntity<Result<Boolean>> approval(//
             HttpServletRequest request//
             , HttpServletResponse response//
             , @PathVariable String id//
