@@ -132,7 +132,7 @@ public class CompanyService implements ICompanyService {
 			user1.setName("전문가명1");
 			user1.setEmail("yyh7750@gmail.com");
 			user1.setEtcInfo("1111-1111");
-			expertInfo1.setUserID("qwer");
+			expertInfo1.setUserID("e");
 			expertInfo1.setStatus(1);
 			expert1.setUserInfo(user1);
 			expert1.setExpertInfo(expertInfo1);
@@ -249,6 +249,7 @@ public class CompanyService implements ICompanyService {
 	 */
 	@Override
 	public Result<List<CompanyInfoDTO>> selectConditionList() {
+		// 업태 조회
 
 		CompanyInfoDTO companyInfo1 = new CompanyInfoDTO();
 		CompanyInfoDTO companyInfo2 = new CompanyInfoDTO();
@@ -279,6 +280,8 @@ public class CompanyService implements ICompanyService {
 	 */
 	@Override
 	public Result<List<CompanyInfoDTO>> selectIndustryTypeList() {
+		// 업종 조회
+		
 		CompanyInfoDTO companyInfo1 = new CompanyInfoDTO();
 		CompanyInfoDTO companyInfo2 = new CompanyInfoDTO();
 		CompanyInfoDTO companyInfo3 = new CompanyInfoDTO();

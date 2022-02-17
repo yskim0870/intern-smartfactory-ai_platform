@@ -224,11 +224,13 @@ platform.factory("Factory", function($resource) {
 					null,
 					function(res) {
 						if (params.userType == 1) {
-							$scope.manu = res.data;
+							item.manu = res.data;
 						}
 						else if (params.userType == 2) {
 							// 전문업체 정보와 자격증 정보는 한번에 가져오기, 입찰정보는 따로
-							$scope.expert = res.data;
+							item.expert = res.data;
+							// 입찰목록 조회
+							getBidList(item);
 						}
 
 						item.detailStatus = !item.detailStatus;
@@ -242,7 +244,7 @@ platform.factory("Factory", function($resource) {
 			// 입찰정보는 따로 resource로 가져오기
 			let getBidList = function(item) {
 				let params = {
-					"contractorID": item.userInfo.name,
+					"contractorID": item.expertInfo.userID,
 					"orderby": null,
 					"desc": false,
 					"status": 1,
@@ -263,12 +265,12 @@ platform.factory("Factory", function($resource) {
 					null,
 					function(res) {
 						// 전체 데이터 개수
-						$scope.bidLength = res.data.items.length;
-						$scope.bids = res.data.items;
+						item.bidLength = res.data.items.length;
+						item.bids = res.data.items;
 
-						for (let i = 0; i < $scope.bids.length; i++) {
-							$scope.bids[i].bidInfo.contractDate = $scope.bids[i].bidInfo.contractDate ? //
-								dateHandling.longToDate($scope.bids[i].bidInfo.contractDate) : null;
+						for (let i = 0; i < item.bids.length; i++) {
+							item.bids[i].bidInfo.contractDate = item.bids[i].bidInfo.contractDate ? //
+								dateHandling.longToDate(item.bids[i].bidInfo.contractDate) : null;
 						}
 					},
 					function(res) {
@@ -281,10 +283,6 @@ platform.factory("Factory", function($resource) {
 			$scope.selectDetail = function(item) {
 				// 상세보기 조회
 				showDetail(item);
-				if (params.userType == 2) {
-					// 입찰목록 조회
-					getBidList(item, params);
-				}
 			}
 		},
 
@@ -407,9 +405,9 @@ platform.factory("Factory", function($resource) {
 					{ "param1": id },
 					null,
 					function(res) {
-						$scope.bid = res.data;
+						item.detail = res.data;
 
-						$scope.bid.fileList.forEach(function(file) {
+						item.detail.fileList.forEach(function(file) {
 							if (file.fileType == 0) {
 								$scope.bidFiles.push(file);
 							}
@@ -418,12 +416,12 @@ platform.factory("Factory", function($resource) {
 							}
 						});
 
-						$scope.bidFileLength = $scope.bidFiles.length;
-						$scope.sampleFileLength = $scope.sampleFiles.length;
-						$scope.bid.bidInfo.bidStartDate = dateHandling.longToDate(res.data.bidInfo.bidStartDate);
-						$scope.bid.bidInfo.bidEndDate = dateHandling.longToDate(res.data.bidInfo.bidEndDate);
-						$scope.bid.bidInfo.workStartDate = dateHandling.longToDate(res.data.bidInfo.workStartDate);
-						$scope.bid.bidInfo.workEndDate = dateHandling.longToDate(res.data.bidInfo.workEndDate);
+						item.detail.bidFileLength = $scope.bidFiles.length;
+						item.detail.sampleFileLength = $scope.sampleFiles.length;
+						item.detail.bidInfo.bidStartDate = dateHandling.longToDate(res.data.bidInfo.bidStartDate);
+						item.detail.bidInfo.bidEndDate = dateHandling.longToDate(res.data.bidInfo.bidEndDate);
+						item.detail.bidInfo.workStartDate = dateHandling.longToDate(res.data.bidInfo.workStartDate);
+						item.detail.bidInfo.workEndDate = dateHandling.longToDate(res.data.bidInfo.workEndDate);
 						item.detailStatus = !item.detailStatus;
 					},
 					function(res) {
