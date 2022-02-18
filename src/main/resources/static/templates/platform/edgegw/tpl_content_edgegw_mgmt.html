@@ -72,19 +72,19 @@
 					<th>비고</th>
 				</tr>
 			</thead>
-			<tr ng-repeat-start="edgeInfo in edgeGWs.data.items" ng-click="getEdge(edgeInfo)">
+			<tr ng-repeat-start="item in iii" ng-click="selectDetail(item, item.id)">
 
 				<td>
-					<span>{{edgeInfo.id}}</span>
+					<span>{{item.id}}</span>
 				</td>
 				<td>
-					<span>{{edgeInfo.managerId}}</span>
+					<span>{{item.managerId}}</span>
 				</td>
 				<td>
-					<span>{{boolStatus(edgeInfo.status)}}</span>
+					<span>{{boolStatus(item.status)}}</span>
 				</td>
 				<td>
-					<span>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</span>
+					<span>{{item.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</span>
 				</td>
 				<td ng-click="$event.stopPropagation();">
 					<button class="btn white small" ng-click="updateModal(edgeInfo.id)">
@@ -97,7 +97,7 @@
 			</tr>
 
 			<!-- 상세보기 :s -->
-			<tr ng-repeat-end ng-if="edgeInfo.show">
+			<tr ng-repeat-end ng-if="item.show">
 				<td colspan="5">
 					<div class="scm-card">
 						<div class="table-header read">
@@ -107,29 +107,29 @@
 							<caption>EdgeGateway 정보</caption>
 							<tr>
 								<th style="width: 150px">ID</th>
-								<td>{{edgeInfo.id}}</td>
+								<td>{{item.id}}</td>
 							</tr>
 							<tr>
 								<th>연동 기간</th>
 								<!-- LONG TO DATE !!!!!! -->
-								<td>{{edgeInfo.startDate | date: 'yyyy.MM.dd'}} ~ {{edgeInfo.endDate | date: 'yyyy. MM.dd'}}</td>
+								<td>{{item.startDate | date: 'yyyy.MM.dd'}} ~ {{item.endDate | date: 'yyyy. MM.dd'}}</td>
 							</tr>
 
 							<tr>
 								<th>작동 여부</th>
-								<td>{{boolStatus(edgeInfo.status)}}</td>
+								<td>{{boolStatus(item.status)}}</td>
 							</tr>
 							<tr>
 								<th>최종연동일시</th>
-								<td>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</td>
+								<td>{{item.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</td>
 							</tr>
 							<tr>
 								<th>IP</th>
-								<td>{{edgeInfo.host}}</td>
+								<td>{{item.host}}</td>
 							</tr>
 							<tr>
 								<th>Port</th>
-								<td>{{edgeInfo.port}}</td>
+								<td>{{item.port}}</td>
 							</tr>
 						</table>
 
@@ -141,20 +141,20 @@
 							<caption>제조사 정보</caption>
 							<tr>
 								<th style="width: 150px">제조사명</th>
-								<td>{{edgeGW.name}}</td>
+								<td>{{item.detail.name}}</td>
 
 							</tr>
 							<tr>
 								<th>주소</th>
-								<td>{{edgeGW.address}}</td>
+								<td>{{item.detail.address}}</td>
 							</tr>
 							<tr>
 								<th>대표번호</th>
-								<td>{{edgeGW.telNumber}}</td>
+								<td>{{item.detail.telNumber}}</td>
 							</tr>
 							<tr>
 								<th style="width: 150px">대표자</th>
-								<td>{{edgeGW.ceoName}}</td>
+								<td>{{item.detail.ceoName}}</td>
 							</tr>
 						</table>
 					</div>

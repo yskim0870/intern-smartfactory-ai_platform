@@ -62,7 +62,7 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal, Fac
 			}
 			, {}
 			, function(res) {
-				$scope.edgeGWs = res;
+				$scope.iii = res.data.items;
 			}
 			, function() {
 
@@ -70,22 +70,24 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal, Fac
 		);
 	}
 
-	// EdgeGateway 상세 보기
-	$scope.getEdge = function(edgeInfo) {
+	let showDetail = function(item, id) {
 		res.getEdge(
 			{
-				val: edgeInfo.id,
+				val: id
 			}
 			, {}
 			, function(res) {
-				$scope.edgeGW = res.data.company;
-				$scope.clickHandler(edgeInfo);
+				item.detail = res.data.company;
+				$scope.clickHandler(item);
 			}
 			, function() {
-				alert("select fail");
+
 			}
 		)
-	};
+	}
+	$scope.selectDetail = function(item, id){
+		showDetail(item, id);
+	}
 
 	// EdgeGateway 삭제
 	$scope.deleteEdge = function(id) {
