@@ -16,8 +16,8 @@
 				<tr>
 					<th style="width: 75px">업체</th>
 					<td style="width: 150px">
-						<select name="select" ng-model="company">
-						<option>(주)유미테크</option>
+						<select style="width: 150px" name="select" ng-model="company">
+							<option>(주)유미테크</option>
 						</select>
 					</td>
 				</tr>
@@ -26,16 +26,15 @@
 					<td>
 						<input name="date" type="date" title="날짜선택" ng-model="date" style="width: 150px;" ng-change="dateChange()" min="minDate()" max="9999-12-31">
 					</td>
-					<td colspan="2" class="date-recent" style="padding: 8px 0px 0px 0px;">
+					<td class="date-recent" style="padding: 8px 0px 0px 0px;">
 						<input type="radio" name="direct_send" id="direct_send" class="dsi" ng-checked="dateRadio.isChecked[0]" ng-click="dateRadioClick(0)">
 						<label for="direct_send">즉시 전송</label>
 					</td>
 				</tr>
 				<tr>
 					<th>내용</th>
-					<td colspan="2">
-						<textarea name="textfield" style="width: 400
-						px;"></textarea>
+					<td colspan="3">
+						<textarea name="textfield" style="width: 400px;"></textarea>
 					</td>
 				</tr>
 			</table>
