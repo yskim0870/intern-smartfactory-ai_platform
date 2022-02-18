@@ -70,6 +70,8 @@ public class EdgeGatewayService implements IEdgeGatewayService {
 
         PaginationDTO<EdgeGWDTO> daoRes = new PaginationDTO<>();
         // EdgeGWDTO와 총 데이터 건수를 담은 객체
+        
+        
 
         daoRes.setItems(edgeGWDao.select(managerId, startDate, endDate, itemCount, pageNum, order, desc));
         daoRes.setTotalCount(edgeGWDao.allCount(managerId, startDate, endDate));
