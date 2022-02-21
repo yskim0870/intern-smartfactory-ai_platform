@@ -1,6 +1,9 @@
 platform.controller('EdgeController', function($scope, $resource, $uibModal, Factory) {
 
+	//date 팩토리
 	let dateFactory = Factory.dateHandling;
+
+	// 공통 method 팩토리
 	let commonFactory = Factory.common;
 
 
@@ -70,6 +73,7 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal, Fac
 		);
 	}
 
+	// 상세보기
 	let showDetail = function(item, id) {
 		res.getEdge(
 			{
@@ -85,7 +89,9 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal, Fac
 			}
 		)
 	}
-	$scope.selectDetail = function(item, id){
+
+	// 상세보기
+	$scope.selectDetail = function(item, id) {
 		showDetail(item, id);
 	}
 
@@ -196,8 +202,9 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal, Fac
 			return true;
 		}
 	};
-	$scope.checkGrade();
 
+	// page가 load되었을 때 실행
+		$scope.checkGrade();
 	$scope.getEdges();
 
 

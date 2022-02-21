@@ -1,6 +1,9 @@
 platform.controller('BillingController', function($scope, $resource, $uibModal, Factory) {
 
+	// date관련 팩토리
 	let dateFactory = Factory.dateHandling;
+
+	// 공통 메소드 팩토리
 	let commonFactory = Factory.common;
 
 	let res = $resource(

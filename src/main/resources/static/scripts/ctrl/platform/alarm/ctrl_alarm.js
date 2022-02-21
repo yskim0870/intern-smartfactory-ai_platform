@@ -1,6 +1,9 @@
 platform.controller('AlarmController', function($scope, $resource, $uibModal, Factory) {
 
+	// date 팩토리
 	let dateFactory = Factory.dateHandling;
+
+	// 공통 method 팩토리
 	let commonFactory = Factory.common;
 
 	let alarmRes = $resource(
