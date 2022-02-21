@@ -1,6 +1,9 @@
 platform.controller('AlarmController', function($scope, $resource, $uibModal, Factory) {
 
+	// date 팩토리
 	let dateFactory = Factory.dateHandling;
+
+	// 공통 method 팩토리
 	let commonFactory = Factory.common;
 
 	let alarmRes = $resource(
@@ -48,7 +51,22 @@ platform.controller('AlarmController', function($scope, $resource, $uibModal, Fa
 
 	// 데이터 정렬
 	$scope.sortData = function(order) {
-		commonFactory.sortData($scope, order);
+		$scope.reverseSort = !$scope.reverseSort;
+		$scope.order = order;
+		$scope.desc = $scope.reverseSort
+		$scope.sort = [false, false, false, false];
+		if (order == 'receiveDate') {
+			$scope.sort[0] = true;
+		}
+		else if (order == 'industryType') {
+			$scope.sort[1] = true;
+		}
+		else if (order == 'name') {
+			$scope.sort[2] = true;
+		}
+		else if (order == 'contents') {
+			$scope.sort[3] = true;
+		}
 		$scope.select();
 	}
 

@@ -1,6 +1,9 @@
 platform.controller('EdgeController', function($scope, $resource, $uibModal, Factory) {
 
+	//date 팩토리
 	let dateFactory = Factory.dateHandling;
+
+	// 공통 method 팩토리
 	let commonFactory = Factory.common;
 
 
@@ -62,7 +65,7 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal, Fac
 			}
 			, {}
 			, function(res) {
-				$scope.edgeGWs = res;
+				$scope.iii = res.data.items;
 			}
 			, function() {
 
@@ -70,22 +73,27 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal, Fac
 		);
 	}
 
-	// EdgeGateway 상세 보기
-	$scope.getEdge = function(edgeInfo) {
+	// 상세보기
+	let showDetail = function(item, id) {
 		res.getEdge(
 			{
-				val: edgeInfo.id,
+				val: id
 			}
 			, {}
 			, function(res) {
-				$scope.edgeGW = res.data.company;
-				$scope.clickHandler(edgeInfo);
+				item.detail = res.data.company;
+				$scope.clickHandler(item);
 			}
 			, function() {
-				alert("select fail");
+
 			}
 		)
-	};
+	}
+
+	// 상세보기
+	$scope.selectDetail = function(item, id) {
+		showDetail(item, id);
+	}
 
 	// EdgeGateway 삭제
 	$scope.deleteEdge = function(id) {
@@ -149,7 +157,23 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal, Fac
 
 	// 데이터 정렬
 	$scope.sortData = function(order) {
-		commonFactory.sortData($scope, order);
+		$scope.reverseSort = !$scope.reverseSort;
+		$scope.order = order;
+		$scope.desc = $scope.reverseSort
+		$scope.sort = [false, false, false, false];
+		if (order == 'id') {
+			$scope.sort[0] = true;
+		}
+		else if (order == 'manager_id') {
+			$scope.sort[1] = true;
+		}
+		else if (order == 'status') {
+			$scope.sort[2] = true;
+		}
+		else if (order == 'update_date') {
+			$scope.sort[3] = true;
+		}
+		//		commonFactory.sortData($scope, order);
 		$scope.getEdges();
 	}
 
@@ -174,13 +198,13 @@ platform.controller('EdgeController', function($scope, $resource, $uibModal, Fac
 		if (AUTHENTICATION.grade == 0) {
 			return false;
 		} else if (AUTHENTICATION.grade == 1) {
-			$scope.getUser(AUTHENTICATION.userID);
 			$scope.name = AUTHENTICATION.userID;
 			return true;
 		}
 	};
-	$scope.checkGrade();
 
+	// page가 load되었을 때 실행
+		$scope.checkGrade();
 	$scope.getEdges();
 
 

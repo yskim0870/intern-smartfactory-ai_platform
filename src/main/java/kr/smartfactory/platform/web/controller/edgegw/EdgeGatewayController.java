@@ -21,7 +21,7 @@ import kr.smartfactory.platform.web.service.impl.EdgeGatewayService;
 import open.commons.Result;
 
 /**
- * Edge Gateway CRUD Controller
+ * Edge Gateway 페이지 컨트롤러
  *
  * @since 2021. 12. 24. 오전 9:19:17
  * @author "KyungHun Park"

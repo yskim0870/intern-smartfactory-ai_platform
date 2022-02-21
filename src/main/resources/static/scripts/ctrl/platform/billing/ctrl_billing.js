@@ -1,6 +1,9 @@
 platform.controller('BillingController', function($scope, $resource, $uibModal, Factory) {
 
+	// date관련 팩토리
 	let dateFactory = Factory.dateHandling;
+
+	// 공통 메소드 팩토리
 	let commonFactory = Factory.common;
 
 	let res = $resource(
@@ -163,7 +166,28 @@ platform.controller('BillingController', function($scope, $resource, $uibModal, 
 
 	// 데이터 정렬
 	$scope.sortData = function(order) {
-		commonFactory.sortData($scope, order);
+		$scope.reverseSort = !$scope.reverseSort;
+		$scope.order = order;
+		$scope.desc = $scope.reverseSort
+		$scope.sort = [false, false, false, false, false];
+		if (order == 'chargeDate') {
+			$scope.sort[0] = true;
+		}
+		else if (order == 'industryType') {
+			$scope.sort[1] = true;
+		}
+		else if (order == 'name') {
+			$scope.sort[2] = true;
+		}
+		else if (order == 'price') {
+			$scope.sort[3] = true;
+		}
+		else if (order == 'envName') {
+			$scope.sort[4] = true;
+		}
+		else if (order == 'status') {
+			$scope.sort[5] = true;
+		}
 		$scope.selectBillings();
 	}
 
@@ -198,3 +222,11 @@ platform.controller('BillingController', function($scope, $resource, $uibModal, 
 			});
 	};
 });
+
+// 작동 상태 Custom Filter
+platform.filter('status',
+	function() {
+		return function(val) {
+			return val == 1 ? "작동" : "미작동";
+		}
+	})

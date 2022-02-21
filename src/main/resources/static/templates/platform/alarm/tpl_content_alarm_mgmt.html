@@ -72,10 +72,10 @@
 			<caption>알람 전송 내역</caption>
 			<thead>
 				<tr>
-					<th ng-click="sortData('receiveDate')">알람 일자</th>
-					<th ng-click="sortData('')">업체 분류</th>
-					<th ng-click="sortData('')">업체</th>
-					<th ng-click="sortData('contents')">알람 내용</th>
+					<th ng-click="sortData('receiveDate')">알람 일자<span ng-if="sort[0]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('industryType')">업체 분류<span ng-if="sort[1]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('name')">업체<span ng-if="sort[2]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('contents')">알람 내용<span ng-if="sort[3]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
 				</tr>
 			</thead>
 			<tr ng-repeat="alarm in alarms.items">
@@ -92,8 +92,8 @@
 	</div>
 
 	<div class="paginate">
-		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
-			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount" ng-change="getEdges()"
+		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="<"
+			next-text=">" first-text="<<" last-text=">>"  items-per-page="itemCount" ng-change="getEdges()"
 		></ul>
 	</div>
 	<!-- Table-list : e -->

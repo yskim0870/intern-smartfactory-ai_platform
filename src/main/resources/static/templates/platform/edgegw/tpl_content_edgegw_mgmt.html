@@ -12,7 +12,7 @@
 			<tr>
 				<th style="width: 100px">업체명</th>
 				<td colspan="3">
-					<input name="name" type="text" title="업체명" ng-model="name" style="width: 150px;" ng-disabled="checkGrade">
+					<input name="name" type="text" title="업체명" ng-model="name" style="width: 150px;" ng-disabled="checkGrade()">
 				</td>
 			</tr>
 			<tr>
@@ -63,39 +63,41 @@
 			<caption>EdgeGateway 목록</caption>
 			<thead>
 				<tr>
-					<th ng-click="sortData('id')">ID</th>
-					<th ng-click="sortData('manager_id')">제조사</th>
-					<th ng-click="sortData('status')">작동여부</th>
-					<th ng-click="sortData('update_date')">최종 연동 일시</th>
+					<th ng-click="sortData('id')">ID <span ng-if="sort[0]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('manager_id')">제조사<span ng-if="sort[1]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('status')">작동여부<span ng-if="sort[2]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('update_date')">최종 연동 일시<span ng-if="sort[3]" class="sort-span"> <span ng-if="!desc">▲</span><span
+							ng-if="desc"
+						>▼</span></span></th>
 					<th>비고</th>
 				</tr>
 			</thead>
-			<tr ng-repeat-start="edgeInfo in edgeGWs.data.items" ng-click="getEdge(edgeInfo)">
+			<tr ng-repeat-start="item in iii" ng-click="selectDetail(item, item.id)">
 
 				<td>
-					<span>{{edgeInfo.id}}</span>
+					<span>{{item.id}}</span>
 				</td>
 				<td>
-					<span>{{edgeInfo.managerId}}</span>
+					<span>{{item.managerId}}</span>
 				</td>
 				<td>
-					<span>{{boolStatus(edgeInfo.status)}}</span>
+					<span>{{boolStatus(item.status)}}</span>
 				</td>
 				<td>
-					<span>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</span>
+					<span>{{item.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</span>
 				</td>
 				<td ng-click="$event.stopPropagation();">
-					<button class="btn white small" ng-click="updateModal(edgeInfo.id)">
+					<button class="btn white small" ng-click="updateModal(item.id)">
 						<img src="/static/images/icon_modify.png" alt="수정"><span>수정</span>
 					</button>
-					<button class="btn red small" ng-click="deleteConfirm(edgeInfo.id)">
+					<button class="btn red small" ng-click="deleteConfirm(item.id)">
 						<img src="/static/images/icon_del.png" alt="삭제"><span>삭제</span>
 					</button>
 				</td>
 			</tr>
 
 			<!-- 상세보기 :s -->
-			<tr ng-repeat-end ng-if="edgeInfo.show">
+			<tr ng-repeat-end ng-if="item.show">
 				<td colspan="5">
 					<div class="scm-card">
 						<div class="table-header read">
@@ -105,30 +107,29 @@
 							<caption>EdgeGateway 정보</caption>
 							<tr>
 								<th style="width: 150px">ID</th>
-								<td>{{edgeInfo.id}}</td>
+								<td>{{item.id}}</td>
 							</tr>
 							<tr>
 								<th>연동 기간</th>
 								<!-- LONG TO DATE !!!!!! -->
-								<td>{{edgeInfo.startDate | date: 'yyyy.MM.dd'}} ~ {{edgeInfo.endDate | date: 'yyyy. MM.dd'}}</td>
-
+								<td>{{item.startDate | date: 'yyyy.MM.dd'}} ~ {{item.endDate | date: 'yyyy. MM.dd'}}</td>
 							</tr>
 
 							<tr>
 								<th>작동 여부</th>
-								<td>{{boolStatus(edgeInfo.status)}}</td>
+								<td>{{boolStatus(item.status)}}</td>
 							</tr>
 							<tr>
 								<th>최종연동일시</th>
-								<td>{{edgeInfo.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</td>
+								<td>{{item.updateDate | date: 'yyyy년 MM월 dd일 HH시 mm분'}}</td>
 							</tr>
 							<tr>
 								<th>IP</th>
-								<td>{{edgeInfo.host}}</td>
+								<td>{{item.host}}</td>
 							</tr>
 							<tr>
 								<th>Port</th>
-								<td>{{edgeInfo.port}}</td>
+								<td>{{item.port}}</td>
 							</tr>
 						</table>
 
@@ -140,20 +141,20 @@
 							<caption>제조사 정보</caption>
 							<tr>
 								<th style="width: 150px">제조사명</th>
-								<td>{{edgeGW.name}}</td>
+								<td>{{item.detail.name}}</td>
 
 							</tr>
 							<tr>
 								<th>주소</th>
-								<td>{{edgeGW.address}}</td>
+								<td>{{item.detail.address}}</td>
 							</tr>
 							<tr>
 								<th>대표번호</th>
-								<td>{{edgeGW.telNumber}}</td>
+								<td>{{item.detail.telNumber}}</td>
 							</tr>
 							<tr>
 								<th style="width: 150px">대표자</th>
-								<td>{{edgeGW.ceoName}}</td>
+								<td>{{item.detail.ceoName}}</td>
 							</tr>
 						</table>
 					</div>
@@ -162,8 +163,8 @@
 		</table>
 	</div>
 	<div class="paginate">
-		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
-			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount" ng-change="getEdges()"
+		<ul uib-pagination boundary-links="true" total-items="edgeGWs.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="<"
+			next-text=">" first-text="<<" last-text=">>" items-per-page="itemCount" ng-change="getEdges()"
 		></ul>
 
 		<!-- Table-list : e -->

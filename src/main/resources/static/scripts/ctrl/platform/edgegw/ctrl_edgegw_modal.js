@@ -36,6 +36,7 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 
 
 	// ------------------------------- Scope -------------------------------
+	$scope.companyInfo ="";
 	$scope.id = id;
 	$scope.startDate = 0;
 	$scope.endDate = 0;
@@ -90,7 +91,7 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 				endDate: dateToLong($scope.endDate),
 				host: $scope.host,
 				port: $scope.port,
-				status: $scope.status,
+				status: changeStatus($scope.status),
 				updateDate: dateToLong(new Date()),
 			}
 			, function() {
@@ -104,16 +105,18 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 	};
 
 	// EdgeGateway 수정
-	$scope.updateEdge = function(managerId) {
+	$scope.updateEdge = function() {
 		res.updateEdge(
 			{
 				val: $scope.id
 			}
 			, {
-				managerId: managerId,
+				managerId: $scope.user.companyInfo.name,
 				startDate: dateToLong($scope.startDate),
 				endDate: dateToLong($scope.endDate),
-				updateDate: dateToLong(new Date())
+				updateDate: dateToLong(new Date()),
+				
+				
 			}
 			, function() {
 				alert("수정 완료");
@@ -156,6 +159,14 @@ platform.controller('EdgeModalCtrl', function($resource, $scope, $uibModalInstan
 		if (date != null) {
 
 			return new Date(date).valueOf();
+		}
+	};
+	
+	function changeStatus(status){
+		if(status ="작동"){
+			return 1
+		} else if(status ="미작동"){
+			return 0
 		}
 	};
 

@@ -87,13 +87,13 @@
 			<caption>과금 목록</caption>
 			<thead>
 				<tr>
-					<th ng-click="sortData('chargeDate')">과금일자</th>
-					<th ng-click="sortData('industryType')">사용자 분류</th>
-					<th ng-click="sortData('name')">업체</th>
-					<th ng-click="sortData('price')">과금</th>
-					<th ng-click="sortData('name')">분석환경 등급</th>
-					<th ng-click="sortData('status')">상태</th>
-					<th ng-click="sortData()">승인여부</th>
+					<th ng-click="sortData('chargeDate')">과금일자<span ng-if="sort[0]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('industryType')">사용자 분류<span ng-if="sort[1]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('name')">업체<span ng-if="sort[2]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('price')">과금<span ng-if="sort[3]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('envName')">분석환경 등급<span ng-if="sort[4]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th ng-click="sortData('status')">상태<span ng-if="sort[5]" class="sort-span"> <span ng-if="!desc">▲</span><span ng-if="desc">▼</span></span></th>
+					<th>승인여부</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -114,7 +114,7 @@
 						<span>{{billingInfo.gradeEnv.name}}</span>
 					</td>
 					<td>
-						<span>{{billingInfo.approvalStatus}}</span>
+						<span>{{billingInfo.approvalStatus | status}}</span>
 					</td>
 					<td ng-click="$event.stopPropagation();">
 						<button class="btn whiteblue small" ng-click="approvalBilling(billingInfo.id)">
@@ -187,8 +187,8 @@
 		</table>
 	</div>
 	<div class="paginate">
-		<ul uib-pagination boundary-links="true" total-items="Billings.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="&lsaquo;"
-			next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="itemCount" ng-change="selectBillings"
+		<ul uib-pagination boundary-links="true" total-items="Billings.data.totalCount" ng-model="pageNum" class="pagination-sm" previous-text="<"
+			next-text=">" first-text="<<" last-text=">>" items-per-page="itemCount" ng-change="selectBillings"
 		></ul>
 		<!-- Table-list : e -->
 	</div>

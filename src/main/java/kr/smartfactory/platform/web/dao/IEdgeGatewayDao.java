@@ -31,6 +31,7 @@ public interface IEdgeGatewayDao {
      */
     public int insert(EdgeGateway edgeGW);
 
+    
     /**
      * EdgeGateway 목록 조회
      *
@@ -53,6 +54,7 @@ public interface IEdgeGatewayDao {
      */
     public List<EdgeGWDTO> select(String name, long startDate, long endDate, int itemCount, int pageNum, String order, boolean desc);
 
+    
     /**
      * EdgeGateway 조회 데이터 건수
      * 
@@ -69,6 +71,7 @@ public interface IEdgeGatewayDao {
      */
     public int allCount(String managaerId, long startDate, long endDate);
 
+    
     /**
      * EdgeGateway 상세보기
      *
@@ -85,6 +88,7 @@ public interface IEdgeGatewayDao {
      */
     public EdgeGWDTO detail(String id);
 
+    
     /**
      * 
      *
@@ -101,6 +105,7 @@ public interface IEdgeGatewayDao {
      */
     public int update(EdgeGateway edgeGW);
 
+    
     /**
      * 
      *

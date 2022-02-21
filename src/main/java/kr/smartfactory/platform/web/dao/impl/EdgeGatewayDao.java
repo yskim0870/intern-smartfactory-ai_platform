@@ -160,7 +160,6 @@ public class EdgeGatewayDao implements IEdgeGatewayDao {
         int allCount = jdbcTemplate.queryForObject(countQuery, Integer.class, params.toArray());
 
         return allCount;
-
     }
 
     /**

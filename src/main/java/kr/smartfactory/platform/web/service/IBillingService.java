@@ -52,5 +52,5 @@ public interface IBillingService {
      * @modified 2022. 1. 24. 오전 10:31:15 || Kyunghun Park || 최초 생성
      *
      */
-    public Result<PaginationDTO<BillingDTO>> selectBilling(long startDate, long endDate, String name, String gradeName, int payStatus, int approvalStatus, int itemCount, int pageNum, int pageItemPerPage, String order, boolean desc);
+    public Result<PaginationDTO<BillingDTO>> select(long startDate, long endDate, String name, String gradeName, int payStatus, int approvalStatus, int itemCount, int pageNum, int pageItemPerPage, String order, boolean desc);
 }
