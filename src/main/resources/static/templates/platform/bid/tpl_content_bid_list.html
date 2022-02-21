@@ -108,35 +108,35 @@
 							<div class="table-header read">
 								<span class="table-title"><strong>입찰정보</strong></span>
 							</div>
-							<table class="table-read" ng-model="bid">
+							<table class="table-read">
 								<caption>입찰정보</caption>
 								<tr>
 									<th style="width:150px">제조사</th>
-									<td class="td-bold">{{bid.company.name}}</td>
+									<td class="td-bold">{{item.detail.company.name}}</td>
 								</tr>
 								<tr>
 									<th>공고일자</th>
-									<td>{{bid.bidInfo.bidStartDate}} ~ {{bid.bidInfo.bidEndDate}}</td>
+									<td>{{item.detail.bidInfo.bidStartDate}} ~ {{item.detail.bidInfo.bidEndDate}}</td>
 								</tr>
 								<tr>
 									<th>공고명</th>
-									<td>{{bid.bidInfo.bidName}}</td>
+									<td>{{item.detail.bidInfo.bidName}}</td>
 								</tr>
 								<tr>
 									<th>예비가격</th>
-									<td class="td-bold">{{bid.bidInfo.prePrice}}</td>
+									<td class="td-bold">{{item.detail.bidInfo.prePrice}}</td>
 								</tr>
 
 								<tr ng-repeat="file in bidFiles track by $index">
 									<th rowspan="{{bidFileLength}}" ng-if="$first">입찰공고문</th>
 									<td>
-										<a href="{{'/bids/download/' + bid.bidInfo.id + '?fileID=' + file.fileID}}" id="bidFileDownload" download>{{file.fileName}}</a>
+										<a href="{{'/bids/download/' + item.detail.bidInfo.id + '?fileID=' + file.fileID}}" id="bidFileDownload" download>{{file.fileName}}</a>
 									</td>
 								</tr>
 								<tr ng-repeat="file in sampleFiles track by $index">
 									<th rowspan="{{sampleFileLength}}" ng-if="$first">샘플테이터</th>
 									<td>
-										<a href="{{'/bids/download/' + bid.bidInfo.id + '?fileID=' + file.fileID}}" id="sampleFileDownload" download>{{file.fileName}}</a>
+										<a href="{{'/bids/download/' + item.detail.bidInfo.id + '?fileID=' + file.fileID}}" id="sampleFileDownload" download>{{file.fileName}}</a>
 									</td>
 								</tr>
 
@@ -149,19 +149,19 @@
 								<caption>담당자정보</caption>
 								<tr>
 									<th style="width:150px">담당자</th>
-									<td>{{bid.manager.name}}</td>
+									<td>{{item.detail.manager.name}}</td>
 								</tr>
 								<tr>
 									<th>직책</th>
-									<td>{{bid.manager.rank}}</td>
+									<td>{{item.detail.manager.rank}}</td>
 								</tr>
 								<tr>
 									<th>연락처</th>
-									<td>{{bid.manager.telNumber}}</td>
+									<td>{{item.detail.manager.telNumber}}</td>
 								</tr>
 								<tr>
 									<th>이메일</th>
-									<td>{{bid.manager.email}}</td>
+									<td>{{item.detail.manager.email}}</td>
 								</tr>
 							</table>
 							
@@ -173,19 +173,19 @@
 								<caption>입찰계약정보</caption>
 								<tr>
 									<th style="width:150px">도메인IT전문업체</th>
-									<td>{{bid.contractor.name}}</td>
+									<td>{{item.detail.contractor.name}}</td>
 								</tr>
 								<tr>
 									<th>대표자</th>
-									<td>{{bid.contractor.companyInfo.name}}</td>
+									<td>{{item.detail.contractor.companyInfo.name}}</td>
 								</tr>
 								<tr>
 									<th>계약기간</th>
-									<td>{{bid.bidInfo.workStartDate}} ~ {{bid.bidInfo.workStartDate}}</td>
+									<td>{{item.detail.bidInfo.workStartDate}} ~ {{item.detail.bidInfo.workStartDate}}</td>
 								</tr>
 								<tr>
 									<th>계약금액</th>
-									<td>{{bid.bidInfo.contractPrice}}</td>
+									<td>{{item.detail.bidInfo.contractPrice}}</td>
 								</tr>
 							</table>
 

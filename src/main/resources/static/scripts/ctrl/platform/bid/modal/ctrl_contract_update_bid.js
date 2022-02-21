@@ -5,21 +5,21 @@ platform.controller("ContractBidController", function($scope, $rootScope, Factor
 	$scope.bid = {
 		"bidInfo": {
 			// 계약업체 아이디
-			"contractorID": "",
+			"contractorID": null,
 			// 계약업체 정보 (CompanyInfoDTO)
 			"contractor":{
-				"name":"",
-				"telNumber":"",
-				"email":""
+				"name":null,
+				"telNumber":null,
+				"email":null
 			},
-			"workStartDate": "",
-			"workEndDate": "",
-			"contractPrice": "",
-			"contractDate": "",
+			"workStartDate": null,
+			"workEndDate": null,
+			"contractPrice": null,
+			"contractDate": null,
 			"id": bidID
 		},
 		"company": {
-			"name": ""
+			"name": null
 		}
 	}
 

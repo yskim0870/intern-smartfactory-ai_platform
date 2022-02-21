@@ -64,14 +64,14 @@ platform.controller("PlatformCtrl", function($scope, $http, $rootScope, $uibModa
 	}
 
 	$scope.routeContents = [//
-			new Content(ContentRouteConfig.getContents(ContentRouteConfig.DASHBOARD), $rootScope.authentication.userGrade),
-			new Content(ContentRouteConfig.getContents(ContentRouteConfig.BID_MGMT), $rootScope.authentication.userGrade),
-			new Content(ContentRouteConfig.getContents(ContentRouteConfig.MANUFACTURER_MGMT), $rootScope.authentication.userGrade),
-			new Content(ContentRouteConfig.getContents(ContentRouteConfig.DOMAIN_IT_EXPERT_MGMT), $rootScope.authentication.userGrade),
-			new Content(ContentRouteConfig.getContents(ContentRouteConfig.DATA_MGMT), $rootScope.authentication.userGrade),
-			new Content(ContentRouteConfig.getContents(ContentRouteConfig.EDGE_GW_MGMT), $rootScope.authentication.userGrade),
-			new Content(ContentRouteConfig.getContents(ContentRouteConfig.BILLING_MGMT), $rootScope.authentication.userGrade),
-			new Content(ContentRouteConfig.getContents(ContentRouteConfig.ALARM_MGMT), $rootScope.authentication.userGrade), 
+		new Content(ContentRouteConfig.getContents(ContentRouteConfig.DASHBOARD), $rootScope.authentication.userGrade),
+		new Content(ContentRouteConfig.getContents(ContentRouteConfig.BID_MGMT), $rootScope.authentication.userGrade),
+		new Content(ContentRouteConfig.getContents(ContentRouteConfig.MANUFACTURER_MGMT), $rootScope.authentication.userGrade),
+		new Content(ContentRouteConfig.getContents(ContentRouteConfig.DOMAIN_IT_EXPERT_MGMT), $rootScope.authentication.userGrade),
+		new Content(ContentRouteConfig.getContents(ContentRouteConfig.DATA_MGMT), $rootScope.authentication.userGrade),
+		new Content(ContentRouteConfig.getContents(ContentRouteConfig.EDGE_GW_MGMT), $rootScope.authentication.userGrade),
+		new Content(ContentRouteConfig.getContents(ContentRouteConfig.BILLING_MGMT), $rootScope.authentication.userGrade),
+		new Content(ContentRouteConfig.getContents(ContentRouteConfig.ALARM_MGMT), $rootScope.authentication.userGrade),
 	];
 
 	// 메뉴 노출
@@ -95,7 +95,7 @@ platform.controller("PlatformCtrl", function($scope, $http, $rootScope, $uibModa
 	// 메뉴 갱신
 	$scope.updateCurrentContent = function(content) {
 		var url = "#/" + content.content;
-//		var url = "#!/" + content.content;
+		//		var url = "#!/" + content.content;
 		var _content_ = null;
 
 		for (var i = 0; i < $scope.routeContents.length; i++) {
@@ -104,25 +104,25 @@ platform.controller("PlatformCtrl", function($scope, $http, $rootScope, $uibModa
 		}
 
 		$scope.content = content;
-		
+
 		if ($rootScope.logger.isDebuggable()) {
 			console.log("(Current Content)", $scope.content);
 		}
-		
+
 	};
-	
+
 	/** sub menu 선택 함수 */
-	$scope.selectMenu = function(contents, currentContent, currentMenu){
-		contents.forEach(function(content){
-			content.menus.values().forEach(function(menu){
+	$scope.selectMenu = function(contents, currentContent, currentMenu) {
+		contents.forEach(function(content) {
+			content.menus.values().forEach(function(menu) {
 				menu.selected = false;
-				if(currentMenu != null && currentContent.id == content.id && menu.key == currentMenu.key){
+				if (currentMenu != null && currentContent.id == content.id && menu.key == currentMenu.key) {
 					menu.selected = true;
 				}
 			});
 		})
 	}
-	
+
 });
 
 // 상단 메뉴 Route 설정
@@ -179,7 +179,7 @@ platform.config(function($routeProvider, $locationProvider) {
 	// ////////////////////////////////////////////////////////////////////////////
 
 	$routeProvider.otherwise({
-		redirectTo : "/error_handle"
+		redirectTo: "/error_handle"
 	});
 
 	// $locationProvider.html5Mode({

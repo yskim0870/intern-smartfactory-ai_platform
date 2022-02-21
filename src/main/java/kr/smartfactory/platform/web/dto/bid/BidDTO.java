@@ -7,9 +7,7 @@ import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.web.multipart.MultipartFile;
-
 import kr.smartfactory.platform.web.dao.entity.bid.BidNoticeFile;
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 import kr.smartfactory.platform.web.dto.common.UserInfoDTO;

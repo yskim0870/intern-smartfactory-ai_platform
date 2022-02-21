@@ -225,9 +225,9 @@ public class BidDao extends DBGenericDao implements IBidDao {
 					, "join bid_manager_info on (bid_info.id = bid_manager_info.bid_id)"
 					, "join user_info on (bid_manager_info.manager_id = user_info.id)"
 					, "join company_info on (user_info.business_number = company_info.business_number)"
-					, "where bid_info.contractor_id=?"
-					, "and bid_info.status=1 or bid_info.status=2");
-			params.add(userID);
+					, "where bid_info.contractor_id=?");
+			
+					params.add(userID);
 		}
 
 		List<BidDTO> bidList = jdbcTemplate.query(query, (rs, rowNum) -> new BidDTO(rs), params.toArray());
@@ -267,7 +267,7 @@ public class BidDao extends DBGenericDao implements IBidDao {
 				contractComapny = jdbcTemplate.queryForObject(BidQuery.SELECT_COMPANY_NAME_TO_USER_ID, //
 						(rs, rowNum) -> new CompanyInfoDTO(rs), bid.getBidInfo().getContractorID());
 				contractor = jdbcTemplate.queryForObject(BidQuery.SELECT_CONTRACT_INFO, //
-						(rs, rowNum) -> new UserInfoDTO(rs), bid.getBidInfo().getContractorID());
+						(rs, rowNum) -> new UserInfoDTO(rs), bid.getBidInfo().getContractorID(), id);
 				contractor.setCompanyInfo(contractComapny);
 
 			} catch (EmptyResultDataAccessException e) {

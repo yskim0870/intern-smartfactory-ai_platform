@@ -119,7 +119,7 @@ public class BidService implements IBidService {
 		if (bid.getBidFiles() != null) {
 			for (MultipartFile file : bid.getBidFiles()) {
 				if (!file.isEmpty()) {
-					// fileID: UUID, fileName: OriginalFileName
+					// fileID: UUID, fileName: OriginalFileName, fileType, filePath
 					upload = new BidNoticeFile(UUID.randomUUID().toString(), file.getOriginalFilename(), 0, path);
 					list.add(upload);
 					uploadFile(list, file, upload);
@@ -132,7 +132,7 @@ public class BidService implements IBidService {
 		if (bid.getSampleFiles() != null) {
 			for (MultipartFile file : bid.getSampleFiles()) {
 				if (!file.isEmpty()) {
-					// fileID: UUID, fileName: OriginalFileName
+					// fileID: UUID, fileName: OriginalFileName, fileType, filePath
 					upload = new BidNoticeFile(UUID.randomUUID().toString(), file.getOriginalFilename(), 1, path);
 					list.add(upload);
 					uploadFile(list, file, upload);

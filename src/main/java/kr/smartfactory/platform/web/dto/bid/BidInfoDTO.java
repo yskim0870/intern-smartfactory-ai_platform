@@ -6,7 +6,6 @@ package kr.smartfactory.platform.web.dto.bid;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-
 import kr.smartfactory.platform.web.dto.common.CompanyInfoDTO;
 
 /**

@@ -86,32 +86,32 @@
           <!-- 상세보기 -->
           <td colspan=5>
             <!-- 제조사 정보 : s -->
-            <div ng-model="manu" class="scm-card">
+            <div class="scm-card">
               <table class="table-read">
                 <caption>제조사정보</caption>
                 <tr>
                   <th style="width:150px">제조사</th>
-                  <td class="td-bold">{{manu.companyInfo.name}}</td>
+                  <td class="td-bold">{{item.manu.companyInfo.name}}</td>
                 </tr>
                 <tr>
                   <th>사업자번호</th>
-                  <td>{{manu.companyInfo.businessNumber}}</td>
+                  <td>{{item.manu.companyInfo.businessNumber}}</td>
                 </tr>
                 <tr>
                   <th>대표자</th>
-                  <td>{{manu.companyInfo.ceoName}}</td>
+                  <td>{{item.manu.companyInfo.ceoName}}</td>
                 </tr>
                 <tr>
                   <th>대표번호</th>
-                  <td>{{manu.companyInfo.telNumber}}</td>
+                  <td>{{item.manu.companyInfo.telNumber}}</td>
                 </tr>
                 <tr>
                   <th>사업장소재지</th>
-                  <td>{{manu.companyInfo.address}}</td>
+                  <td>{{item.manu.companyInfo.address}}</td>
                 </tr>
                 <tr>
                   <th>업태/종목</th>
-                  <td>{{manu.companyInfo.condition}}, {{manu.companyInfo.industryType}}</td>
+                  <td>{{item.manu.companyInfo.condition}}, {{item.manu.companyInfo.industryType}}</td>
                 </tr>
               </table>
 
@@ -119,27 +119,27 @@
                 <caption>담당자정보</caption>
                 <tr>
                   <th style="width:150px">담당자</th>
-                  <td>{{manu.userInfo.name}}</td>
+                  <td>{{item.manu.userInfo.name}}</td>
                 </tr>
                 <tr>
                   <th>부서</th>
-                  <td>{{manu.userInfo.department}}</td>
+                  <td>{{item.manu.userInfo.department}}</td>
                 </tr>
                 <tr>
                   <th>직책</th>
-                  <td>{{manu.userInfo.rank}}</td>
+                  <td>{{item.manu.userInfo.rank}}</td>
                 </tr>
                 <tr>
                   <th>연락처</th>
-                  <td>{{manu.userInfo.telNumber}}</td>
+                  <td>{{item.manu.userInfo.telNumber}}</td>
                 </tr>
                 <tr>
                   <th>이메일</th>
-                  <td>{{manu.userInfo.email}}</td>
+                  <td>{{item.manu.userInfo.email}}</td>
                 </tr>
                 <tr>
                   <th>가입일</th>
-                  <td>{{manu.userInfo.regDate | date:'yyyy-MM-dd'}}</td>
+                  <td>{{item.manu.userInfo.regDate | date:'yyyy-MM-dd'}}</td>
                 </tr>
               </table>
               <div class="table-text ">

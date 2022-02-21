@@ -101,27 +101,27 @@
                 <caption>도메인 IT 전문가정보</caption>
                 <tr>
                   <th style="width:150px">도메인 IT 전문가</th>
-                  <td class="td-bold">{{expert.userInfo.name}}</td>
+                  <td class="td-bold">{{item.expert.userInfo.name}}</td>
                   <th>직책</th>
-                  <td>{{expert.userInfo.rank}}</td>
+                  <td>{{item.expert.userInfo.rank}}</td>
                 </tr>
                 <tr>
                   <th>국가연구자번호</th>
-                  <td>{{expert.userInfo.etcInfo}}</td>
+                  <td>{{item.expert.userInfo.etcInfo}}</td>
                   <th>소속</th>
-                  <td>{{expert.userInfo.department}}</td>
+                  <td>{{item.expert.userInfo.department}}</td>
                 </tr>
                 <tr>
                   <th>연락처</th>
-                  <td>{{expert.userInfo.telNumber}}</td>
+                  <td>{{item.expert.userInfo.telNumber}}</td>
                   <th>이메일</th>
-                  <td>{{expert.userInfo.email}}</td>
+                  <td>{{item.expert.userInfo.email}}</td>
                 </tr>
               </table>
 
               <div class="table-header mt_30">
                 <span class="table-title">자격증정보</span>
-                <span class="table-total">(총{{expert.certificateInfo.length}}건)</span>
+                <span class="table-total">(총{{item.expert.certificateInfo.length}}건)</span>
               </div>
               <table class="table-list">
                 <caption>자격증정보</caption>
@@ -133,17 +133,17 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="item in expert.certificateInfo">
-                    <td>{{item.certificateType}}</td>
-                    <td>{{item.certificateID}}</td>
-                    <td>{{item.acquisitionDate | date:'yyyy-MM-dd'}}</td>
+                  <tr ng-repeat="certificateInfo in item.expert.certificateInfo">
+                    <td>{{certificateInfo.certificateType}}</td>
+                    <td>{{certificateInfo.certificateID}}</td>
+                    <td>{{certificateInfo.acquisitionDate | date:'yyyy-MM-dd'}}</td>
                   </tr>
                 </tbody>
               </table>
 
               <div class="table-header mt_30">
                 <span class="talbe-title">입찰계약</span>
-                <span class="table-total">(총{{bidLength}}건)</span>
+                <span class="table-total">(총{{item.bidLength}}건)</span>
               </div>
               <table class="table-list">
                 <caption>입찰계약</caption>
@@ -156,7 +156,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="bid in bids">
+                  <tr ng-repeat="bid in item.bids">
                     <td>{{bid.company.name}}</td>
                     <td class="left">{{bid.bidInfo.bidName}}</td>
                     <td>{{bid.bidInfo.contractDate}}</td>

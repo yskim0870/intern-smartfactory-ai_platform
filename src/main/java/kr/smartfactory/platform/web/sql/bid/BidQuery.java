@@ -91,7 +91,7 @@ public class BidQuery {
 	public final static String SELECT_CONTRACT_INFO = String.join(" "//
 			, "select * from user_info"
 			, "join bid_info on (bid_info.contractor_id = user_info.id)"
-			, "where bid_info.contractor_id=?");
+			, "where bid_info.contractor_id=? and bid_info.id=?");
 	
 	// 입찰 공고 파일목록 읽어오기
 	public final static String SELECT_BID_FILE_QUERY = "select * from `bid_notice_file` where bid_id=?";

@@ -238,6 +238,22 @@ public class BidController {
 				status, pageNum, pageItemPerPage, orderby, desc));
 	}
 	
+	/**
+	 * @methodName : selectBidExpertList
+	 * @description : 도메인IT전문업체 관리 페이지의 상세보기에서 입찰 정보를 띄우기 위한 컨트롤러
+	 * @param request
+	 * @param response
+	 * @param contractorID : 전문업체의 사업자 번호
+	 * @param orderby
+	 * @param desc
+	 * @param status
+	 * @param pageNum
+	 * @param pageItemPerPage
+	 * @return
+	 *
+	 * @author : Younghun Yu
+	 * @date : 2022.02.17
+	 */
 	@GetMapping(value = "/expert/{contractorID}")
 	public ResponseEntity<Result<PaginationDTO<BidDTO>>> selectBidExpertList(//
 			HttpServletRequest request, HttpServletResponse response//

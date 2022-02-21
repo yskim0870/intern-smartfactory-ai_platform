@@ -144,14 +144,16 @@ platform.factory("Factory", function($resource) {
 
 		// ---------------------- 날짜 처리 -----------------------------
 		dateHandling: {
+
 			// 1,3,6 개월 라디오 박스에 대한 처리
+			// month: 1, 3, 6 중의 하나. 현재 날짜에서 month를 뺀 날짜를 구하기 위한 메소드
 			prevMonth: function(month) {
-				let d = new Date();
-				let nowMonth = d.getMonth();
+				let date = new Date();
+				let nowMonth = date.getMonth();
 
-				d.setMonth(nowMonth - month);
+				date.setMonth(nowMonth - month);
 
-				return d;
+				return date;
 			},
 
 			// date 객체 2022.1.2 -> 2022.01.02 포맷
@@ -224,11 +226,13 @@ platform.factory("Factory", function($resource) {
 					null,
 					function(res) {
 						if (params.userType == 1) {
-							$scope.manu = res.data;
+							item.manu = res.data;
 						}
 						else if (params.userType == 2) {
 							// 전문업체 정보와 자격증 정보는 한번에 가져오기, 입찰정보는 따로
-							$scope.expert = res.data;
+							item.expert = res.data;
+							// 입찰목록 조회
+							getBidList(item);
 						}
 
 						item.detailStatus = !item.detailStatus;
@@ -242,7 +246,7 @@ platform.factory("Factory", function($resource) {
 			// 입찰정보는 따로 resource로 가져오기
 			let getBidList = function(item) {
 				let params = {
-					"contractorID": item.userInfo.name,
+					"contractorID": item.expertInfo.userID,
 					"orderby": null,
 					"desc": false,
 					"status": 1,
@@ -263,12 +267,12 @@ platform.factory("Factory", function($resource) {
 					null,
 					function(res) {
 						// 전체 데이터 개수
-						$scope.bidLength = res.data.items.length;
-						$scope.bids = res.data.items;
+						item.bidLength = res.data.items.length;
+						item.bids = res.data.items;
 
-						for (let i = 0; i < $scope.bids.length; i++) {
-							$scope.bids[i].bidInfo.contractDate = $scope.bids[i].bidInfo.contractDate ? //
-								dateHandling.longToDate($scope.bids[i].bidInfo.contractDate) : null;
+						for (let i = 0; i < item.bids.length; i++) {
+							item.bids[i].bidInfo.contractDate = item.bids[i].bidInfo.contractDate ? //
+								dateHandling.longToDate(item.bids[i].bidInfo.contractDate) : null;
 						}
 					},
 					function(res) {
@@ -281,10 +285,6 @@ platform.factory("Factory", function($resource) {
 			$scope.selectDetail = function(item) {
 				// 상세보기 조회
 				showDetail(item);
-				if (params.userType == 2) {
-					// 입찰목록 조회
-					getBidList(item, params);
-				}
 			}
 		},
 
@@ -366,29 +366,28 @@ platform.factory("Factory", function($resource) {
 				null,
 				// success
 				function(res) {
+					// 대시보드에서 입찰공고 목록을 조회하기 위해 별도로 사용하는 변수 $scope.dash
 					if ($scope.dash != 1) {
 						$scope.pagination.totalCount = res.data.totalCount;
 					}
 					$scope.items = res.data.items;
-					console.log($scope.items);
 
-					for (let i = 0; i < $scope.items.length; i++) {
-						$scope.items[i].bidInfo.isContracted = true;
-						$scope.items[i].bidInfo.bidStartDate = dateHandling.longToDate($scope.items[i].bidInfo.bidStartDate);
-						$scope.items[i].bidInfo.bidEndDate = dateHandling.longToDate($scope.items[i].bidInfo.bidEndDate);
-						$scope.items[i].detailStatus = false;
-						$scope.items[i].bidInfo.contractDate = $scope.items[i].bidInfo.contractDate ? //
-							dateHandling.longToDate($scope.items[i].bidInfo.contractDate) : null;
+					$scope.items.forEach(function(item) {
+						item.bidInfo.isContracted = true;
+						item.bidInfo.bidStartDate = dateHandling.longToDate(item.bidInfo.bidStartDate);
+						item.bidInfo.bidEndDate = dateHandling.longToDate(item.bidInfo.bidEndDate);
+						item.detailStatus = false;
 
-						// status 설정 - 계약일자의 유무를 판단하여 있을경우 상태를 계약완료로 바꿈
-						if ($scope.items[i].bidInfo.contractDate) {
-							$scope.items[i].bidInfo.status = 2;
-							$scope.items[i].bidInfo.isContracted = false;
+						// 계약이 완료되면 계약등록 버튼을 사라지게 하기 위한 설정 - isContracted
+						if (item.bidInfo.contractDate) {
+							item.bidInfo.contractDate = dateHandling.longToDate(item.bidInfo.contractDate);
+							item.bidInfo.isContracted = false;
 						}
-						else {
-							$scope.items[i].bidInfo.isContracted = true;
+						else if (item.bidInfo.contractDate == 0 || item.bidInfo.contractDate == null) {
+							item.bidInfo.isContracted = true;
+							item.bidInfo.contractDate = null;
 						}
-					}
+					});
 				},
 				// fail
 				function(res) {
@@ -407,23 +406,24 @@ platform.factory("Factory", function($resource) {
 					{ "param1": id },
 					null,
 					function(res) {
-						$scope.bid = res.data;
+						item.detail = res.data;
 
-						$scope.bid.fileList.forEach(function(file) {
+						// 입찰공고문, 샘플데이터를 나누기 위한 설정
+						item.detail.fileList.forEach(function(file) {
 							if (file.fileType == 0) {
 								$scope.bidFiles.push(file);
 							}
-							else {
+							else if (file.fileType == 1) {
 								$scope.sampleFiles.push(file);
 							}
 						});
 
-						$scope.bidFileLength = $scope.bidFiles.length;
-						$scope.sampleFileLength = $scope.sampleFiles.length;
-						$scope.bid.bidInfo.bidStartDate = dateHandling.longToDate(res.data.bidInfo.bidStartDate);
-						$scope.bid.bidInfo.bidEndDate = dateHandling.longToDate(res.data.bidInfo.bidEndDate);
-						$scope.bid.bidInfo.workStartDate = dateHandling.longToDate(res.data.bidInfo.workStartDate);
-						$scope.bid.bidInfo.workEndDate = dateHandling.longToDate(res.data.bidInfo.workEndDate);
+						item.detail.bidFileLength = $scope.bidFiles.length;
+						item.detail.sampleFileLength = $scope.sampleFiles.length;
+						item.detail.bidInfo.bidStartDate = dateHandling.longToDate(res.data.bidInfo.bidStartDate);
+						item.detail.bidInfo.bidEndDate = dateHandling.longToDate(res.data.bidInfo.bidEndDate);
+						item.detail.bidInfo.workStartDate = dateHandling.longToDate(res.data.bidInfo.workStartDate);
+						item.detail.bidInfo.workEndDate = dateHandling.longToDate(res.data.bidInfo.workEndDate);
 						item.detailStatus = !item.detailStatus;
 					},
 					function(res) {
