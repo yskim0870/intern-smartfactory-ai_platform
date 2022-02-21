@@ -124,7 +124,7 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 				selectBidList();
 			},
 			function() { // cancel
-				console.log('modal에서 dismissed at: ' + new Date());
+				console.log('cancel');
 			}
 		);
 	}
@@ -149,7 +149,7 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 				selectBidList();
 			},
 			function() { // cancel
-				console.log('modal에서 dismissed at: ' + new Date());
+				console.log('cancel');
 			}
 		);
 	}

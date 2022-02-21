@@ -267,7 +267,7 @@ public class BidDao extends DBGenericDao implements IBidDao {
 				contractComapny = jdbcTemplate.queryForObject(BidQuery.SELECT_COMPANY_NAME_TO_USER_ID, //
 						(rs, rowNum) -> new CompanyInfoDTO(rs), bid.getBidInfo().getContractorID());
 				contractor = jdbcTemplate.queryForObject(BidQuery.SELECT_CONTRACT_INFO, //
-						(rs, rowNum) -> new UserInfoDTO(rs), bid.getBidInfo().getContractorID());
+						(rs, rowNum) -> new UserInfoDTO(rs), bid.getBidInfo().getContractorID(), id);
 				contractor.setCompanyInfo(contractComapny);
 
 			} catch (EmptyResultDataAccessException e) {
