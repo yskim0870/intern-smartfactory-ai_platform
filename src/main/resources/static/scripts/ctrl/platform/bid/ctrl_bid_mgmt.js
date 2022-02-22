@@ -1,7 +1,6 @@
 platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope, Factory) {
 
 	$scope.userGrade = $rootScope.authentication.userGrade;
-	let id = $rootScope.authentication.userID;
 	
 	// 대시보드에서 입찰공고 목록을 조회하기 위해 별도로 사용하는 변수
 	$scope.dash = 0;
@@ -66,12 +65,15 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 		selectBidList();
 	}
 	
+	// 제조사 아이디
+	let id = $rootScope.authentication.userID;
+	
 	// 전체 조회
 	let selectBidList = function() {
 
 		let params = {
 			"userGrade": $scope.userGrade,
-			"userID": id,
+			"userID": id, // 제조사 아이디 $rootScope.authentication.userID
 			"id": $scope.id ? $scope.id : null,
 			"bidStartDate": $scope.bidStartDate ? dateHandling.dateToLong($scope.bidStartDate) : null,
 			"bidEndDate": $scope.bidEndDate ? dateHandling.dateToLong($scope.bidStartDate) : null,
@@ -93,7 +95,7 @@ platform.controller("BidMgmtController", function($scope, $uibModal, $rootScope,
 	bidResource.getCompanyInfo(
 		{
 			"param1": "company",
-			"param2": id // 제조사 아이디
+			"param2": id // 제조사 아이디 $rootScope.authentication.userID
 		},
 		null,
 		function(res) {

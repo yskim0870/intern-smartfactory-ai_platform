@@ -1,14 +1,5 @@
 platform.factory("Factory", function($resource) {
 
-	// 최근 개월 수
-	let recentMonth = function(num) {
-
-		let month = new Date();
-		month.setMonth(month.getMonth() - num);
-
-		return month
-	}
-
 	return {
 		// --------------------------- Date Method ---------------------------
 		dateHandling: {
@@ -21,7 +12,11 @@ platform.factory("Factory", function($resource) {
 					$scope.dateRadio.isChecked[2] = true;
 				}
 
-				$scope.startDate = recentMonth(num);
+				$scope.startDate = function(num) {
+					let month = new Date();
+					month.setMonth(month.getMonth() - num);
+					return month;
+				}
 
 				$scope.endDate = new Date();
 			},
@@ -33,14 +28,39 @@ platform.factory("Factory", function($resource) {
 				}
 			},
 
-			dateToLong: function(date) {
-				if (date != null) {
-					console.log(new Date(date).valueOf());
-					return new Date(date).valueOf();
-				}
+			// 1,3,6 개월 라디오 박스에 대한 처리
+			// month: 1, 3, 6 중의 하나. 현재 날짜에서 month를 뺀 날짜를 구하기 위한 메소드
+			prevMonth: function(month) {
+				let date = new Date();
+				let nowMonth = date.getMonth();
+
+				date.setMonth(nowMonth - month);
+
+				return date;
 			},
+
+			// date 객체 2022.1.2 -> 2022.01.02 포맷
+			dateFormat: function(date) {
+				let year = date.getFullYear();
+				let month = date.getMonth() + 1;
+				let day = date.getDate();
+				let format = year + "-" + (("00" + month.toString()).slice(-2)) + "-" + (("00" + day.toString()).slice(-2));
+
+				return format;
+			},
+
+			// long 객체 -> date
+			longToDate: function(date) {
+				return this.dateFormat(new Date(date));
+			},
+
+			dateToLong: function(date) {
+				return new Date(date).valueOf();
+			}
 		},
+		
 		// --------------------------- Common Method ---------------------------
+		// 박경훈 코드
 		common: {
 			// 상세 보기 접기 / 펼치기
 			lookDetail: function(info) {
@@ -54,7 +74,6 @@ platform.factory("Factory", function($resource) {
 				$scope.desc = $scope.reverseSort
 			}
 		},
-
 
 		bidResource: $resource(
 			'/bids/:param1/:param2',
@@ -142,41 +161,6 @@ platform.factory("Factory", function($resource) {
 			}
 		),
 
-		// ---------------------- 날짜 처리 -----------------------------
-		dateHandling: {
-
-			// 1,3,6 개월 라디오 박스에 대한 처리
-			// month: 1, 3, 6 중의 하나. 현재 날짜에서 month를 뺀 날짜를 구하기 위한 메소드
-			prevMonth: function(month) {
-				let date = new Date();
-				let nowMonth = date.getMonth();
-
-				date.setMonth(nowMonth - month);
-
-				return date;
-			},
-
-			// date 객체 2022.1.2 -> 2022.01.02 포맷
-			dateFormat: function(date) {
-				let year = date.getFullYear();
-				let month = date.getMonth() + 1;
-				let day = date.getDate();
-				let format = year + "-" + (("00" + month.toString()).slice(-2)) + "-" + (("00" + day.toString()).slice(-2));
-
-				return format;
-			},
-
-			// long 객체 -> date
-			longToDate: function(date) {
-				return this.dateFormat(new Date(date));
-			},
-
-			dateToLong: function(date) {
-				return new Date(date).valueOf();
-			}
-		},
-
-
 		// ---------------------- 업체(제조사, 전문업체) 조회 -----------------------------
 
 		getCompanyList: function($scope, params, companyResource, $rootScope, dateHandling, bidResource) {
@@ -209,10 +193,13 @@ platform.factory("Factory", function($resource) {
 
 			let showDetail = function(item) {
 
+				// userType에 따라 url parmeter가 달라지기 위한 설정
 				let getUserType = function() {
+					// 제조사 : 사업자 번호
 					if (params.userType == 1) {
 						return item.companyInfo.businessNumber;
 					}
+					// 전문업체 : 회사 이름
 					else if (params.userType == 2) {
 						return item.companyInfo.name;
 					}
@@ -318,6 +305,8 @@ platform.factory("Factory", function($resource) {
 				$scope.bidEndDate = new Date();
 			}
 
+			// 라디오 박스가 체크되어 있지만 input 박스로 직접 날짜를 입력할 경우
+			// 라디오 박스 체크 해제
 			$scope.dateChange = function() {
 				for (let i = 0; i < $scope.dateRadio.isChecked.length; i++) {
 					$scope.dateRadio.isChecked[i] = false;
@@ -373,19 +362,20 @@ platform.factory("Factory", function($resource) {
 					$scope.items = res.data.items;
 
 					$scope.items.forEach(function(item) {
+						// isContracted = 계약 등록/완료 버튼을 위한 ng-if문의 변수
 						item.bidInfo.isContracted = true;
 						item.bidInfo.bidStartDate = dateHandling.longToDate(item.bidInfo.bidStartDate);
 						item.bidInfo.bidEndDate = dateHandling.longToDate(item.bidInfo.bidEndDate);
 						item.detailStatus = false;
 
 						// 계약이 완료되면 계약등록 버튼을 사라지게 하기 위한 설정 - isContracted
-						if (item.bidInfo.contractDate) {
+						if (item.bidInfo.status == 2) {
 							item.bidInfo.contractDate = dateHandling.longToDate(item.bidInfo.contractDate);
 							item.bidInfo.isContracted = false;
 						}
-						else if (item.bidInfo.contractDate == 0 || item.bidInfo.contractDate == null) {
+						else {
 							item.bidInfo.isContracted = true;
-							item.bidInfo.contractDate = null;
+							item.bidInfo.contractDate = null; // 0으로 표시되는 것을 막기 위한 설정
 						}
 					});
 				},
